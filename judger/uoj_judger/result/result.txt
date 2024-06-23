@@ -1,0 +1,27 @@
+score 25
+time 0
+memory 0
+details
+<tests>
+<test num="1" score="0" info="Wrong Answer" time="-1" memory="-1">
+<in>1
+</in>
+<out>4</out>
+<res>wrong answer WA! expect=2 recieve=4
+</res>
+</test>
+<test num="2" score="10" info="Accepted" time="-1" memory="-1">
+<in>3
+</in>
+<out>4</out>
+<res>ok Correct.
+</res>
+</test>
+<test num="3" score="15" info="Accepted" time="-1" memory="-1">
+<in>5
+</in>
+<out>6</out>
+<res>ok Correct.
+</res>
+</test>
+</tests>

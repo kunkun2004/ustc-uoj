@@ -1,0 +1,53 @@
+[Wed Jun 19 10:42:05 2024] 
+hello!
+[Wed Jun 19 10:42:05 2024] 
+hello!
+Exception in thread Thread-1:
+Traceback (most recent call last):
+  File "/usr/lib/python3.6/threading.py", line 916, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.6/threading.py", line 864, in run
+    self._target(*self._args, **self._kwargs)
+  File "/opt/uoj/judger/judge_client", line 66, in socket_server_loop
+    s.bind(('', jconf['socket_port']))
+OSError: [Errno 98] Address already in use
+
+[Wed Jun 19 10:42:07 2024] 
+Traceback (most recent call last):
+  File "/opt/uoj/judger/judge_client", line 433, in <module>
+    main()
+  File "/opt/uoj/judger/judge_client", line 403, in main
+    start_judger_server()
+  File "/opt/uoj/judger/judge_client", line 102, in start_judger_server
+    judger_loop()
+  File "/opt/uoj/judger/judge_client", line 366, in judger_loop
+    raise Exception('socket server exited unexpectedly')
+Exception: socket server exited unexpectedly
+[Sat Jun 22 13:22:53 2024] {'id': 1, 'problem_id': 1, 'content': {'file_name': '/submission/819/GyyzEYWnIkWpK4DEuMYK', 'config': [['problem_id', '1']]}, 'problem_mtime': 1719033723} 
+judging
+mapname:  conversion of  failed
+[Sat Jun 22 13:22:53 2024] {'id': 1, 'problem_id': 1, 'content': {'file_name': '/submission/819/GyyzEYWnIkWpK4DEuMYK', 'config': [['problem_id', '1']]}, 'problem_mtime': 1719033723} 
+Traceback (most recent call last):
+  File "/opt/uoj/judger/judge_client", line 379, in judger_loop
+    res = judge()
+  File "/opt/uoj/judger/judge_client", line 236, in judge
+    execute("cd %s && unzip -q all.zip && rm all.zip" % pipes.quote(uoj_judger_path('/work')))
+  File "/opt/uoj/judger/judge_client", line 42, in execute
+    raise Exception('failed to execute: %s' % cmd)
+Exception: failed to execute: cd uoj_judger/work && unzip -q all.zip && rm all.zip
+[Sat Jun 22 13:28:58 2024] {'id': 2, 'problem_id': 1, 'content': {'file_name': '/submission/8147/QfrC5gcS75NlralABHMR', 'config': [['problem_id', '1']]}, 'problem_mtime': 1719034119} 
+judging
+mapname:  conversion of  failed
+[Sat Jun 22 13:28:58 2024] {'id': 2, 'problem_id': 1, 'content': {'file_name': '/submission/8147/QfrC5gcS75NlralABHMR', 'config': [['problem_id', '1']]}, 'problem_mtime': 1719034119} 
+Traceback (most recent call last):
+  File "/opt/uoj/judger/judge_client", line 379, in judger_loop
+    res = judge()
+  File "/opt/uoj/judger/judge_client", line 236, in judge
+    execute("cd %s && unzip -q all.zip && rm all.zip" % pipes.quote(uoj_judger_path('/work')))
+  File "/opt/uoj/judger/judge_client", line 42, in execute
+    raise Exception('failed to execute: %s' % cmd)
+Exception: failed to execute: cd uoj_judger/work && unzip -q all.zip && rm all.zip
+[Sat Jun 22 13:45:34 2024] {'id': 3, 'problem_id': 2, 'content': {'file_name': '/submission/3645/Y3rza1D8OlpKvLwmQdX7', 'config': [['problem_id', '2']]}, 'problem_mtime': 1719035036} 
+judging
+[Sat Jun 22 13:45:48 2024] {'id': 4, 'problem_id': 2, 'content': {'file_name': '/submission/7242/zIdVrtEAVS3HEgP2tJrg', 'config': [['problem_id', '2']]}, 'problem_mtime': 1719035036} 
+judging
