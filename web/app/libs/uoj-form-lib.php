@@ -584,7 +584,10 @@ EOD;
 </script>
 EOD;
 		}
-		else if($prob_type==='choiceProblem'){
+		else if($prob_type==='choiceProblem')
+		{
+			if($prob_type==='tradition')
+			{
 			$form_entype_str = $this->is_big ? ' enctype="multipart/form-data"' : '';
 			echo '<form action="', $_SERVER['REQUEST_URI'], '" method="post" class="form-horizontal" id="form-', $this->form_name, '"', $form_entype_str, '>';
 			echo HTML::hiddenToken();
@@ -620,29 +623,157 @@ EOD;
 			}
 			
 			echo <<<EOD
-<script>
+<script type="text/javascript">
 $(document).ready(function() {
+
+EOD;
+			if ($this->ctrl_enter_submit) {
+				echo <<<EOD
+	$('#form-{$this->form_name}').keydown(function(e) {
+		if (e.keyCode == 13 && e.ctrlKey) {
+			$('#button-submit-{$this->form_name}').click();
+		}
+	});
+
+EOD;
+			}
+			echo <<<EOD
 	$('#form-{$this->form_name}').submit(function(e) {
-		e.preventDefault();
-		var selectedOption = $('input[name="{$this->form_name}"]:checked').val();
-		if (selectedOption) {
+		var ok = true;
+
+EOD;
+			$need_ajax = false;
+			if ($this->extra_validator) {
+				$need_ajax = true;
+			}
+			foreach ($this->data as $field) {
+				if ($field['validator_js'] != null) {
+					if ($field['validator_js'] != 'always_ok') {
+						echo <<<EOD
+		var ${field['name']}_err = (${field['validator_js']})($('#input-${field['name']}').val());
+
+EOD;
+					}
+				} else {
+					$need_ajax = true;
+				}
+			}
+			
+			if ($need_ajax) {
+				echo <<<EOD
+		var post_data = {};
+
+EOD;
+				foreach ($this->data as $field) {
+					if ($field['validator_js'] == null) {
+						echo <<<EOD
+		var ${field['name']}_err = 'Unknown error';
+		post_data.${field['name']} = $('#input-${field['name']}').val();
+
+EOD;
+					}
+				}
+				echo <<<EOD
+		if (post_data != {}) {
+			post_data['check-{$this->form_name}'] = "";
 			$.ajax({
-				url: '{$this->succ_href}',
-				type: 'POST',
-				data: {
-					selectedOption: selectedOption,
-					submit: '{$this->form_name}'
-				},
-				success: function(response) {
-					alert('Your choice has been submitted. Result: ' + response);
-				},
-				error: function() {
-					alert('Error submitting your choice.');
+				url : '${_SERVER['REQUEST_URI']}',
+				type : 'POST',
+				dataType : 'json',
+				async : false,
+
+				data : post_data,
+				success : function(data) {
+
+EOD;
+				foreach ($this->data as $field) {
+					if ($field['validator_js'] == null) {
+						echo <<<EOD
+					${field['name']}_err = data.${field['name']};
+
+EOD;
+					}
+				}
+				echo <<<EOD
+					if (data.extra != undefined) {
+						alert(data.extra);
+						ok = false;
+					}
+
+EOD;
+				echo <<<EOD
 				}
 			});
-		} else {
-			alert('Please select an option before submitting.');
 		}
+
+EOD;
+			}
+		
+			foreach ($this->data as $field) {
+				if ($field['validator_js'] != 'always_ok') {
+					echo <<<EOD
+		if (${field['name']}_err) {
+			$('#div-${field['name']}').addClass('has-error');
+			$('#help-${field['name']}').text(${field['name']}_err);
+			ok = false;
+		} else {
+			$('#div-${field['name']}').removeClass('has-error');
+			$('#help-${field['name']}').text('');
+		}
+
+EOD;
+				}
+			}
+			
+			if (isset($this->submit_button_config['smart_confirm'])) {
+				$this->submit_button_config['confirm_text'] = '你真的要' . $this->submit_button_config['text'] . '吗？';
+			}
+			if (isset($this->submit_button_config['confirm_text'])) {
+				echo <<<EOD
+		if (!confirm('{$this->submit_button_config['confirm_text']}')) {
+			ok = false;
+		}
+
+EOD;
+			}
+			if ($this->has_file) {
+				echo <<<EOD
+		$(this).find("input[type='file']").each(function() {
+			for (var i = 0; i < this.files.length; i++) {
+				if (this.files[i].size > 10 * 1024 * 1024) {
+					$('#div-' + $(this).attr('name')).addClass('has-error');
+					$('#help-' + $(this).attr('name')).text('文件大小不能超过10M');
+					ok = false;
+				} else {
+					$('#div-' + $(this).attr('name')).removeClass('has-error');
+					$('#help-' + $(this).attr('name')).text('');
+				}
+			}
+		});
+
+EOD;
+			}
+
+			if ($this->ajax_submit_js !== null) {
+				echo <<<EOD
+		e.preventDefault();
+		if (ok) {
+			$(this).ajaxSubmit({
+				beforeSubmit: function(formData) {
+					formData.push({name: 'submit-{$this->form_name}', value: '{$this->form_name}', type: 'submit'});
+				},
+				success : {$this->ajax_submit_js}
+			});
+		}
+
+EOD;
+			} else {
+				echo <<<EOD
+		return ok;
+
+EOD;
+			}
+			echo <<<EOD
 	});
 });
 </script>

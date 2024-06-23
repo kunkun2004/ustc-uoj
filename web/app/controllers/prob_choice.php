@@ -134,21 +134,21 @@
 		DB::insert("insert into custom_test_submissions (problem_id, submit_time, submitter, content, status, result) values ({$problem['id']}, now(), '{$myUser['username']}', '$esc_content', '{$result['status']}', '$result_json')");
  	}
 	
-	if ($can_use_zip_upload) {
-		$zip_answer_form = newZipSubmissionForm('zip_answer',
-			$submission_requirement,
-			'uojRandAvaiableSubmissionFileName',
-			'handleUpload');
-		$zip_answer_form->extra_validator = function() {
-			global $ban_in_contest;
-			if ($ban_in_contest) {
-				return '请耐心等待比赛结束后题目对所有人可见了再提交';
-			}
-			return '';
-		};
-		$zip_answer_form->succ_href = $is_in_contest ? "/contest/{$contest['id']}/submissions" : '/submissions';
-		$zip_answer_form->runAtServer();
-	}
+	// if ($can_use_zip_upload) {
+	// 	$zip_answer_form = newZipSubmissionForm('zip_answer',
+	// 		$submission_requirement,
+	// 		'uojRandAvaiableSubmissionFileName',
+	// 		'handleUpload');
+	// 	$zip_answer_form->extra_validator = function() {
+	// 		global $ban_in_contest;
+	// 		if ($ban_in_contest) {
+	// 			return '请耐心等待比赛结束后题目对所有人可见了再提交';
+	// 		}
+	// 		return '';
+	// 	};
+	// 	$zip_answer_form->succ_href = $is_in_contest ? "/contest/{$contest['id']}/submissions" : '/submissions';
+	// 	$zip_answer_form->runAtServer();
+	// }
 	
 	$answer_form = newSubmissionForm('answer',
 		$submission_requirement,
@@ -164,36 +164,36 @@
 	$answer_form->succ_href = $is_in_contest ? "/contest/{$contest['id']}/submissions" : '/submissions';
 	$answer_form->runAtServer();
 
-	if ($custom_test_requirement) {
-		$custom_test_form = newSubmissionForm('custom_test',
-			$custom_test_requirement,
-			function() {
-				return uojRandAvaiableFileName('/tmp/');
-			},
-			'handleCustomTestUpload');
-		$custom_test_form->appendHTML(<<<EOD
-<div id="div-custom_test_result"></div>
-EOD
-		);
-		$custom_test_form->succ_href = 'none';
-		$custom_test_form->extra_validator = function() {
-			global $ban_in_contest, $custom_test_submission;
-			if ($ban_in_contest) {
-				return '请耐心等待比赛结束后题目对所有人可见了再提交';
-			}
-			if ($custom_test_submission && $custom_test_submission['status'] != 'Judged') {
-				return '上一个测评尚未结束';
-			}
-			return '';
-		};
-		$custom_test_form->ctrl_enter_submit = true;
-		$custom_test_form->setAjaxSubmit(<<<EOD
-function(response_text) {custom_test_onsubmit(response_text, $('#div-custom_test_result')[0], '{$_SERVER['REQUEST_URI']}?get=custom-test-status-details')}
-EOD
-		);
-		$custom_test_form->submit_button_config['text'] = UOJLocale::get('problems::run');
-		$custom_test_form->runAtServer();
-	}
+// 	if ($custom_test_requirement) {
+// 		$custom_test_form = newSubmissionForm('custom_test',
+// 			$custom_test_requirement,
+// 			function() {
+// 				return uojRandAvaiableFileName('/tmp/');
+// 			},
+// 			'handleCustomTestUpload');
+// 		$custom_test_form->appendHTML(<<<EOD
+// <div id="div-custom_test_result"></div>
+// EOD
+// 		);
+// 		$custom_test_form->succ_href = 'none';
+// 		$custom_test_form->extra_validator = function() {
+// 			global $ban_in_contest, $custom_test_submission;
+// 			if ($ban_in_contest) {
+// 				return '请耐心等待比赛结束后题目对所有人可见了再提交';
+// 			}
+// 			if ($custom_test_submission && $custom_test_submission['status'] != 'Judged') {
+// 				return '上一个测评尚未结束';
+// 			}
+// 			return '';
+// 		};
+// 		$custom_test_form->ctrl_enter_submit = true;
+// 		$custom_test_form->setAjaxSubmit(<<<EOD
+// function(response_text) {custom_test_onsubmit(response_text, $('#div-custom_test_result')[0], '{$_SERVER['REQUEST_URI']}?get=custom-test-status-details')}
+// EOD
+// 		);
+// 		$custom_test_form->submit_button_config['text'] = UOJLocale::get('problems::run');
+// 		$custom_test_form->runAtServer();
+// 	}
 ?>
 <?php
 	$REQUIRE_LIB['mathjax'] = '';
@@ -228,11 +228,7 @@ $('#contest-countdown').countdown(<?= $contest['end_time']->getTimestamp() - UOJ
 <?php endif ?>
 
 <ul class="nav nav-tabs" role="tablist">
-	<li class="nav-item"><a class="nav-link active" href="#tab-statement" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-book"></span> <?= UOJLocale::get('problems::statement') ?></a></li>
 	<li class="nav-item"><a class="nav-link" href="#tab-submit-answer" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-upload"></span> <?= UOJLocale::get('problems::submit') ?></a></li>
-	<?php if ($custom_test_requirement): ?>
-	<li class="nav-item"><a class="nav-link" href="#tab-custom-test" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-console"></span> <?= UOJLocale::get('problems::custom test') ?></a></li>
-	<?php endif ?>
 	<?php if (hasProblemPermission($myUser, $problem)): ?>
 	<li class="nav-item"><a class="nav-link" href="/problem/<?= $problem['id'] ?>/manage/statement" role="tab"><?= UOJLocale::get('problems::manage') ?></a></li>
 	<?php endif ?>
@@ -241,23 +237,10 @@ $('#contest-countdown').countdown(<?= $contest['end_time']->getTimestamp() - UOJ
 	<?php endif ?>
 </ul>
 <div class="tab-content">
-	<div class="tab-pane active" id="tab-statement">
-		<article class="top-buffer-md"><?= $problem_content['statement'] ?></article>
-	</div>
 	<div class="tab-pane" id="tab-submit-answer">
 		<div class="top-buffer-sm"></div>
-		<?php if ($can_use_zip_upload): ?>
-		<?php $zip_answer_form->printHTML(); ?>
-		<hr />
-		<strong><?= UOJLocale::get('problems::or upload files one by one') ?><br /></strong>
-		<?php endif ?>
+		<article class="top-buffer-md"><?= $problem_content['statement'] ?></article>
 		<?php $answer_form->printHTML(); ?>
 	</div>
-	<?php if ($custom_test_requirement): ?>
-	<div class="tab-pane" id="tab-custom-test">
-		<div class="top-buffer-sm"></div>
-		<?php $custom_test_form->printHTML(); ?>
-	</div>
-	<?php endif ?>
 </div>
 <?php echoUOJPageFooter() ?>
