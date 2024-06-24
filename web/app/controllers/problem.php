@@ -9,7 +9,12 @@
 
     if (in_array('choice', $tags)) {
         include 'prob_choice.php';
-    } else {
+    } 
+	else if(in_array('fill', $tags))
+	{
+		include 'prob_fill.php';
+	}
+	else {
         include 'prob_tradition.php';
     }
 ?>

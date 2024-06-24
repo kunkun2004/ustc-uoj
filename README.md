@@ -1,10 +1,22 @@
-<p align="center"><img src="https://github.com/UniversalOJ/UOJ-System/blob/master/web/images/logo.png?raw=true"></p>
 
 # Universal Online Judge
 
-test
+### 当前目标
 
-test
+1、随机试卷题目
+
+2、支持单选多选填空
+
+3、oi赛制
+
+4、管理题目分数
+
+5、导入名单（已做）
+
+以下可以选做：
+
+6、老师可以随时公布分数、或赛后暂不公布
+
 
 > #### 一款通用的在线评测系统。
 
