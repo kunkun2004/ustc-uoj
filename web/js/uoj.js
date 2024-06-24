@@ -849,47 +849,156 @@ $.fn.source_code_form_group = function(name, text, langs_options_html) {
 // text file form group
 $.fn.text_file_form_group = function(name, text) {
 	return this.each(function() {
-		var input_choice_name = name + '_choice';
-		var input_choice_a_id = 'input-' + name + '_a';
-		var input_choice_b_id = 'input-' + name + '_b';
-		var input_choice_c_id = 'input-' + name + '_c';
-		var input_choice_d_id = 'input-' + name + '_d';
+		var input_upload_type_name = name + '_upload_type';
+		var input_editor_id = 'input-' + name + '_editor';
+		var input_editor_name = name + '_editor';
+		var input_file_id = 'input-' + name + '_file';
+		var input_file_name = name + '_file';
 
-		var input_choice_a = $('<input type="radio" name="' + input_choice_name + '" id="' + input_choice_a_id + '" value="' + '65' + '" />');
-		var input_choice_b = $('<input type="radio" name="' + input_choice_name + '" id="' + input_choice_b_id + '" value="' + '66' + '" />');
-		var input_choice_c = $('<input type="radio" name="' + input_choice_name + '" id="' + input_choice_c_id + '" value="' + '67' + '" />');
-		var input_choice_d = $('<input type="radio" name="' + input_choice_name + '" id="' + input_choice_d_id + '" value="' + '68' + '" />');
+		var div_editor_id = 'div-' + name + '_editor';
+		var div_file_id = 'div-' + name + '_file';
+
+		var help_file_id = 'help-' + name + '_file';
+
+		var input_upload_type_editor = $('<input type="radio" name="' + input_upload_type_name + '" value="editor" />');
+		var input_upload_type_file = $('<input type="radio" name="' + input_upload_type_name + '" value="file" />');
+		var input_file = $('<input type="file" id="' + input_file_id + '" name="' + input_file_name + '" style="display: none" />');
+		var input_file_path = $('<input class="form-control" type="text" readonly="readonly" />');
+		var input_editor = $('<textarea class="form-control" id="' + input_editor_id + '" name="' + input_editor_name + '"></textarea>');
+		var input_use_advanced_editor = $('<input type="checkbox">');
+
+		var div_editor =
+			$('<div id="' + div_editor_id + '" class="col-sm-12"/>')
+				.append(input_editor)
+				.append($('<div class="checkbox text-right" />')
+					.append($('<label />')
+						.append(input_use_advanced_editor)
+						.append(' ' + uojLocale('editor::use advanced editor'))
+					)
+				)
+		var div_file =
+			$('<div id="' + div_file_id + '" class="col-sm-12"/>')
+				.append(input_file)
+				.append($('<div class="input-group"/>')
+					.append(input_file_path)
+					.append($('<div class="input-group-append"/>')
+						.append($('<button type="button" class="btn btn-primary">'+'<span class="glyphicon glyphicon-folder-open"></span> '+uojLocale('editor::browse')+'</button>')
+							.css('width', '100px')
+							.click(function() {
+								input_file.click();
+							})
+						)
+					)
+				)
+				.append($('<span class="help-block" id="' + help_file_id + '"></span>'))
+
+		var advanced_editor = null;
+		var advanced_editor_init = function() {
+			require_codemirror({}, function() {
+				var mode = get_codemirror_mode('text');
+				require_codemirror_mode(mode, function() {
+					if (advanced_editor != null) {
+						return;
+					}
+					advanced_editor = CodeMirror.fromTextArea(input_editor[0], {
+						mode: mode,
+						lineNumbers: true,
+						matchBrackets: true,
+						lineWrapping: true,
+						styleActiveLine: true,
+						indentUnit: 4,
+						indentWithTabs: true,
+						theme: 'default'
+					});
+					advanced_editor.on('change', function() {
+						advanced_editor.save();
+					});
+					$(advanced_editor.getWrapperElement()).css('box-shadow', '0 2px 10px rgba(0,0,0,0.2)');
+					advanced_editor.focus();
+				});
+			});
+		}
+
+		var save_prefer_upload_type = function(type) {
+			$.cookie('uoj_text_file_form_group_preferred_upload_type', type, { expires: 7, path: '/' });
+		};
+
+		autosave_locally(2000, name, input_editor);
+
+		var prefer_upload_type = $.cookie('uoj_text_file_form_group_preferred_upload_type');
+		if (prefer_upload_type === null) {
+			prefer_upload_type = 'editor';
+		}
+		if (prefer_upload_type == 'file') {
+			input_upload_type_file[0].checked = true;
+			div_editor.css('display', 'none');
+		} else {
+			input_upload_type_editor[0].checked = true;
+			div_file.css('display', 'none');
+
+			if (prefer_upload_type == 'advanced') {
+				input_use_advanced_editor[0].checked = true;
+			}
+		}
+
+		input_upload_type_editor.click(function() {
+			div_editor.show('fast');
+			div_file.hide('fast');
+			save_prefer_upload_type('editor');
+		});
+		input_upload_type_file.click(function() {
+			div_file.show('fast');
+			div_editor.hide('fast');
+			save_prefer_upload_type('file');
+		});
+		input_file.change(function() {
+			input_file_path.val(input_file.val());
+		});
+		input_use_advanced_editor.click(function() {
+			if (this.checked) {
+				advanced_editor_init();
+				save_prefer_upload_type('advanced');
+			} else {
+				if (advanced_editor != null) {
+					advanced_editor.toTextArea();
+					advanced_editor = null;
+					input_editor.focus();
+				}
+				save_prefer_upload_type('editor');
+			}
+		});
 
 		$(this)
 			.append($('<div class="row"/>')
 			.append($('<label class="col-sm-2 control-label"><div class="text-left">' + text + '</div></label>'))
-			.append($('<div class="col-sm-2 radio"/>')
+			.append($('<div class="top-buffer-sm" />'))
+			.append($('<div class="col-sm-2 offset-sm-6 radio"/>')
 				.append($('<label/>')
-					.append(input_choice_a)
-					.append(' A')
+					.append(input_upload_type_editor)
+					.append(' '+uojLocale('editor::upload by editor'))
 				)
 			)
 			.append($('<div class="col-sm-2 radio"/>')
 				.append($('<label/>')
-					.append(input_choice_b)
-					.append(' B')
+					.append(input_upload_type_file)
+					.append(' '+uojLocale('editor::upload from local'))
 				)
-			)
-			.append($('<div class="col-sm-2 radio"/>')
-				.append($('<label/>')
-					.append(input_choice_c)
-					.append(' C')
-				)
-			)
-			.append($('<div class="col-sm-2 radio"/>')
-				.append($('<label/>')
-					.append(input_choice_d)
-					.append(' D')
-				)
-			));
-	});
-};
+			))
+			.append(div_editor)
+			.append(div_file);
 
+		if (prefer_upload_type == 'advanced') {
+			var check_advanced_init = function() {
+				if (div_editor.is(':visible')) {
+					advanced_editor_init();
+				} else {
+					setTimeout(check_advanced_init, 1);
+				}
+			}
+			check_advanced_init();
+		}
+	});
+}
 
 // custom test
 function custom_test_onsubmit(response_text, div_result, url) {
