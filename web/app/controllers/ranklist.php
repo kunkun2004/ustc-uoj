@@ -8,7 +8,7 @@
 <?php echoUOJPageHeader('比赛排行榜') ?>
 
 <!-- 导出按钮 -->
-<a href="export_ranklist" class="btn btn-primary">导出排行榜</a>
+<a href="export_ranklistra" class="btn btn-primary">导出排行榜</a>
 
 <?php echoRanklist($config) ?>
 <?php echoUOJPageFooter() ?>
