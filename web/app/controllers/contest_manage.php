@@ -68,17 +68,21 @@
 	);
 
 	$participants_form = newAddDelCmdForm('participants',
-		function($username) {                                                                                                                        if (!validateUsername($username) || !queryUser($username)) {                                                                                 return "不存在名为{$username}的用户";                                                                                        }                                                                                                                                    return '';                                                                                                  
+		function($username) {
+			if (!validateUsername($username) || !queryUser($username)) {
+			    return "不存在名为{$username}的用户";
+			}
+			return '';
 		},
 		function($type, $username) {
 			global $contest;
 			if ($type == '+') {
-				$user = queryUser($username);
-				DB::query("insert into contests_registrants (username, user_rating, contest_id, has_participated) values ('{$username}', {$user['rating']}, {$contest['id']}, 0)");
-                		updateContestPlayerNum($contest);
+				global $myUser;
+				DB::query("insert into contests_registrants (username, user_rating, contest_id, has_participated) values ('{$myUser['username']}', {$myUser['rating']}, {$contest['id']}, 0)");
+				updateContestPlayerNum($contest);
 			}
 		       	else if ($type == '-') {
-				DB::query("delete from contests_registrants where username='{$username}'");
+				DB::query("delete from contests_registrants where username='{$username}' and contest_id = {$contest['id']}");
 				updateContestPlayerNum($contest);
 			}
 		}
@@ -212,6 +216,7 @@
 	$time_form->runAtServer();
 	$managers_form->runAtServer();
 	$problems_form->runAtServer();
+	$participants_form->runAtServer();
 ?>
 <?php echoUOJPageHeader(HTML::stripTags($contest['name']) . ' - 比赛管理') ?>
 <h1 class="page-header" align="center"><?=$contest['name']?> 管理</h1>
