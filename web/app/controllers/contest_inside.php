@@ -49,6 +49,13 @@
 		become404Page();
 	}
 	
+
+
+
+
+
+
+
 	if (isset($_POST['check_notice'])) {
 		$result = DB::query("select * from contests_notice where contest_id = '${contest['id']}' order by time desc limit 10");
 		$ch = array();
@@ -77,6 +84,13 @@
 			die(json_encode(array('time' => UOJTime::$time_now_str)));
 		}
 	}
+	
+
+
+
+
+
+
 	
 	if (isSuperUser($myUser)) {
 		if (CONTEST_PENDING_FINAL_TEST <= $contest['cur_progress'] && $contest['cur_progress'] <= CONTEST_TESTING) {
@@ -290,6 +304,15 @@ EOD;
 		}
 	}
 	
+
+
+
+
+
+
+
+
+
 	function echoDashboard() {
 		global $contest, $post_notice, $post_question, $reply_question;
 		
@@ -457,6 +480,14 @@ EOD;
  		</div>
 EOD;
 	}
+
+
+
+
+
+
+
+
 	
 	$page_header = HTML::stripTags($contest['name']) . ' - ';
 ?>
