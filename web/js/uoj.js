@@ -1149,3 +1149,37 @@ function showStandings() {
 		}
 	);
 }
+
+// 导出功能
+function exportStandingsToTxt() {
+    let txtContent = "Rank\tUsername\tTotal Score\tPenalty\t";
+    // 添加题目列标题
+    for (let i = 0; i < problems.length; i++) {
+        txtContent += `Problem ${String.fromCharCode('A'.charCodeAt(0) + i)} Score\t`;
+        txtContent += `Problem ${String.fromCharCode('A'.charCodeAt(0) + i)} Penalty\t`;
+    }
+    txtContent = txtContent.trim() + "\n"; // 去掉最后一个多余的制表符并换行
+
+    standings.forEach(row => {
+        txtContent += `${row[3]}\t${row[2][0]}\t${row[0]}\t${row[1]}\t`;
+        for (let i = 0; i < problems.length; i++) {
+            let col = score[row[2][0]][i];
+            if (col != undefined) {
+                txtContent += `${col[0]}\t${col[1]}\t`;
+            } else {
+                txtContent += `-\t-\t`; // 如果没有提交则填入'-'
+            }
+        }
+        txtContent = txtContent.trim() + "\n"; // 去掉最后一个多余的制表符并换行
+    });
+
+    let blob = new Blob([txtContent], { type: 'text/plain' });
+    let link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'standings.txt';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+
