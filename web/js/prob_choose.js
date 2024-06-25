@@ -115,7 +115,7 @@ $(document).ready(function () {
             user_ans.append(`answer_output${i}_file`, new Blob([], { type: "application/octet-stream" }), "");
         }
         user_ans.append("submit-answer", "answer");
-        const r = await submitForm("/problem/2", user_ans);
+        const r = await submitForm(location.pathname, user_ans);
         location.href = redirect_page;
     });
 });
