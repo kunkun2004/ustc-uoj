@@ -5,8 +5,9 @@ $(document).ready(function () {
 
     const parseQuestions = (content) => {
         const questionPatterns = [
-            { type: 'single', regex: /\[单选题\](.*?)(?=\[|$|\[多选题\])/gs },
-            { type: 'multiple', regex: /\[多选题\](.*?)(?=\[|$|\[单选题\])/gs }
+            { type: 'single', regex: /\[单选题\](.*?)(?=\[|$)/gs },
+            { type: 'multiple', regex: /\[多选题\](.*?)(?=\[|$)/gs },
+            { type: 'judgement', regex: /\[判断题\](.*?)(?=\[|$)/gs },
         ];
 
         let questions = [];
@@ -50,7 +51,8 @@ $(document).ready(function () {
             const problemContainer = $('<div></div>').addClass('choose-problem').addClass(type === 'single' ? 'single-choose' : 'multiple-choose');
 
             // 创建题目内容，添加序号
-            const problemTypeBadge = type === 'single' ? '单选题' : '多选题';
+            const problemTypeMap = { single: '单选题', multiple: '多选题', judgement: '判断题' };
+            const problemTypeBadge = problemTypeMap[type] ?? '单选题';
             const problemContent = $('<div></div>').addClass('problem-content').html(`${questionCounter}. [${problemTypeBadge}]${question.replace(/\n/g, '<br>')}`);
             problemContainer.append(problemContent);
 
@@ -62,7 +64,7 @@ $(document).ready(function () {
                 const formCheck = $('<div></div>').addClass('form-check');
                 const label = $('<label></label>').addClass('form-check-label');
                 const input = $('<input>')
-                    .attr('type', type === 'single' ? 'radio' : 'checkbox')
+                    .attr('type', type === 'multiple' ? 'checkbox' : 'radio')
                     .addClass('form-check-input')
                     .attr('name', `problem${questionCounter}`)
                     .attr('value', String.fromCharCode(65 + index)); // 将索引转换为A, B, C, D
