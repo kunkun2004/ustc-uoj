@@ -1,0 +1,9 @@
+score 0
+time 79
+memory 35484
+details
+<tests>
+<custom-test info="Runtime Error" time="79" memory="35484">
+<out></out>
+</custom-test>
+</tests>
