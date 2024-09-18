@@ -8,7 +8,7 @@
 		global $myUser, $upcoming_contest_name, $upcoming_contest_href, $rest_second;
 		
 		$constestlink = <<<EOD
-'<h3><a href="/contest/{$contest['id']}" class="button">点击进入</a><\h3>'
+'<h3><a href="/contest/{$contest['id']}" class="button">点击进入</a></h3>'
 EOD;
 		$contest_name_link = <<<EOD
 <a href="/contest/{$contest['id']}">{$contest['name']}</a>
