@@ -7,6 +7,9 @@
 	function echoContest($contest) {
 		global $myUser, $upcoming_contest_name, $upcoming_contest_href, $rest_second;
 		
+		$constestlink = <<<EOD
+'<h3><a href="/contest/{$contest['id']}" class="button">点击进入</a><\h3>'
+EOD;
 		$contest_name_link = <<<EOD
 <a href="/contest/{$contest['id']}">{$contest['name']}</a>
 EOD;
@@ -36,13 +39,25 @@ EOD;
 		$last_hour = round($contest['last_min'] / 60, 2);
 		
 		$click_zan_block = getClickZanBlock('C', $contest['id'], $contest['zan']);
-		echo '<tr>';
-		echo '<td>', $contest_name_link, '</td>';
-		echo '<td>', '<a href="'.HTML::timeanddate_url($contest['start_time'], array('duration' => $contest['last_min'])).'">'.$contest['start_time_str'].'</a>', '</td>';
-		echo '<td>', UOJLocale::get('hours', $last_hour), '</td>';
-		echo '<td>', '<a href="/contest/'.$contest['id'].'/registrants"><span class="glyphicon glyphicon-user"></span> &times;'.$contest['player_num'].'</a>', '</td>';
-		echo '<td>', '<div class="text-left">'.$click_zan_block.'</div>', '</td>';
-		echo '</tr>';
+		echo '<div class="contest-container">';
+		echo '<div class="contest-image">';
+		echo '<img src="https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png" alt="比赛图片">';
+		echo '</div>';
+		echo '<div class="contest-info">';
+		echo '<h3>', $contest_name_link, '</h3>'
+		echo '<h5>开始时间：', '<a href="'.HTML::timeanddate_url($contest['start_time'], array('duration' => $contest['last_min'])).'">'.$contest['start_time_str'].'</a>', '</h5>';
+		echo '<h5>时长：', UOJLocale::get('hours', $last_hour), '</h5>';
+		echo '<h3>', $constestlink, <h3>;
+		echo '</div>';
+
+		//echo '<td>', $contest_name_link, '</td>';
+		//echo '<td>', '<a href="'.HTML::timeanddate_url($contest['start_time'], array('duration' => $contest['last_min'])).'">'.$contest['start_time_str'].'</a>', '</td>';
+		//echo '<td>', UOJLocale::get('hours', $last_hour), '</td>';
+		//echo '<td>', '<a href="/contest/'.$contest['id'].'/registrants"><span class="glyphicon glyphicon-user"></span> &times;'.$contest['player_num'].'</a>', '</td>';
+		//echo '<td>', '<div class="text-left">'.$click_zan_block.'</div>', '</td>';
+		
+		echo '</div>';
+		echo '<br>';
 	}
 ?>
 <?php echoUOJPageHeader(UOJLocale::get('contests')) ?>
@@ -56,31 +71,16 @@ EOD;
 	$table_header .= '<th style="width:100px;">'.UOJLocale::get('contests::the number of registrants').'</th>';
 	$table_header .= '<th style="width:180px;">'.UOJLocale::get('appraisal').'</th>';
 	$table_header .= '</tr>';
-	echoLongTable(array('*'), 'contests', "status != 'finished'", 'order by id desc', $table_header,
+	echoContestTable(array('*'), 'contests', "status != 'finished'", 'order by id desc', $table_header,
 		echoContest,
 		array('page_len' => 100)
 	);
 
-	if ($rest_second <= 86400) {
-		echo <<<EOD
-<div class="text-center bot-buffer-lg">
-<div class="text-warning">$upcoming_contest_name 倒计时</div>
-<div id="contest-countdown"></div>
-<script type="text/javascript">
-$('#contest-countdown').countdown($rest_second, function() {
-	if (confirm('$upcoming_contest_name 已经开始了。是否要跳转到比赛页面？')) {
-		window.location.href = "$upcoming_contest_href";
-	}
-});
-</script>
-</div>
-EOD;
-	}
 ?>
 
 <h4><?= UOJLocale::get('contests::ended contests') ?></h4>
 <?php
-	echoLongTable(array('*'), 'contests', "status = 'finished'", 'order by id desc', $table_header,
+	echoContestTable(array('*'), 'contests', "status = 'finished'", 'order by id desc', $table_header,
 		echoContest,
 		array('page_len' => 100,
 			'print_after_table' => function() {

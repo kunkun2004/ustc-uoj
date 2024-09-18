@@ -134,6 +134,49 @@ function getLongTablePageUri($page) {
 	return HTML::escape(getLongTablePageRawUri($page));
 }
 
+function echoContestTable($col_names, $table_name, $cond, $tail, $header_row, $print_row, $config) {
+	$pag_config = $config;
+	$pag_config['col_names'] = $col_names;
+	$pag_config['table_name'] = $table_name;
+	$pag_config['cond'] = $cond;
+	$pag_config['tail'] = $tail;
+	$pag = new Paginator($pag_config);
+
+	$div_classes = isset($config['div_classes']) ? $config['div_classes'] : array('table-responsive');
+	$table_classes = isset($config['table_classes']) ? $config['table_classes'] : array('table', 'table-bordered', 'table-hover', 'table-striped', 'table-text-center');
+		
+
+
+	foreach ($pag->get() as $idx => $row) {
+		if (isset($config['get_row_index'])) {
+			$print_row($row, $idx);
+		} else {
+			$print_row($row);
+		}
+	}
+	if ($pag->isEmpty()) {
+		echo '<div class="', join($div_classes, ' '), '">';
+		echo '<table class="', join($table_classes, ' '), '">';
+		echo '<thead>';
+		echo $header_row;
+		echo '</thead>';
+		echo '<tbody>';
+		echo '<tr><td colspan="233">'.UOJLocale::get('none').'</td></tr>';
+		echo '</tbody>';
+		echo '</table>';
+		echo '</div>';
+	}
+
+	
+	
+	if (isset($config['print_after_table'])) {
+		$fun = $config['print_after_table'];
+		$fun();
+	}
+		
+	echo $pag->pagination();
+}
+
 function echoLongTable($col_names, $table_name, $cond, $tail, $header_row, $print_row, $config) {
 	$pag_config = $config;
 	$pag_config['col_names'] = $col_names;
