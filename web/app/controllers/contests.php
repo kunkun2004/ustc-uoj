@@ -44,10 +44,10 @@ EOD;
 		echo '<img src="https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png" alt="比赛图片">';
 		echo '</div>';
 		echo '<div class="contest-info">';
-		echo '<h3>', $contest_name_link, '</h3>'
+		echo '<h3>', $contest_name_link, '</h3>';
 		echo '<h5>开始时间：', '<a href="'.HTML::timeanddate_url($contest['start_time'], array('duration' => $contest['last_min'])).'">'.$contest['start_time_str'].'</a>', '</h5>';
 		echo '<h5>时长：', UOJLocale::get('hours', $last_hour), '</h5>';
-		echo '<h3>', $constestlink, <h3>;
+		echo '<h3>', $constestlink, '<h3>';
 		echo '</div>';
 
 		//echo '<td>', $contest_name_link, '</td>';
