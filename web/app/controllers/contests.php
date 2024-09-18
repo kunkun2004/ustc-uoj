@@ -47,7 +47,7 @@ EOD;
 		echo '<h3>', $contest_name_link, '</h3>';
 		echo '<h5>开始时间：', '<a href="'.HTML::timeanddate_url($contest['start_time'], array('duration' => $contest['last_min'])).'">'.$contest['start_time_str'].'</a>', '</h5>';
 		echo '<h5>时长：', UOJLocale::get('hours', $last_hour), '</h5>';
-		echo '<h3>', $constestlink, '<h3>';
+		echo '<h3>', $constestlink, '</h3>';
 		echo '</div>';
 
 		//echo '<td>', $contest_name_link, '</td>';
