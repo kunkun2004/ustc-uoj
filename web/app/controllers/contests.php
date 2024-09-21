@@ -60,7 +60,99 @@ EOD;
 		echo '<br>';
 	}
 ?>
-<?php echoUOJPageHeader(UOJLocale::get('contests')) ?>
+<?php echoUOJPageHeader(UOJLocale::get('contests')); ?>
+<?php
+    // 可以动态加载图片路径，或从数据库获取
+    $images = [
+      "https://via.placeholder.com/600x300/FF5733/FFFFFF?text=Slide+1",
+      "https://via.placeholder.com/600x300/33FF57/FFFFFF?text=Slide+2",
+      "https://via.placeholder.com/600x300/3357FF/FFFFFF?text=Slide+3"
+    ];
+  ?>
+
+  <div class="carousel">
+    <div class="carousel-images">
+      <?php foreach ($images as $image): ?>
+        <img src="<?php echo $image; ?>" alt="Slide">
+      <?php endforeach; ?>
+    </div>
+    <button class="prev">&#10094;</button>
+    <button class="next">&#10095;</button>
+  </div>
+
+  <!-- 圆点指示器 -->
+  <div class="dots">
+    <?php foreach ($images as $index => $image): ?>
+      <span class="dot"></span>
+    <?php endforeach; ?>
+  </div>
+
+  <script>
+    // 获取元素
+    const images = document.querySelectorAll('.carousel-images img');
+    const carouselImages = document.querySelector('.carousel-images');
+    const prevBtn = document.querySelector('.prev');
+    const nextBtn = document.querySelector('.next');
+    const dots = document.querySelectorAll('.dot');
+    
+    let currentIndex = 0;
+    let autoScrollInterval;
+
+    // 更新轮播图显示
+    function updateCarousel() {
+      carouselImages.style.transform = `translateX(${-currentIndex * 100}%)`;
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentIndex);
+      });
+    }
+
+    // 下一张图片
+    function showNextImage() {
+      currentIndex = (currentIndex + 1) % images.length;
+      updateCarousel();
+    }
+
+    // 上一张图片
+    function showPrevImage() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      updateCarousel();
+    }
+
+    // 点击按钮切换图片
+    nextBtn.addEventListener('click', () => {
+      showNextImage();
+      resetAutoScroll();
+    });
+
+    prevBtn.addEventListener('click', () => {
+      showPrevImage();
+      resetAutoScroll();
+    });
+
+    // 点击圆点导航
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        currentIndex = index;
+        updateCarousel();
+        resetAutoScroll();
+      });
+    });
+
+    // 自动滚动功能
+    function startAutoScroll() {
+      autoScrollInterval = setInterval(showNextImage, 3000);
+    }
+
+    // 当用户手动切换时重置自动滚动
+    function resetAutoScroll() {
+      clearInterval(autoScrollInterval);
+      startAutoScroll();
+    }
+
+    // 初始化
+    updateCarousel();
+    startAutoScroll();
+  </script>
 <h4><?= UOJLocale::get('contests::current or upcoming contests') ?></h4>
 <?php
 	$table_header = '';

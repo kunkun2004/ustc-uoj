@@ -72,3 +72,68 @@
 }
  
 /*# sourceMappingURL=bootstrap.min.css.map */
+
+/* 设置轮播图容器的样式 */
+.carousel {
+    width: 80%;
+    max-width: 600px;
+    margin: auto;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+  }
+  
+  /* 设置图片滑动区域 */
+  .carousel-images {
+    display: flex;
+    transition: transform 0.5s ease;
+  }
+  
+  /* 每张图片的样式 */
+  .carousel-images img {
+    width: 100%;
+    border-radius: 10px;
+  }
+  
+  /* 设置左右导航按钮 */
+  .prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+  
+  .prev {
+    left: 10px;
+  }
+  
+  .next {
+    right: 10px;
+  }
+  
+  /* 圆点指示器 */
+  .dots {
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .dots span {
+    height: 10px;
+    width: 10px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 5px;
+    cursor: pointer;
+  }
+  
+  .dots .active {
+    background-color: #717171;
+  }
+  
