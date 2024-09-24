@@ -22,7 +22,7 @@ if ($contest != null) {
                     DB::update("update contests_registrants set has_participated = 1 where username = '{$myUser['username']}' and contest_id = {$contest['id']}");
                 }else {
                     $user_finish_time = queryfinishtime($myUser, $content);
-                    if(UOJTime::$time_now > $user_finish_time) {
+                    if(UOJTime::$time_now >= $user_finish_time) {
                         $ban_in_contest = true;
                     }
                 }
