@@ -225,7 +225,7 @@
 	</head>
 	<body role="document">
 		<div class="container theme-showcase" role="main">
-			<?php if ($ShowPageHeader === 0): ?>
+			<?php if ($ShowPageHeade): ?>
 			<div>
 				<ul class="nav nav-pills float-right" role="tablist">
 				<?php if (Auth::check()): ?>
