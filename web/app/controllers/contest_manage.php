@@ -37,17 +37,31 @@
 		},
 		null
 	);
+	$time_form->addInput(
+		'end_time', 'text', '结束时间', $contest['end_time'],
+		function($str, &$vdata) {
+			try {
+				$vdata['end_time'] = new DateTime($str);
+			} catch (Exception $e) {
+				return '无效时间格式';
+			}
+			return '';
+		},
+		null
+	);
 	$time_form->handle = function(&$vdata) {
 		global $contest;
+		
 		$start_time_str = $vdata['start_time']->format('Y-m-d H:i:s');
+		$end_time_str = $vdata['end_time']->format('Y-m-d H:i:s');  // 获取用户输入的结束时间
 		
 		$purifier = HTML::pruifier();
-		
 		$esc_name = $_POST['name'];
 		$esc_name = $purifier->purify($esc_name);
 		$esc_name = DB::escape($esc_name);
 		
-		DB::update("update contests set start_time = '$start_time_str', last_min = {$_POST['last_min']}, name = '$esc_name' where id = {$contest['id']}");
+		// 更新数据库，添加了对 end_time 的更新
+		DB::update("UPDATE contests SET start_time = '$start_time_str', last_min = {$_POST['last_min']}, name = '$esc_name', end_time = '$end_time_str' WHERE id = {$contest['id']}");
 	};
 	
 	$managers_form = newAddDelCmdForm('managers',

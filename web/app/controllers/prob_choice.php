@@ -12,7 +12,15 @@
                     becomeMsgPage("<h1>比赛正在进行中</h1><p>很遗憾，您尚未报名。比赛结束后再来看吧 ～</p>");
                 } else {
                     $is_in_contest = true;
-                    DB::update("update contests_registrants set has_participated = 1 where username = '{$myUser['username']}' and contest_id = {$contest['id']}");
+                    if(!hasConstParticipated($myUser, $contest)) {
+                        $current_time = new DateTime();  // 获取当前时间
+                        $current_time_str = $current_time->format('Y-m-d H:i:s');  // 格式化为字符串
+                        $minutes = queryLastmin($content); 
+                        $current_time->modify("+$minutes minutes");  // 将当前时间增加30分钟
+                        $end_time_str = $current_time->format('Y-m-d H:i:s');  // 格式化为字符串
+                        DB::update("update contests_registrants set finish_time = '$end_time_str' where username = '{$myUser['username']}' and contest_id = {$contest['id']}");
+                        DB::update("update contests_registrants set has_participated = 1 where username = '{$myUser['username']}' and contest_id = {$contest['id']}");
+                    }
                 }
             } else {
                 $ban_in_contest = !isProblemVisibleToUser($problem, $myUser);

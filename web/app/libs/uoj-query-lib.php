@@ -35,6 +35,28 @@ function hasRegistered($user, $contest) {
 function hasAC($user, $problem) {
 	return DB::selectFirst("select * from best_ac_submissions where submitter = '${user['username']}' and problem_id = ${problem['id']}") != null;
 }
+function hasConstParticipated($user,$contest){
+	return DB::selectFirst("select * from contests_registrants where username = '${user['username']}' and contest_id = ${contest['id']} and has_participated = 1") != null;
+}
+function queryLastmin($contest){
+	// 确保 $contest 被正确转义，避免SQL注入
+    $contest_id = intval($contest);  // 如果 $contest 是整数，确保安全
+    // 或者如果 $contest 是字符串类型的比赛编号，需要使用数据库的转义方法
+    // $contest_id = DB::escape($contest);
+
+    // 查询指定比赛的 last_min
+    $result = DB::query("select last_min from contests WHERE contest_id = '$contest_id' LIMIT 1");
+
+    // 检查是否有返回结果
+    if ($row = DB::fetch_assoc($result)) {
+        // 返回整数类型的 last_min
+        return intval($row['last_min']);
+    } else {
+        // 如果查询不到比赛，返回默认值或处理错误
+        echo "未找到比赛编号为 $contest 的比赛";
+        return 0;  // 或者你可以根据需要返回 null 或其他默认值
+    }
+}
 
 function queryUser($username) {
 	if (!validateUsername($username)) {
