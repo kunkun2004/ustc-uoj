@@ -39,13 +39,9 @@ function hasConstParticipated($user,$contest){
 	return DB::selectFirst("select * from contests_registrants where username = '${user['username']}' and contest_id = ${contest['id']} and has_participated = 1") != null;
 }
 function queryLastmin($contest){
-	// 确保 $contest 被正确转义，避免SQL注入
-    $contest_id = intval($contest);  // 如果 $contest 是整数，确保安全
-    // 或者如果 $contest 是字符串类型的比赛编号，需要使用数据库的转义方法
-    // $contest_id = DB::escape($contest);
 
     // 查询指定比赛的 last_min
-    $result = DB::query("select last_min from contests WHERE contest_id = '$contest_id' LIMIT 1");
+    $result = DB::query("select last_min from contests WHERE contest_id = ${contest['id']} LIMIT 1");
 
     // 检查是否有返回结果
     if ($row = DB::fetch_assoc($result)) {
@@ -56,6 +52,35 @@ function queryLastmin($contest){
         echo "未找到比赛编号为 $contest 的比赛";
         return 0;  // 或者你可以根据需要返回 null 或其他默认值
     }
+}
+
+function queryfinishtime($user,$contest){
+	// 确保 $contest 被正确转义，避免SQL注入
+    $contest_id = intval($contest);  // 如果 $contest 是整数，确保安全
+    // 或者如果 $contest 是字符串类型的比赛编号，需要使用数据库的转义方法
+    // $contest_id = DB::escape($contest);
+
+    // 查询指定比赛的 last_min
+    $result = DB::query("select finish_time from contests_registrants WHERE contest_id = ${contest['id']} and username = '${user['username']}' LIMIT 1");
+	if ($result && DB::num_rows($result) > 0) {
+        // 获取第一行的结果
+        $row = DB::fetch($result, MYSQLI_ASSOC);
+        
+        // 检查 finish_time 字段是否存在且不为 null
+        if (isset($row['finish_time']) && $row['finish_time'] !== null) {
+            // 将日期字符串转换为 DateTime 对象
+            try {
+                $dateTime = new DateTime($row['finish_time']);
+                return $dateTime; // 返回 DateTime 对象
+            } catch (Exception $e) {
+                // 如果转换失败，可以选择返回 null 或抛出异常
+                return null; // 或者 throw $e;
+            }
+        }else {
+			return new DateTime();
+		}
+    }
+    
 }
 
 function queryUser($username) {

@@ -20,6 +20,11 @@
                         $end_time_str = $current_time->format('Y-m-d H:i:s');  // 格式化为字符串
                         DB::update("update contests_registrants set finish_time = '$end_time_str' where username = '{$myUser['username']}' and contest_id = {$contest['id']}");
                         DB::update("update contests_registrants set has_participated = 1 where username = '{$myUser['username']}' and contest_id = {$contest['id']}");
+                    }else {
+                        $user_finish_time = queryfinishtime($myUser, $content);
+                        if(UOJTime::$time_now > $user_finish_time) {
+                            $ban_in_contest = true;
+                        }
                     }
                 }
             } else {

@@ -99,9 +99,11 @@ function calcRatingSelfTest() {
 function genMoreContestInfo(&$contest) {
 	$contest['start_time_str'] = $contest['start_time'];
 	$contest['start_time'] = new DateTime($contest['start_time']);
-	$contest['end_time'] = clone $contest['start_time'];
-	$contest['end_time']->add(new DateInterval("PT${contest['last_min']}M"));
-	
+	//$contest['end_time'] = clone $contest['start_time'];
+	//$contest['end_time']->add(new DateInterval("PT${contest['last_min']}M"));
+	$contest['end_time_str'] = $contest['end_time'];
+	$contest['end_time'] = new DateTime($contest['end_time']);
+
 	if ($contest['status'] == 'unfinished') {
 		if (UOJTime::$time_now < $contest['start_time']) {
 			$contest['cur_progress'] = CONTEST_NOT_STARTED;
