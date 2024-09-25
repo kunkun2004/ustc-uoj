@@ -213,7 +213,8 @@
 <?php
 // 处理文件上传并将路径存入数据库
 function handle_image_upload($contest) {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['image'])) {
+	$message = '';
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['upload_image'])) {
         $image = $_FILES['image'];
         $image_name = $image['name'];  // 保留文件原始名字
         $image_tmp_name = $image['tmp_name'];
@@ -245,22 +246,23 @@ function handle_image_upload($contest) {
 
                         // 更新数据库中contestid对应的imgpath列
 						DB::update("update contests set imgpath = '$image_abs_path' where id = {$contest['id']}");
-                    } else {
-                        echo "文件上传失败。";
+						$message = "图片上传成功。";
+					} else {
+                        $message = "数据库更新失败: " . $stmt->error;
                     }
                 } else {
-                    echo "文件大小超过限制。";
+                    $message = "文件大小超过限制。";
                 }
             } else {
-                echo "不允许的文件类型。";
+                $message = "不允许的文件类型。";
             }
         } else {
-            echo "文件上传出错，错误码：" . $image_error;
+            $message = "文件上传出错，错误码：" . $image_error;
         }
     }
+	return $message;
 }
 ?>
-<?php handle_image_upload($contest);?>
 <?php echoUOJPageHeader(HTML::stripTags($contest['name']) . ' - 比赛管理') ?>
 <h1 class="page-header" align="center"><?=$contest['name']?> 管理</h1>
 <ul class="nav nav-tabs mb-3" role="tablist">
@@ -344,10 +346,25 @@ function handle_image_upload($contest) {
 				<?php $contest_type_form->printHTML(); ?>
 			</div>
 		</div>
+		<?php $upload_message = handle_image_upload($contest);?>
+		<script>
+        	function showMessage(message) {
+            	if (message) {
+                	alert(message);
+            	}
+        	}
+			function checkUploadForm() {
+            	// 检查表单提交时是否有返回的消息
+            	var uploadMessage = "<?php echo isset($_POST['upload_image']) ? addslashes(handle_image_upload($contest)) : ''; ?>";
+            	if (uploadMessage) {
+                	showMessage(uploadMessage);
+            	}
+        	}
+    	</script>
 		<form action="" method="POST" enctype="multipart/form-data">
 			<label for="image">选择图片：</label>
 			<input type="file" name="image" id="image" required>
-			<button type="submit">上传</button>
+			<button type="submit" name="upload_image">上传</button>
 		</form>
 	</div>
 		
