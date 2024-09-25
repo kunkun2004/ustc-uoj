@@ -344,14 +344,13 @@ function handle_image_upload($contest) {
 				<?php $contest_type_form->printHTML(); ?>
 			</div>
 		</div>
-	</div>
-	<div class="tab-pane" id="tab-managers">
 		<form action="" method="POST" enctype="multipart/form-data">
 			<label for="image">选择图片：</label>
 			<input type="file" name="image" id="image" required>
 			<button type="submit">上传</button>
 		</form>
 	</div>
+		
 	<?php endif ?>
 </div>
 <?php echoUOJPageFooter() ?>
