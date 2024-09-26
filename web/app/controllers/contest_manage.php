@@ -210,59 +210,6 @@
 	$managers_form->runAtServer();
 	$problems_form->runAtServer();
 ?>
-<?php
-// 处理文件上传并将路径存入数据库
-function handle_image_upload($contest) {
-	$message = '';
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['upload_image'])) {
-        $image = $_FILES['image'];
-        $image_name = $image['name'];  // 保留文件原始名字
-        $image_tmp_name = $image['tmp_name'];
-        $image_error = $image['error'];
-        $image_size = $image['size'];
-
-        // 确定目标上传路径
-        $upload_dir = '/uojimg/contest/';
-        $upload_path = $_SERVER['DOCUMENT_ROOT'] . $upload_dir;
-
-        // 允许的文件类型
-        $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
-
-        // 获取上传文件的 MIME 类型
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $image_type = finfo_file($finfo, $image_tmp_name);
-        finfo_close($finfo);
-
-        // 检查文件是否上传成功且没有错误
-        if ($image_error === 0) {
-            // 检查文件类型是否合法
-            if (in_array($image_type, $allowed_types)) {
-                // 检查文件大小（限制为100MB以下）
-                if ($image_size <= 100 * 1024 * 1024) {
-                    // 移动上传的文件到目标目录
-                    if (move_uploaded_file($image_tmp_name, $upload_path . $image_name)) {
-                        // 获取图片的绝对路径
-                        $image_abs_path = $upload_dir . $image_name;
-
-                        // 更新数据库中contestid对应的imgpath列
-						DB::update("update contests set imgpath = '$image_abs_path' where id = {$contest['id']}");
-						$message = "图片上传成功。";
-					} else {
-                        $message = "数据库更新失败: " . $stmt->error;
-                    }
-                } else {
-                    $message = "文件大小超过限制。";
-                }
-            } else {
-                $message = "不允许的文件类型。";
-            }
-        } else {
-            $message = "文件上传出错，错误码：" . $image_error;
-        }
-    }
-	return $message;
-}
-?>
 <?php echoUOJPageHeader(HTML::stripTags($contest['name']) . ' - 比赛管理') ?>
 <h1 class="page-header" align="center"><?=$contest['name']?> 管理</h1>
 <ul class="nav nav-tabs mb-3" role="tablist">
@@ -346,21 +293,6 @@ function handle_image_upload($contest) {
 				<?php $contest_type_form->printHTML(); ?>
 			</div>
 		</div>
-		<?php $upload_message = handle_image_upload($contest);?>
-		<script>
-        	function showMessage(message) {
-            	if (message) {
-                	alert(message);
-            	}
-        	}
-			function checkUploadForm() {
-            	// 检查表单提交时是否有返回的消息
-            	var uploadMessage = "<?php echo isset($_POST['upload_image']) ? addslashes(handle_image_upload($contest)) : ''; ?>";
-            	if (uploadMessage) {
-                	showMessage(uploadMessage);
-            	}
-        	}
-    	</script>
 		<form action="" method="POST" enctype="multipart/form-data">
 			<label for="image">选择图片：</label>
 			<input type="file" name="image" id="image" required>
