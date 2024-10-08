@@ -38,7 +38,7 @@
 		null
 	);
 	$time_form->addInput(
-		'end_time', 'text', '结束时间', $contest['end_time'],
+		'end_time', 'text', '结束时间', $contest['end_time_str'],
 		function($str, &$vdata) {
 			try {
 				$vdata['end_time'] = new DateTime($str);
@@ -293,7 +293,13 @@
 				<?php $contest_type_form->printHTML(); ?>
 			</div>
 		</div>
+		<form action="" method="POST" enctype="multipart/form-data">
+			<label for="image">选择图片：</label>
+			<input type="file" name="image" id="image" required>
+			<button type="submit" name="upload_image">上传</button>
+		</form>
 	</div>
+		
 	<?php endif ?>
 </div>
 <?php echoUOJPageFooter() ?>
