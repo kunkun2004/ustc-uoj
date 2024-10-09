@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>正式答题</title>
+    <link rel="stylesheet" href="css/public.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+</head>
+<body>
+<div class="page_container">
+    <div class="oj_header">
+        <ul class="oj_nav clearfix">
+            <li><a href="#">赛事</a></li>
+            <li><a href="#">题库</a></li>
+        </ul>
+    </div>
+    <div class="oj_center">
+        <div class="oj_title">
+            <span>全国青少年机器人及人工智能素质提升测评试卷（软件编程C++语言)一级卷</span>
+        </div>
+        <div class="answer_notic">
+            <p>考试须知</p>
+            1、请确保网络良好，不会影响线上考试；<br/>
+            2、本人信息仅做本次考试用，严禁泄露；<br/>
+            3、请所有考生诚信考试、独立作答，如出现替考、作弊等现象，一经核实，取消考试成绩。
+        </div>
+        <div class="answer_area">
+            <div class="answer_top clearfix">
+                <div class="answer_title">单选题（已答1/10）</div>
+                <div class="answer_time">
+                    <p>截止时间</p>
+                    <p>2024.9.13  12:30</p>
+                </div>
+            </div>
+
+            <div class="answer_main">
+                <div class="dt_area">
+                    <div class="question">
+                        <p>1、在Word中，替换文本的快捷键是（）。</p>
+                        <div class="anwer_choice">
+                            <div class="anwer_item">
+                                <input type="radio" class="anwer" id="anwer0" name="anwer" value="0">
+                                <label for="anwer0">A.Ctrl+F</label>
+                            </div>
+                            <div class="anwer_item">
+                                <input type="radio" class="anwer" id="anwer1" name="anwer" value="1">
+                                <label for="anwer1">B.Ctrl+H</label>
+                            </div>
+                            <div class="anwer_item">
+                                <input type="radio" class="anwer" id="anwer2" name="anwer" value="2">
+                                <label for="anwer2">C.Ctrl+G</label>
+                            </div>
+                            <div class="anwer_item">
+                                <input type="radio" class="anwer" id="anwer3" name="anwer" value="3">
+                                <label for="anwer3">D.Ctrl+J</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="qsub">
+                        <input type="button" class="ansub1" name="answer" value="提交">
+                        <input type="submit" class="ansub2" name="finishnow" value="交卷">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="dt_card_float" onclick="answerCard();">
+    <img src="images/dt_card_float.png" width="133" height="230" alt="datika"/>
+</div>
+<div class="dt_card_box">
+    <div class="dt_card_title"><span>答题卡</span></div>
+    <div class="dt_card_list">
+        <div class="question_type_item">
+            <p>选择题<span>1-10题</span></p>
+            <ul class="clearfix">
+                <li class="question_id question_id_active"><a href="#">1</a></li>
+                <li class="question_id"><a href="#">2</a></li>
+                <li class="question_id"><a href="#">3</a></li>
+                <li class="question_id"><a href="#">4</a></li>
+                <li class="question_id"><a href="#">5</a></li>
+                <li class="question_id"><a href="#">6</a></li>
+                <li class="question_id"><a href="#">7</a></li>
+                <li class="question_id"><a href="#">8</a></li>
+                <li class="question_id"><a href="#">9</a></li>
+                <li class="question_id"><a href="#">10</a></li>
+            </ul>
+        </div>
+
+
+        <div class="question_type_item">
+            <p>判断题<span>1-10题</span></p>
+            <ul class="clearfix">
+                <li class="question_id"><a href="#">1</a></li>
+                <li class="question_id"><a href="#">2</a></li>
+                <li class="question_id"><a href="#">3</a></li>
+                <li class="question_id"><a href="#">4</a></li>
+                <li class="question_id"><a href="#">5</a></li>
+                <li class="question_id"><a href="#">6</a></li>
+                <li class="question_id"><a href="#">7</a></li>
+                <li class="question_id"><a href="#">8</a></li>
+                <li class="question_id"><a href="#">9</a></li>
+                <li class="question_id"><a href="#">10</a></li>
+            </ul>
+        </div>
+
+        <div class="question_type_item">
+            <p>实操题<span>1-10题</span></p>
+            <ul class="clearfix">
+                <li class="question_id"><a href="#">1</a></li>
+                <li class="question_id"><a href="#">2</a></li>
+                <li class="question_id"><a href="#">3</a></li>
+                <li class="question_id"><a href="#">4</a></li>
+                <li class="question_id"><a href="#">5</a></li>
+                <li class="question_id"><a href="#">6</a></li>
+                <li class="question_id"><a href="#">7</a></li>
+                <li class="question_id"><a href="#">8</a></li>
+                <li class="question_id"><a href="#">9</a></li>
+                <li class="question_id"><a href="#">10</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    var answerShow="N";
+    var dtCardElem=document.getElementsByClassName("dt_card_box")[0];
+    function answerCard(){
+        if(answerShow == "N"){
+            answerShow="Y";
+            dtCardElem.style.display="block";
+        }else{
+            answerShow="N";
+            dtCardElem.style.display="none";
+        }
+    }
+</script>
+</body>
+</html>

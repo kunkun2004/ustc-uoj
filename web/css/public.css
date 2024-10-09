@@ -1,0 +1,142 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+/*ios滑动卡顿*/
+body,html{
+    -webkit-overflow-scrolling:touch
+}
+li{
+    list-style: none;
+}
+a{
+    color: #333;
+    display: inline-block;
+    text-decoration: none;
+    -webkit-tap-highlight-color:transparent;
+}
+img{
+    vertical-align: middle;
+}
+body{
+    width: 100%;
+    color: #333;
+    letter-spacing: 1px;
+}
+.page_container{
+    width: 100%;
+}
+
+/*大写字母*/
+.upper_case{
+    text-transform: uppercase;
+}
+
+/*小写字母*/
+.lower_case{
+    text-transform: lowercase;
+}
+
+/*首字母大写*/
+.capitalize{
+    text-transform: capitalize;
+}
+
+/*网站置灰*/
+.pm_gray {
+    /*grayscale(val):val值越大灰度就越深*/
+    -webkit-filter: grayscale(100%);
+    -moz-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: grayscale(100%);
+}
+
+/*禁止用户选中元素*/
+.pm_wrap {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/*form*/
+input,button,select{
+    border: none;
+    outline: none;
+}
+/*去除点击之后的蓝色背景色*/
+input:-webkit-autofill {
+    background: transparent;
+    transition: background-color 50000s ease-in-out 0s;
+    -webkit-text-fill-color: unset;
+}
+/*placeholder*/
+input::-webkit-input-placeholder {
+    color:#999;
+}
+input::-ms-input-placeholder {
+    color:#999;
+}
+input::-moz-placeholder {
+    color:#999;
+}
+
+/*overflow*/
+.pm_overflow_1{
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
+.pm_overflow_2{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+}
+.pm_overflow_3{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+}
+
+/*stroke*/
+.add_stroke{
+    position: relative;
+    -webkit-text-stroke: 1px #fff;
+}
+.add_stroke::before{
+    content: attr(data-title);
+    position: absolute;
+    background-color: #002382;
+    /*background-image: linear-gradient(#FFCF02, #FF7352);*/
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 0;
+}
+
+
+/*float*/
+.pm_float_left{
+    float: left;
+}
+.pm_float_right{
+    float: left;
+}
+
+/*clear*/
+.clearfix:after{
+    content:".";
+    display:block;
+    height:0;
+    visibility:hidden;
+    clear:both;
+}
+.clearfix{
+    zoom:1;
+}

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>正式答题-实操题</title>
+    <link rel="stylesheet" href="css/public.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+</head>
+<body>
+<div class="page_container">
+    <div class="oj_header">
+        <ul class="oj_nav clearfix">
+            <li><a href="#">赛事</a></li>
+            <li><a href="#">题库</a></li>
+        </ul>
+    </div>
+    <div class="oj_center">
+        <div class="oj_title">
+            <span>全国青少年机器人及人工智能素质提升测评试卷（软件编程C++语言)一级卷</span>
+        </div>
+        <div class="answer_notic">
+            <p>考试须知</p>
+            1、请确保网络良好，不会影响线上考试；<br/>
+            2、本人信息仅做本次考试用，严禁泄露；<br/>
+            3、请所有考生诚信考试、独立作答，如出现替考、作弊等现象，一经核实，取消考试成绩。
+        </div>
+        <div class="answer_area">
+            <div class="answer_top clearfix">
+                <div class="answer_title">单选题（已答1/10）</div>
+                <div class="answer_time">
+                    <p>截止时间</p>
+                    <p>2024.9.13  12:30</p>
+                </div>
+            </div>
+
+            <div class="answer_main clearfix">
+                <div class="sc_question">
+                    <h3 class="sc_id">第二题：20分</h3>
+                    <div class="question_require">
+                        总时限：1000毫秒<br/>
+                        单组时限：1000毫秒
+                    </div>
+
+                    <p class="question_small_title">标题题目</p>
+                    计算(A+B)/C的值
+
+                    <p class="question_small_title">题目描述</p>
+                    给定3个整数a、 b、c，计算表达式(a+b)/c的值，/是整除运算。
+
+                    <p class="question_small_title">输入格式</p>
+                    <div class="question1">输入仅一行，包括三个整数a、b、c,数与数之间以一个空格分开。( -10,000 < a,b,c = 10,000,c不等于0)</div>
+
+                    <p class="question_small_title">输出格式</p>
+                    <div class="question1">输出一行，即表达式的值。</div>
+
+                    <p class="question_small_title">样例 <span>输入输出示例仅供调试，后台判题数据不包含示例</span></p>
+                    <div class="sc_demo">
+                        输入
+                        <div class="question1">113</div>
+                        输出
+                        <div class="question1">0</div>
+                    </div>
+
+                </div>
+                <div class="sc_dt_area">
+                    <div class="code_selection">
+                        <select name="codeSelection" id="codeSelection">
+                            <option value="1">C语言</option>
+                            <option value="2">C++</option>
+                            <option value="3">Java</option>
+                            <option value="4">python</option>
+                        </select>
+                        <div class="editor_name">代码编辑器(text/x-csrc)</div>
+                    </div>
+
+                    <div class="editor_box"></div>
+
+                    <div class="qsub">
+                        <input type="button" class="ansub" name="answer" value="在线编译">
+                        <input type="button" class="ansub1" name="answer" value="提交">
+                        <input type="submit" class="ansub2" name="finishnow" value="交卷">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="dt_card_float" onclick="answerCard();">
+    <img src="images/dt_card_float.png" width="133" height="230" alt="datika"/>
+</div>
+<div class="dt_card_box">
+    <div class="dt_card_title"><span>答题卡</span></div>
+    <div class="dt_card_list">
+        <div class="question_type_item">
+            <p>选择题<span>1-10题</span></p>
+            <ul class="clearfix">
+                <li class="question_id question_id_active"><a href="#">1</a></li>
+                <li class="question_id"><a href="#">2</a></li>
+                <li class="question_id"><a href="#">3</a></li>
+                <li class="question_id"><a href="#">4</a></li>
+                <li class="question_id"><a href="#">5</a></li>
+                <li class="question_id"><a href="#">6</a></li>
+                <li class="question_id"><a href="#">7</a></li>
+                <li class="question_id"><a href="#">8</a></li>
+                <li class="question_id"><a href="#">9</a></li>
+                <li class="question_id"><a href="#">10</a></li>
+            </ul>
+        </div>
+
+
+        <div class="question_type_item">
+            <p>判断题<span>1-10题</span></p>
+            <ul class="clearfix">
+                <li class="question_id"><a href="#">1</a></li>
+                <li class="question_id"><a href="#">2</a></li>
+                <li class="question_id"><a href="#">3</a></li>
+                <li class="question_id"><a href="#">4</a></li>
+                <li class="question_id"><a href="#">5</a></li>
+                <li class="question_id"><a href="#">6</a></li>
+                <li class="question_id"><a href="#">7</a></li>
+                <li class="question_id"><a href="#">8</a></li>
+                <li class="question_id"><a href="#">9</a></li>
+                <li class="question_id"><a href="#">10</a></li>
+            </ul>
+        </div>
+
+        <div class="question_type_item">
+            <p>实操题<span>1-10题</span></p>
+            <ul class="clearfix">
+                <li class="question_id"><a href="#">1</a></li>
+                <li class="question_id"><a href="#">2</a></li>
+                <li class="question_id"><a href="#">3</a></li>
+                <li class="question_id"><a href="#">4</a></li>
+                <li class="question_id"><a href="#">5</a></li>
+                <li class="question_id"><a href="#">6</a></li>
+                <li class="question_id"><a href="#">7</a></li>
+                <li class="question_id"><a href="#">8</a></li>
+                <li class="question_id"><a href="#">9</a></li>
+                <li class="question_id"><a href="#">10</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    var answerShow="N";
+    var dtCardElem=document.getElementsByClassName("dt_card_box")[0];
+    function answerCard(){
+        if(answerShow == "N"){
+            answerShow="Y";
+            dtCardElem.style.display="block";
+        }else{
+            answerShow="N";
+            dtCardElem.style.display="none";
+        }
+    }
+</script>
+</body>
+</html>
