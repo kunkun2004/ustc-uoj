@@ -258,18 +258,12 @@
 				</tr>
 			</thead>
 			<tbody>
-<?php
-	$result = DB::query("select problem_id from contests_problems where contest_id = ${contest['id']} order by problem_id asc");
-	while ($row = DB::fetch($result, MYSQLI_ASSOC)) {
-		$problem = queryProblemBrief($row['problem_id']);
-		$problem_config_str = isset($contest['extra_config']["problem_{$problem['id']}"]) ? $contest['extra_config']["problem_{$problem['id']}"] : 'sample';
-		echo '<tr>', '<td>', $problem['id'], '</td>', '<td>', getProblemLink($problem), ' ', "[$problem_config_str]", '</td>', '</tr>';
-	}
-?>
+				<?php
+				$problem_filters = DB::selectAll("select * from `contests_problem_filters`");
+				var_dump($problem_filters);
+				?>
 			</tbody>
 		</table>
-		<p class="text-center">命令格式：命令一行一个，+233表示把题号为233的试题加入比赛，-233表示把题号为233的试题从比赛中移除</p>
-		<?php $problems_form->printHTML(); ?>
 	</div>
 	<?php if (isSuperUser($myUser)): ?>
 	<div class="tab-pane" id="tab-others">

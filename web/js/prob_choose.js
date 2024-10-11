@@ -69,7 +69,8 @@ $(document).ready(function () {
                     .attr('name', `problem${questionCounter}`)
                     .attr('value', String.fromCharCode(65 + index)); // 将索引转换为A, B, C, D
 
-                label.append(input).append(`${String.fromCharCode(65 + index)}. ${choice.replace(/\n/g, '<br>&nbsp;&nbsp;')}`);
+                formCheck.append(input)
+                label.html(`${String.fromCharCode(65 + index)}. ${choice.replace(/\n/g, '<br>&nbsp;&nbsp;')}`);
                 formCheck.append(label);
                 problemChoices.append(formCheck);
             });

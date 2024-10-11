@@ -312,7 +312,8 @@ $memory_limit = $limit['memory_limit'];
                         <div class="qsub">
                             <input type="button" class="ansub" name="answer" value="在线编译">
                             <input type="button" class="ansub1" name="answer" onclick="submitAnswer()" value="提交">
-                            <input type="submit" class="ansub2" name="finishnow" onclick="location.href='/contest/<?= $contest["id"] ?>/result';" value="交卷">
+                            <input type="submit" class="ansub2" name="finishnow"
+                                onclick="location.href='/contest/<?= $contest["id"] ?>/result';" value="交卷">
                         </div>
                         <script>
                             function submitAnswer() {
@@ -330,56 +331,10 @@ $memory_limit = $limit['memory_limit'];
     </div>
     <div class="dt_card_box">
         <div class="dt_card_title"><span>答题卡</span></div>
-        <div class="dt_card_list">
-            <div class="question_type_item">
-                <p>选择题<span>1-10题</span></p>
-                <ul class="clearfix">
-                    <li class="question_id question_id_active"><a href="#">1</a></li>
-                    <li class="question_id"><a href="#">2</a></li>
-                    <li class="question_id"><a href="#">3</a></li>
-                    <li class="question_id"><a href="#">4</a></li>
-                    <li class="question_id"><a href="#">5</a></li>
-                    <li class="question_id"><a href="#">6</a></li>
-                    <li class="question_id"><a href="#">7</a></li>
-                    <li class="question_id"><a href="#">8</a></li>
-                    <li class="question_id"><a href="#">9</a></li>
-                    <li class="question_id"><a href="#">10</a></li>
-                </ul>
-            </div>
 
-
-            <div class="question_type_item">
-                <p>判断题<span>1-10题</span></p>
-                <ul class="clearfix">
-                    <li class="question_id"><a href="#">1</a></li>
-                    <li class="question_id"><a href="#">2</a></li>
-                    <li class="question_id"><a href="#">3</a></li>
-                    <li class="question_id"><a href="#">4</a></li>
-                    <li class="question_id"><a href="#">5</a></li>
-                    <li class="question_id"><a href="#">6</a></li>
-                    <li class="question_id"><a href="#">7</a></li>
-                    <li class="question_id"><a href="#">8</a></li>
-                    <li class="question_id"><a href="#">9</a></li>
-                    <li class="question_id"><a href="#">10</a></li>
-                </ul>
-            </div>
-
-            <div class="question_type_item">
-                <p>实操题<span>1-10题</span></p>
-                <ul class="clearfix">
-                    <li class="question_id"><a href="#">1</a></li>
-                    <li class="question_id"><a href="#">2</a></li>
-                    <li class="question_id"><a href="#">3</a></li>
-                    <li class="question_id"><a href="#">4</a></li>
-                    <li class="question_id"><a href="#">5</a></li>
-                    <li class="question_id"><a href="#">6</a></li>
-                    <li class="question_id"><a href="#">7</a></li>
-                    <li class="question_id"><a href="#">8</a></li>
-                    <li class="question_id"><a href="#">9</a></li>
-                    <li class="question_id"><a href="#">10</a></li>
-                </ul>
-            </div>
-        </div>
+        <?php
+        include "problem_card.php";
+        ?>
     </div>
     <script>
         var answerShow = "N";

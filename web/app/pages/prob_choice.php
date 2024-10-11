@@ -233,18 +233,6 @@ $REQUIRE_LIB['shjs'] = '';
     <link rel="stylesheet" href="/css/main.css" />
     <!-- jQuery (necessary for Bootstrap\'s JavaScript plugins) -->
     <script src="/js/jquery.min.js"></script>
-    <!-- jQuery autosize -->
-    <script src="/js/jquery.autosize.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('textarea').autosize();
-        });
-    </script>
-
-    <!-- jQuery cookie -->
-    <script src="/js/jquery.cookie.min.js"></script>
-    <!-- jQuery modal -->
-    <script src="/js/jquery.modal.js"></script>
 </head>
 
 <body>
@@ -298,56 +286,9 @@ $REQUIRE_LIB['shjs'] = '';
     </div>
     <div class="dt_card_box">
         <div class="dt_card_title"><span>答题卡</span></div>
-        <div class="dt_card_list">
-            <div class="question_type_item">
-                <p>选择题<span>1-10题</span></p>
-                <ul class="clearfix">
-                    <li class="question_id question_id_active"><a href="#">1</a></li>
-                    <li class="question_id"><a href="#">2</a></li>
-                    <li class="question_id"><a href="#">3</a></li>
-                    <li class="question_id"><a href="#">4</a></li>
-                    <li class="question_id"><a href="#">5</a></li>
-                    <li class="question_id"><a href="#">6</a></li>
-                    <li class="question_id"><a href="#">7</a></li>
-                    <li class="question_id"><a href="#">8</a></li>
-                    <li class="question_id"><a href="#">9</a></li>
-                    <li class="question_id"><a href="#">10</a></li>
-                </ul>
-            </div>
-
-
-            <div class="question_type_item">
-                <p>判断题<span>1-10题</span></p>
-                <ul class="clearfix">
-                    <li class="question_id"><a href="#">1</a></li>
-                    <li class="question_id"><a href="#">2</a></li>
-                    <li class="question_id"><a href="#">3</a></li>
-                    <li class="question_id"><a href="#">4</a></li>
-                    <li class="question_id"><a href="#">5</a></li>
-                    <li class="question_id"><a href="#">6</a></li>
-                    <li class="question_id"><a href="#">7</a></li>
-                    <li class="question_id"><a href="#">8</a></li>
-                    <li class="question_id"><a href="#">9</a></li>
-                    <li class="question_id"><a href="#">10</a></li>
-                </ul>
-            </div>
-
-            <div class="question_type_item">
-                <p>实操题<span>1-10题</span></p>
-                <ul class="clearfix">
-                    <li class="question_id"><a href="#">1</a></li>
-                    <li class="question_id"><a href="#">2</a></li>
-                    <li class="question_id"><a href="#">3</a></li>
-                    <li class="question_id"><a href="#">4</a></li>
-                    <li class="question_id"><a href="#">5</a></li>
-                    <li class="question_id"><a href="#">6</a></li>
-                    <li class="question_id"><a href="#">7</a></li>
-                    <li class="question_id"><a href="#">8</a></li>
-                    <li class="question_id"><a href="#">9</a></li>
-                    <li class="question_id"><a href="#">10</a></li>
-                </ul>
-            </div>
-        </div>
+        <?php
+        include "problem_card.php";
+        ?>
     </div>
     <script>const token = "<?= crsf_token(); ?>", redirect_page = "<?= $redirect_page; ?>";</script>
     <script src="/js/prob_choose.js"></script>
