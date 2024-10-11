@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    const article = $('article.top-buffer-md');
+    const article = $('.question');
     let content = article.html();
     let questionCounter = 0;
 
@@ -7,7 +7,7 @@ $(document).ready(function () {
         const questionPatterns = [
             { type: 'single', regex: /\[单选题\](.*?)(?=\[|$)/gs },
             { type: 'multiple', regex: /\[多选题\](.*?)(?=\[|$)/gs },
-	    { type: 'judgement', regex: /\[判断题\](.*?)(?=\[|$)/gs },
+	        { type: 'judgement', regex: /\[判断题\](.*?)(?=\[|$)/gs },
         ];
 
         let questions = [];
@@ -57,11 +57,11 @@ $(document).ready(function () {
             problemContainer.append(problemContent);
 
             // 创建选项容器
-            const problemChoices = $('<div></div>').addClass('problem-choices');
+            const problemChoices = $('<div></div>').addClass('anwer_choice');
 
             // 生成每个选项
             choices.forEach((choice, index) => {
-                const formCheck = $('<div></div>').addClass('form-check');
+                const formCheck = $('<div></div>').addClass('anwer_item');
                 const label = $('<label></label>').addClass('form-check-label');
                 const input = $('<input>')
                     .attr('type', type === 'multiple' ? 'checkbox' : 'radio')
