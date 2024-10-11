@@ -149,22 +149,28 @@ function queryContestUserProblemList($contest, $user) {
 }
 function queryContestUserProblemRank($contest, $user, $problem) {
 	$problem_list = queryContestUserProblemList($contest, $user);
+	$problem_filters =  DB::selectAll("select * from contests_problem_filters where contest_id = {$contest['id']}");
 	//var_dump($problem_list);
-	$cnt = 0;
 	$flag = true;
-	foreach ($problem_list as $pb) {
-		foreach ($pb as $p) {
+	$problem_filter = "";
+	for ($i = 0; $i < count($problem_list); ++$i) {
+		$cnt = 0;
+		foreach ($problem_list[$i] as $p) {
+			$cnt ++;
 			if ($p["id"] === $problem["id"]) {
+				$problem_filter = $problem_filters[$i];
 				$flag = false;
 				break;
 			}
-			$cnt ++;
+		}
+		if (!$flag) {
+			break;
 		}
 	}
 	if ($flag) {
 		return -1;
 	}
-	return $cnt;
+	return array("cnt" => $cnt, "filter" => $problem_filter);
 }
 function queryContestProblemRank($contest, $problem) {
 	if (!DB::selectFirst("select * from contests_problems where contest_id = {$contest['id']} and problem_id = {$problem['id']}")) {

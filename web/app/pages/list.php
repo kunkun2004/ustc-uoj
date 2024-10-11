@@ -33,7 +33,7 @@ EOD;
             $contest_name_link = '<span style="color:green">' . UOJLocale::get('contests::registered') . '</span>';
         } else {
             $contest_name_link = '<span style="color:red">' . UOJLocale::get('contests::register') . '</span>';
-            $link = '/contest/' . $contest['id'] . '/register';
+            $link = '/contest/' . $contest['id'] . '/video';
         }
     } elseif ($contest['cur_progress'] == CONTEST_IN_PROGRESS) {
         $contest_name_link = '<span style="color:blue" href="/contest/' . $contest['id'] . '">' . UOJLocale::get('contests::in progress') . '</span>';
@@ -72,7 +72,7 @@ EOD;
             </div>
             <div class="competition_info">
                 <p class="competition_title"><?= $contest_name ?></p>
-                <p class="competition_description" style="padding-top: 10px; margin-bottom: -10px">当前状态：<?= $contest_name_link ?><br>时长：<?= $last_hour; ?>小时</p>
+                <p class="competition_description" style="padding-top: 10px; margin-bottom: -10px">当前状态：<?= $contest_name_link ?><br>开始时间：<?= $contest['start_time_str']; ?> 时长：<?= $last_hour; ?>小时</p>
                 <p class="competition_btn">点击进入</p>
             </div>
         </a>

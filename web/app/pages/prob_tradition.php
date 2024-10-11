@@ -223,12 +223,17 @@ $problem_type = ["单选题", "多选题", "判断题", "填空题", "编程题"
 $REQUIRE_LIB['mathjax'] = '';
 $REQUIRE_LIB['shjs'] = '';
 ?>
+<?php
+$limit = getUOJConf("/var/uoj_data/{$problem['id']}/problem.conf");
+$time_limit = $limit['time_limit'];
+$memory_limit = $limit['memory_limit'];
+?>
 <!DOCTYPE html>
 <html>
 
 <head lang="en">
     <meta charset="UTF-8">
-    <title>正式答题</title>
+    <title>正式答题-实操题</title>
     <link rel="stylesheet" href="/css/public.css" />
     <link rel="stylesheet" href="/css/main.css" />
     <!-- jQuery (necessary for Bootstrap\'s JavaScript plugins) -->
@@ -276,23 +281,50 @@ $REQUIRE_LIB['shjs'] = '';
                     </div>
                 </div>
 
-                <div class="answer_main">
-                    <div class="dt_area">
-                        <div class="question">
+                <div class="answer_main clearfix">
+                    <div class="sc_question">
+                        <h3 class="sc_id">第二题：20分</h3>
+                        <div class="question_require">
+                            时间限制：<?= $time_limit != null ? "$time_limit s" : "N/A" ?>
+                            空间限制：<?= $memory_limit != null ? "$memory_limit MB" : "N/A" ?>
+                        </div>
+                        <p class="question_small_title">标题题目</p>
+                        <?= $problem['title'] ?>
+
+                        <div class="raw-statement">
                             <?= $problem_content['statement'] ?>
                         </div>
-                        <div class="qsub">
-                            <input type="button" class="ansub1" name="answer" id="choice-submit-answer-button"
-                                value="提交">
-                            <input type="submit" class="ansub2" name="finishnow"
-                                onclick="location.href='/contest/<?= $contest["id"] ?>/result';" value="交卷">
+                    </div>
+                    <div class="sc_dt_area">
+                        <div style="display: none"><?php $answer_form->printHTML(); ?></div>
+                        <div class="code_selection">
+                            <select name="codeSelection" id="codeSelection">
+                                <option value="1">C语言</option>
+                                <option value="2">C++</option>
+                                <option value="3">Java</option>
+                                <option value="4">python</option>
+                            </select>
+                            <div class="editor_name">代码编辑器(text/x-csrc)</div>
                         </div>
+
+                        <div class="editor_box"></div>
+
+                        <div class="qsub">
+                            <input type="button" class="ansub" name="answer" value="在线编译">
+                            <input type="button" class="ansub1" name="answer" onclick="submitAnswer()" value="提交">
+                            <input type="submit" class="ansub2" name="finishnow" onclick="location.href='/contest/<?= $contest["id"] ?>/result';" value="交卷">
+                        </div>
+                        <script>
+                            function submitAnswer() {
+                                $("#button-submit-answer").click();
+                            }
+                        </script>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
-
     <div class="dt_card_float" onclick="answerCard();">
         <img src="/images/dt_card_float.png" width="133" height="230" alt="datika" />
     </div>
@@ -349,8 +381,6 @@ $REQUIRE_LIB['shjs'] = '';
             </div>
         </div>
     </div>
-    <script>const token = "<?= crsf_token(); ?>", redirect_page = "<?= $redirect_page; ?>";</script>
-    <script src="/js/prob_choose.js"></script>
     <script>
         var answerShow = "N";
         var dtCardElem = document.getElementsByClassName("dt_card_box")[0];
@@ -363,6 +393,23 @@ $REQUIRE_LIB['shjs'] = '';
                 dtCardElem.style.display = "none";
             }
         }
+    </script>
+    <script>
+        /*$('.raw-statement').contents().filter(function () {
+            return this.nodeType === 3;  // 3 表示文本节点
+        }).wrap('<div class="question1"></div>');*/
+        $(".raw-statement p").replaceWith(function () {
+            return $("<div></div>").addClass("question1").append($(this).contents());
+        });
+        $(".raw-statement pre").replaceWith(function () {
+            return $("<div></div>").addClass("sc_demo").append($(this).contents());
+        });
+        $(".raw-statement code").replaceWith(function () {
+            return $("<pre></pre>").addClass("question1").append($(this).contents());
+        });
+        $(".raw-statement h1,.raw-statement h2,.raw-statement h3,.raw-statement h4,.raw-statement h5,.raw-statement h6").replaceWith(function () {
+            return $("<p></p>").addClass("question_small_title").append($(this).contents());
+        });
     </script>
 </body>
 

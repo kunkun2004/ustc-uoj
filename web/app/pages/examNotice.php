@@ -1,22 +1,46 @@
-<!DOCTYPE html>
+<?php
+	requirePHPLib('form');
+	if (!validateUInt($_GET['id']) || !($contest = queryContest($_GET['id']))) {
+		become404Page();
+	}
+	genMoreContestInfo($contest);
+	
+	if ($myUser == null) {
+		redirectToLogin();
+	} elseif (hasContestPermission($myUser, $contest) || hasRegistered($myUser, $contest) || $contest['cur_progress'] != CONTEST_NOT_STARTED) {
+		//redirectTo('/contests');
+	}
+	
+	$register_form = new UOJForm('register');
+	$register_form->handle = function() {
+		global $myUser, $contest;
+		DB::query("insert into contests_registrants (username, user_rating, contest_id, has_participated) values ('{$myUser['username']}', {$myUser['rating']}, {$contest['id']}, 0)");
+		updateContestPlayerNum($contest);
+	};
+	$register_form->submit_button_config['class_str'] = 'btn btn-primary';
+	$register_form->submit_button_config['text'] = '报名比赛';
+	$register_form->succ_href = "/contest/{$contest['id']}";
+	
+	$register_form->runAtServer();
+?><!DOCTYPE html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
     <title>考试须知</title>
-    <link rel="stylesheet" href="css/public.css"/>
-    <link rel="stylesheet" href="css/main.css"/>
+    <link rel="stylesheet" href="/css/public.css"/>
+    <link rel="stylesheet" href="/css/main.css"/>
 </head>
 <body>
 <div class="page_container">
     <div class="oj_header">
         <ul class="oj_nav clearfix">
-            <li><a href="#">赛事</a></li>
+            <li><a href="/contests">赛事</a></li>
             <li><a href="#">题库</a></li>
         </ul>
     </div>
     <div class="oj_center">
         <div class="oj_title">
-            <span>全国青少年机器人及人工智能素质提升测评试卷（软件编程C++语言)一级卷</span>
+            <span><?= $contest["name"]; ?></span>
         </div>
         <div class="oj_video_test">
             <div class="test_progress clearfix">
@@ -45,8 +69,9 @@
             </div>
             <div class="operation_step clearfix">
                 <div class="back_step">
-                    <a href="#"><< 返回上一步</a>
+                    <a href="/contest/<?= $contest["id"]; ?>/video"><< 返回上一步</a>
                 </div>
+                <div style="display: none"><?php $register_form->printHTML(); ?></div>
                 <div class="start_answer">
                     <a href="#">开始答题</a>
                 </div>
@@ -54,11 +79,11 @@
         </div>
     </div>
 </div>
-<script src="js/jquery-2.1.4/jquery.min.js"></script>
+<script src="/js/jquery-2.1.4/jquery.min.js"></script>
 <script>
     $(".start_answer").click(function(){
         if($("input[type='checkbox']").is(':checked')){
-            location.href=" ";
+            $('#button-submit-register').click();
         }else{
             alert("请先阅读考试须知！")
         }

@@ -32,12 +32,15 @@ Route::group([
 		Route::any('/contest/new', '/add_contest.php');
 		Route::any('/contest/{id}', '/contest_inside.php');
 		Route::any('/contest/{id}/registrants', '/contest_members.php');
-		Route::any('/contest/{id}/register', '/contest_registration.php');
+		//Route::any('/contest/{id}/register', '/contest_registration.php');
+		Route::any('/contest/{id}/register', '/../pages/examNotice.php');
 		Route::any('/contest/{id}/manage', '/contest_manage.php');
 		Route::any('/contest/{id}/submissions', '/contest_inside.php?tab=submissions');
 		Route::any('/contest/{id}/paper', '/contest_inside.php?tab=paper');
 		Route::any('/contest/{id}/standings', '/contest_inside.php?tab=standings');
 		Route::any('/contest/{id}/backstage', '/contest_inside.php?tab=backstage');
+		Route::any('/contest/{id}/result', '/../pages/result.php');
+		Route::any('/contest/{id}/video', '/../pages/video.php');
 		Route::any('/contest/{contest_id}/problem/{id}', '/../pages/contest_problem.php');
 		Route::any('/contest/{contest_id}/problem/{id}/statistics', '/problem_statistics.php');
 		
