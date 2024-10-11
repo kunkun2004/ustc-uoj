@@ -28,7 +28,7 @@ Route::group([
 		Route::any('/submit/{id}/{uid}', '/uidsubmit.php');
 		Route::any('/submissions/export', '/submissions_export.php');
 		
-		Route::any('/contests', '/list.php');
+		Route::any('/contests', '/../pages/list.php');
 		Route::any('/contest/new', '/add_contest.php');
 		Route::any('/contest/{id}', '/contest_inside.php');
 		Route::any('/contest/{id}/registrants', '/contest_members.php');
