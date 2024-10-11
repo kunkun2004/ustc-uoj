@@ -8,6 +8,14 @@ Route::pattern('rand_str_id', '[0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKL
 Route::pattern('upgrade_name', '[a-zA-Z0-9_]{1,50}');
 //Route::pattern('uid', '[\w]{1,}');
 Route::pattern('uid', '\S{1,30}');
+Route::pattern('uname','[^\s]+');
+Route::pattern('phone','[^\s]+');
+Route::pattern('qqnum','[^\s]+');
+Route::pattern('school','[^\s]+');
+Route::pattern('speciality','[^\s]+');
+Route::pattern('education','[^\s]+');
+Route::pattern('is_carema','[^\s]+');
+Route::pattern('key','[^\s]+');
 
 
 Route::group([
@@ -47,6 +55,10 @@ Route::group([
 		Route::any('/submissions', '/submissions_list.php');
 		Route::any('/submission/{id}', '/submission.php');
 		Route::any('/submission-status-details', '/submission_status_details.php');
+		Route::any(
+			'contest/{id}/name/{uname}/phone/{phone}/qq/{qqnum}/school/{school}/speciality/{speciality}/education/{education}/is_carema/{is_carema}/key/{key}',
+			'/contest_url.php'
+		)
 		
 	//	Route::any('/hacks', '/hack_list.php');
 	//	Route::any('/hack/{id}', '/hack.php');

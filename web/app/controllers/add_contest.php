@@ -53,6 +53,14 @@
 		},
 		null
 	);
+	// key（单位：分钟）
+	$time_form->addInput(
+		'key', 'text', 'key', 123456,
+		function($str) {
+			return strlen($str) >= 20 ? '长度必须小于20' : '';
+		},
+		null
+	);
 
 	// 处理表单提交
 	$time_form->handle = function(&$vdata) {
