@@ -3,6 +3,8 @@ $contest = validateUInt($_GET['id']) ? queryContest($_GET['id']) : null;
 if ($contest != null) {
     genMoreContestInfo($contest);
 }
+$username = $_SESSION['username'];
+$user = queryUser($username);//这里$user后面用到了'name'和'school'，当前数据库没有这个项，后面加上
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,11 +32,11 @@ if ($contest != null) {
             <div class="student_info">
                 <div class="s_info_item">
                     <p>姓名</p>
-                    <p>XX</p>
+                    <p><?php echo $user['name'] ?></p>
                 </div>
                 <div class="s_info_item">
                     <p>学校</p>
-                    <p>XX大学</p>
+                    <p><?php echo $user['school'] ?></p>
                 </div>
             </div>
         </div>
