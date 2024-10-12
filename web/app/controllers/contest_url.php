@@ -6,7 +6,7 @@ if ($contest != null) {
 $id = $_GET['id'];
 $sql = "SELECT `key` FROM contests WHERE id = $id";
 $str = DB::selectFirst($sql);
-if(md5(md5(key))!=$_GET['key'])
+if($str!=$_GET['contkey'])
 {
     $page = <<<EOT
 <!DOCTYPE html>

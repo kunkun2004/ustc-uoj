@@ -15,7 +15,7 @@ Route::pattern('school','[^\s]+');
 Route::pattern('speciality','[^\s]+');
 Route::pattern('education','[^\s]+');
 Route::pattern('is_carema','[^\s]+');
-Route::pattern('key','[^\s]+');
+Route::pattern('contkey','[^\s]+');
 
 
 Route::group([
@@ -56,7 +56,7 @@ Route::group([
 		Route::any('/submission/{id}', '/submission.php');
 		Route::any('/submission-status-details', '/submission_status_details.php');
 		Route::any(
-			'contest/{id}/name/{uname}/phone/{phone}/qq/{qqnum}/school/{school}/speciality/{speciality}/education/{education}/is_carema/{is_carema}/key/{key}',
+			'contest/{id}/name/{uname}/phone/{phone}/qq/{qqnum}/school/{school}/speciality/{speciality}/education/{education}/is_carema/{is_carema}/key/{contkey}',
 			'/contest_url.php'
 		);
 		
