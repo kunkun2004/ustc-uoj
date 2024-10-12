@@ -75,9 +75,13 @@
                 <div class="start_answer">
                     <?php  
                     $problem_list_res = queryContestUserProblemList($contest, $myUser);
-                    $p=$problem_list_res[$cnt][0];
+                    foreach($problem_list_res[$cnt] as $p){
                     ?>
                     <a href="/contest/<?= $contest["id"]; ?>/problem/<?= $p["id"]; ?>">开始答题</a>
+                    <?php
+                        break;
+                    }
+                    ?>
                 </div>
             </div>
         </div>
