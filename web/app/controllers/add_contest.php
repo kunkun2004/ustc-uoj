@@ -1,8 +1,6 @@
 <?php
 	requirePHPLib('form');
-	
-	echo "<script>console.log('" . $_POST['last_min'] . "');</script>";
-	
+
 	if (!isSuperUser($myUser)) {
 		become403Page();
 	}
@@ -69,13 +67,11 @@
 		$start_time_str = $vdata['start_time']->format('Y-m-d H:i:s');
 		$end_time_str = $vdata['end_time']->format('Y-m-d H:i:s'); // 获取结束时间
 		
-		$purifier = HTML::pruifier();
+		$purifier = HTML::purifier();
 		
 		$esc_name = $_POST['name'];
 		$esc_name = $purifier->purify($esc_name);
 		$esc_name = DB::escape($esc_name);
-		
-		echo "<script>console.log('" . $_POST['last_min'] . "');</script>";
 
 		// 插入数据库，新增了 end_time 字段
 		DB::query("INSERT INTO contests (name, start_time, last_min, end_time, status, key) 
