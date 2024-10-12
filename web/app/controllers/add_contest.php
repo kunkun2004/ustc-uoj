@@ -67,7 +67,7 @@
 		$start_time_str = $vdata['start_time']->format('Y-m-d H:i:s');
 		$end_time_str = $vdata['end_time']->format('Y-m-d H:i:s'); // 获取结束时间
 		
-		$purifier = HTML::purifier();
+		$purifier = HTML::pruifier();
 		
 		$esc_name = $_POST['name'];
 		$esc_name = $purifier->purify($esc_name);
