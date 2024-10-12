@@ -8,14 +8,14 @@ Route::pattern('rand_str_id', '[0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKL
 Route::pattern('upgrade_name', '[a-zA-Z0-9_]{1,50}');
 //Route::pattern('uid', '[\w]{1,}');
 Route::pattern('uid', '\S{1,30}');
-Route::pattern('uname','[^\s]+');
-Route::pattern('phone','[^\s]+');
-Route::pattern('qqnum','[^\s]+');
-Route::pattern('school','[^\s]+');
-Route::pattern('speciality','[^\s]+');
-Route::pattern('education','[^\s]+');
-Route::pattern('is_carema','[^\s]+');
-Route::pattern('contkey','[^\s]+');
+Route::pattern('uname','\S{1,30}');
+Route::pattern('phone','\S{1,30}');
+Route::pattern('qqnum','\S{1,30}');
+Route::pattern('school','\S{1,30}');
+Route::pattern('speciality','\S{1,30}');
+Route::pattern('education','\S{1,30}');
+Route::pattern('is_carema','\S{1,30}');
+Route::pattern('contkey','\S{1,30}');
 
 
 Route::group([
