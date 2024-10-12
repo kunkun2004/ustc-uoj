@@ -73,7 +73,11 @@
                 </div>
                 <div style="display: none"><?php $register_form->printHTML(); ?></div>
                 <div class="start_answer">
-                    <a href="#">开始答题</a>
+                    <?php  
+                    $problem_list_res = queryContestUserProblemList($contest, $myUser);
+                    $p=$problem_list_res[$cnt][0];
+                    ?>
+                    <a href="/contest/<?= $contest["id"]; ?>/problem/<?= $p["id"]; ?>">开始答题</a>
                 </div>
             </div>
         </div>
