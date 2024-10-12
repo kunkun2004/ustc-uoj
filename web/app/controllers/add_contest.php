@@ -71,11 +71,12 @@
 		
 		$esc_name = $_POST['name'];
 		$esc_name = $purifier->purify($esc_name);
-		$esc_name = DB::escape($esc_name);
+		//$esc_name = DB::escape($esc_name);
+		$contkey = $_POST['key'];
 
 		// 插入数据库，新增了 end_time, key 字段
 		DB::query("INSERT INTO contests (name, start_time, last_min, end_time, status, 'key') 
-				   VALUES ('$esc_name', '$start_time_str', {$_POST['last_min']}, '$end_time_str', 'unfinished', {$_POST['key']})");
+				   VALUES ('$esc_name', '$start_time_str', {$_POST['last_min']}, '$end_time_str', 'unfinished', '$contkey')");
 	};
 
 	// 成功后跳转
