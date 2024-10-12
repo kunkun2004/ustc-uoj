@@ -56,9 +56,13 @@ Route::group([
 		Route::any('/submission/{id}', '/submission.php');
 		Route::any('/submission-status-details', '/submission_status_details.php');
 		Route::any(
-			'contest/{id}/name/{uname}/phone/{phone}/qq/{qqnum}/school/{school}/speciality/{speciality}/education/{education}/is_carema/{is_carema}/key/{contkey}',
+			'contest/{id}/name/{uname}/phone/{phone}/qq/{qqnum}',
 			'/contest_url.php'
 		);
+		// Route::any(
+		// 	'contest/{id}/name/{uname}/phone/{phone}/qq/{qqnum}/school/{school}/speciality/{speciality}/education/{education}/is_carema/{is_carema}/key/{contkey}',
+		// 	'/contest_url.php'
+		// );
 		
 	//	Route::any('/hacks', '/hack_list.php');
 	//	Route::any('/hack/{id}', '/hack.php');

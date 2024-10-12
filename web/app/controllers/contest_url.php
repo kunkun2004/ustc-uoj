@@ -1,12 +1,12 @@
 <?php
 $contest = validateUInt($_GET['id']) ? queryContest($_GET['id']) : null;
-if ($contest != null) {
-    genMoreContestInfo($contest);
+if ($contest == null) {
+    become404Page();
 }
 $id = $_GET['id'];
 $sql = "SELECT `key` FROM contests WHERE id = $id";
 $str = DB::selectFirst($sql);
-if($str!=$_GET['contkey'])
+if($str != $_GET['contkey'])
 {
     $page = <<<EOT
 <!DOCTYPE html>
