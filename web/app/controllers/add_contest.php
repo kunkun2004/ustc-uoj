@@ -73,6 +73,8 @@
 		$esc_name = $purifier->purify($esc_name);
 		$esc_name = DB::escape($esc_name);
 		
+		echo "<script>console.log('" . $_POST['last_min'] . "');</script>";
+
 		// 插入数据库，新增了 end_time 字段
 		DB::query("INSERT INTO contests (name, start_time, last_min, end_time, status, key) 
 				   VALUES ('$esc_name', '$start_time_str', {$_POST['last_min']}, '$end_time_str', 'unfinished', {$_POST['key']})");
