@@ -1,6 +1,8 @@
 <?php
 	requirePHPLib('form');
 	
+	echo "<script>console.log('" . $_POST['last_min'] . "');</script>";
+	
 	if (!isSuperUser($myUser)) {
 		become403Page();
 	}
