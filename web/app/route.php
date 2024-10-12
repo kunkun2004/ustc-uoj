@@ -58,7 +58,7 @@ Route::group([
 		Route::any(
 			'contest/{id}/name/{uname}/phone/{phone}/qq/{qqnum}/school/{school}/speciality/{speciality}/education/{education}/is_carema/{is_carema}/key/{key}',
 			'/contest_url.php'
-		)
+		);
 		
 	//	Route::any('/hacks', '/hack_list.php');
 	//	Route::any('/hack/{id}', '/hack.php');
