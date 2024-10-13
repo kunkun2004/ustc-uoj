@@ -64,6 +64,17 @@
 		DB::update("UPDATE contests SET start_time = '$start_time_str', last_min = {$_POST['last_min']}, name = '$esc_name', end_time = '$end_time_str' WHERE id = {$contest['id']}");
 	};
 	
+	function processManagersSubmission() {
+		if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_participants'])) {
+			$managers_text = $_POST['participants'];
+	
+			echo "提交的内容是: " . htmlspecialchars($managers_text);
+		}
+	}
+	
+	// 调用处理函数
+	processManagersSubmission();
+
 	$managers_form = newAddDelCmdForm('managers',
 		function($username) {
 			if (!validateUsername($username) || !queryUser($username)) {
@@ -215,6 +226,7 @@
 <ul class="nav nav-tabs mb-3" role="tablist">
 	<li class="nav-item"><a class="nav-link active" href="#tab-time" role="tab" data-toggle="tab">比赛时间</a></li>
 	<li class="nav-item"><a class="nav-link" href="#tab-managers" role="tab" data-toggle="tab">管理者</a></li>
+	<li class="nav-item"><a class="nav-link" href="#tab-participants" role="tab" data-toggle="tab">参赛者</a></li>
 	<li class="nav-item"><a class="nav-link" href="#tab-problems" role="tab" data-toggle="tab">试题</a></li>
 	<?php if (isSuperUser($myUser)): ?>
 	<li class="nav-item"><a class="nav-link" href="#tab-others" role="tab" data-toggle="tab">其它</a></li>
@@ -249,6 +261,38 @@
 		<?php $managers_form->printHTML(); ?>
 	</div>
 	
+
+	<div class="tab-pane" id="tab-participants">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>用户名</th>
+				</tr>
+			</thead>
+			<tbody>
+<?php
+	$row_id = 0;
+	$result = DB::query("select username from contests_registrants where contest_id = {$contest['id']}");
+	while ($row = DB::fetch($result, MYSQLI_ASSOC)) {
+		$row_id++;
+		echo '<tr>', '<td>', $row_id, '</td>', '<td>', getUserLink($row['username']), '</td>', '</tr>';
+	}
+?>
+			</tbody>
+		</table>
+		<p class="text-center">命令格式：命令一行一个，</p>
+		<form action="" method="POST">
+			<div id="div-managers_cmds" class="form-group">
+				<label for="input-managers" class="control-label">$label_text</label>
+				<textarea class="form-control" name="participants" id="input-managers"></textarea>
+				<button type="submit" class="btn btn-primary" name="submit_participants">提交</button>
+			</div>
+		</form>
+
+	</div>
+
+
 	<div class="tab-pane" id="tab-problems">
 		<table class="table table-hover">
 			<thead>

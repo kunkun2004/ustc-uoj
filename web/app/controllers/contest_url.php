@@ -6,7 +6,7 @@ if ($contest == null) {
 $id = $_GET['id'];
 $sql = "SELECT `key` FROM contests WHERE id = $id";
 $str = DB::selectFirst($sql);
-if($str != $_GET['contkey'])
+if($str != $_GET['contkey'])//此处没加md5
 {
     $page = <<<EOT
 <!DOCTYPE html>
@@ -28,11 +28,11 @@ if($str != $_GET['contkey'])
             <div class="student_info">
                 <div class="s_info_item">
                     <p>姓名</p>
-                    <p>$_GET['uname']</p>
+                    <p><?= $_GET['uname']; ?></p>
                 </div>
                 <div class="s_info_item">
                     <p>学校</p>
-                    <p>$_GET['school']</p>
+                    <p><?= $_GET['school']; ?></p>
                 </div>
             </div>
         </div>
