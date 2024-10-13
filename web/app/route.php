@@ -9,19 +9,19 @@ Route::pattern('upgrade_name', '[a-zA-Z0-9_]{1,50}');
 //Route::pattern('uid', '[\w]{1,}');
 Route::pattern('uid', '\S{1,30}');
 Route::pattern('uname','\S{1,30}');
-Route::pattern('phone','\S{1,30}');
+Route::pattern('phonenum','\S{1,30}');
 Route::pattern('qqnum','\S{1,30}');
-Route::pattern('school','\S{1,30}');
-Route::pattern('speciality','\S{1,30}');
-Route::pattern('education','\S{1,30}');
-Route::pattern('is_carema','\S{1,30}');
-Route::pattern('contkey','\S{1,30}');
+Route::pattern('schoolnm','\S{1,30}');
+Route::pattern('specialitynm','\S{1,30}');
+Route::pattern('educationnm','\S{1,30}');
+Route::pattern('is_caremanm','\S{1,30}');
+Route::pattern('contkeynm','\S{1,30}');
 
 
 Route::group([
 		'domain' => '('.UOJConfig::$data['web']['main']['host'].'|127.0.0.1'.')'
 	], function() {
-		//Route::any('/', '/index.php');
+		Route::any('/', '/../pages/list.php');
 		Route::any('/problems', '/problem_set.php');
 		Route::any('/problems/template', '/problem_set.php?tab=template');
 		Route::any('/problem/{id}', '/problem.php');
@@ -55,14 +55,14 @@ Route::group([
 		Route::any('/submissions', '/submissions_list.php');
 		Route::any('/submission/{id}', '/submission.php');
 		Route::any('/submission-status-details', '/submission_status_details.php');
-		Route::any(
-			'contest/{id}/name/{uname}/phone/{phone}/qq/{qqnum}',
-			'/contest_url.php'
-		);
 		// Route::any(
-		// 	'contest/{id}/name/{uname}/phone/{phone}/qq/{qqnum}/school/{school}/speciality/{speciality}/education/{education}/is_carema/{is_carema}/key/{contkey}',
+		// 	'contest/{id}/name/{uname}/phone/{phone}/qq/{qqnum}',
 		// 	'/contest_url.php'
 		// );
+		Route::any(
+			'contest/{id}/name/{uname}/phone/{phonenum}/qq/{qqnum}/school/{schoolnm}/speciality/{specialitynm}/education/{educationnm}/is_carema/{is_caremanm}/key/{contkey}',
+			'/contests.php'
+		);
 		
 	//	Route::any('/hacks', '/hack_list.php');
 	//	Route::any('/hack/{id}', '/hack.php');
