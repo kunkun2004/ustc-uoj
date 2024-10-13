@@ -67,8 +67,20 @@
 	function processManagersSubmission() {
 		if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_participants'])) {
 			$managers_text = $_POST['participants'];
-	
-			echo "提交的内容是: " . htmlspecialchars($managers_text);
+			$managers_array = explode("\n", $managers_text);
+			foreach($managers_array as $line)
+			{
+				//魏娜	13156959848	15846956	安徽大学	计算机	本科	开启
+				$info = explode('\t', $line);
+				if(!validateUsername($username) || !queryUser($username))
+				{
+
+				}
+				DB::selectfirst("SELECT camera FROM contests WHERE id = $_GET['id'];");
+				DB::query("insert into contests_registrants (username, user_rating, contest_id, has_participated) 
+				values ('$info[1]', {$myUser['rating']}, {$contest['id']}, 0)");
+
+			}
 		}
 	}
 	
@@ -281,11 +293,12 @@
 ?>
 			</tbody>
 		</table>
-		<p class="text-center">命令格式：命令一行一个，</p>
+		<p class="text-center">注意：请保证手机号列是纯数字，且一个手机号只有一个人使用。默认密码为qq号，若qq为空则设为123456</p>
 		<form action="" method="POST">
 			<div id="div-managers_cmds" class="form-group">
-				<label for="input-managers" class="control-label">$label_text</label>
+				<label for="input-managers" class="control-label">导入用户</label>
 				<textarea class="form-control" name="participants" id="input-managers"></textarea>
+				<br> <!-- Added a line break here -->
 				<button type="submit" class="btn btn-primary" name="submit_participants">提交</button>
 			</div>
 		</form>
