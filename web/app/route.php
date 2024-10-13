@@ -60,7 +60,7 @@ Route::group([
 		// 	'/contest_url.php'
 		// );
 		Route::any(
-			'contest/{id}/name/{uname}/phone/{phonenum}/qq/{qqnum}/school/{schoolnm}/speciality/{specialitynm}/education/{educationnm}/is_carema/{is_caremanm}/key/{contkey}',
+			'/contest/{id}/name/{uname}/phone/{phonenum}/qq/{qqnum}/school/{schoolnm}/speciality/{specialitynm}/education/{educationnm}/is_carema/{is_caremanm}/key/{contkey}',
 			'/contests.php'
 		);
 		
