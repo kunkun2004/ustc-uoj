@@ -15,7 +15,7 @@ Route::pattern('schoolnm','\S{1,30}');
 Route::pattern('specialitynm','\S{1,30}');
 Route::pattern('educationnm','\S{1,30}');
 Route::pattern('is_caremanm','\S{1,30}');
-Route::pattern('contkeynm','\S{1,30}');
+Route::pattern('contkey','\S{1,30}');
 
 
 Route::group([
