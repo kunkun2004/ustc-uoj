@@ -95,8 +95,8 @@ if(!queryUser($_GET['phone']))
     $sch = 'school:'.urldecode($_GET['school']).'speciality:'.urldecode($_GET['speciality']).'education:'.urldecode($_GET['education']);
 
     $svn_pw = uojRandString(10);
-    DB::query("insert into user_info (username, email, password, svn_password, register_time, usergroup, qq, sch_info, chi_name) 
-    values ('$username', '$esc_email', '$password', '$svn_pw', now(), 'S', '$qq', '$sch', '$name')");
+    DB::query("insert into user_info (username, email, password, svn_password, register_time, qq, sch_info, chi_name) 
+    values ('$username', '$esc_email', '$password', '$svn_pw', now(), '$qq', '$sch', '$name')");
 }
 $camera = $_GET['camera'];
 if(!DB::query("SELECT COUNT(*) FROM contests_registrants WHERE contest_id = $id AND username = '$username'"))
@@ -110,10 +110,10 @@ else{
 Auth::login($username);
 if($camera == 1)
 {
-    redirectTo('/contest');
+    redirectTo('/contest/'.$id.'/video');
 }
 else{
-    redirectTo('/contest/'.$id. '/register');
+    redirectTo('/contest/'.$id.'/register');
 }
 }
 ?>
