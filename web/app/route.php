@@ -8,12 +8,12 @@ Route::pattern('rand_str_id', '[0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKL
 Route::pattern('upgrade_name', '[a-zA-Z0-9_]{1,50}');
 //Route::pattern('uid', '[\w]{1,}');
 Route::pattern('uid', '\S{1,30}');
-Route::pattern('uname','\S{1,30}');
+Route::pattern('uname','\S{1,50}');
 Route::pattern('phone','\S{1,30}');
 Route::pattern('qqnum','\S{1,30}');
-Route::pattern('school','\S{1,30}');
-Route::pattern('speciality','\S{1,30}');
-Route::pattern('education','\S{1,30}');
+Route::pattern('school','\S{1,100}');
+Route::pattern('speciality','\S{1,100}');
+Route::pattern('education','\S{1,100}');
 Route::pattern('is_camera','\S{1,30}');
 Route::pattern('contkey','\S{1,30}');
 

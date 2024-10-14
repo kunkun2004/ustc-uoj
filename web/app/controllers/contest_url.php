@@ -29,11 +29,11 @@ if($str != $_GET['contkey'] || $canroute == 0)//此处没加md5
             <div class="student_info">
                 <div class="s_info_item">
                     <p>姓名</p>
-                    <p><?= $_GET['uname']; ?></p>
+                    <p><?= urldecode($_GET['uname']); ?></p>
                 </div>
                 <div class="s_info_item">
                     <p>学校</p>
-                    <p><?= $_GET['school']; ?></p>
+                    <p><?= urldecode($_GET['school']); ?></p>
                 </div>
             </div>
         </div>
