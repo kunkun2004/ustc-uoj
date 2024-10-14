@@ -309,7 +309,14 @@
 				</tr>
 			</thead>
 			<tbody>
-
+<?php
+	$row_id1 = 0;
+	$result = DB::query("select username from contests_registrants where contest_id = $_GET['id']");
+	while ($row = DB::fetch($result, MYSQLI_ASSOC)) {
+		$row_id1++;
+		echo '<tr>', '<td>', $row_id1, '</td>', '<td>', getUserLink($row['username']), '</td>', '</tr>';
+	}
+?>
 			</tbody>
 		</table>
 		<p class="text-center">注意：请保证手机号列是纯数字，且一个手机号只有一个人使用。默认密码为qq号，若qq为空则设为123456</p>
