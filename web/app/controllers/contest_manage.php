@@ -76,6 +76,8 @@
 				//魏娜	13156959848	15846956	安徽大学	计算机	本科	开启
 				$cnt ++;
 				$info = explode('\t', $line);
+				
+				$username = $info[1];
 				if(!validateUsername($username))
 				{
 					$errinfo[] = [$cnt, '不合法的手机号'];
@@ -84,7 +86,6 @@
 				if(!queryUser($username))//添加用户
 				{
 					$password = $info[2];
-					$username = $info[1];
 
 					$password = getPasswordToStore($password, $username);
 					
@@ -322,6 +323,7 @@
 			<div id="div-managers_cmds" class="form-group">
 				<label for="input-managers" class="control-label">导入用户</label>
 				<textarea class="form-control" name="participants" id="input-managers"></textarea>
+				<br> <!-- Added a line break here -->
 				<button type="submit" class="btn btn-primary" name="submit_participants">提交</button>
 			</div>
 		</form>
