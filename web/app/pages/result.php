@@ -37,7 +37,7 @@ if (preg_match('/school:(.*?)speciality:/', $user['sch_info'], $matches)) {
             <div class="student_info">
                 <div class="s_info_item">
                     <p>姓名</p>
-                    <p><?= $user['chi_name']; ?></p>
+                    <p><?= urldecode($user['chi_name']); ?></p>
                 </div>
                 <div class="s_info_item">
                     <p>学校</p>
