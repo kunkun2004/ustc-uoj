@@ -65,7 +65,7 @@ if($str['conkey'] != $_GET['contkey'])//此处没加md5
             <div class="student_info">
                 <div class="s_info_item">
                     <p>姓名</p>
-                    <p><?= var_dump($str) ?></p>
+                    <p><?= urldecode($_GET['uname']); ?></p>
                 </div>
                 <div class="s_info_item">
                     <p>学校</p>
@@ -98,14 +98,13 @@ if(!queryUser($_GET['phone']))
     DB::query("insert into user_info (username, email, password, svn_password, register_time, usergroup, qq, sch_info, chi_name) 
     values ('$username', '$esc_email', '$password', '$svn_pw', now(), 'S', '$qq', '$sch', '$name')");
 }
+$camera = $_GET['camera'];
 if(!DB::query("SELECT COUNT(*) FROM contests_registrants WHERE contest_id = $id AND username = '$username'"))
 {
-    $camera = $_GET['camera'];
     DB::query("insert into contests_registrants (username, user_rating, contest_id, has_participated, camera) 
     values ('$username', 1500, $id, 0, $camera);");
 }
 else{
-    $camera = $_GET['camera'];
     DB::query("UPDATE contests_registrants SET camera = $camera WHERE contest_id = $id AND username = '$username'");
 }
 Auth::login($username);
@@ -114,7 +113,7 @@ if($camera == 1)
     redirectTo('/contest/'.$id.'/video');
 }
 else{
-    redirectTo('/contest/'.$id.'/register');
+    redirectTo('/contest/'.$id. $camera .'/register');
 }
 }
 ?>
