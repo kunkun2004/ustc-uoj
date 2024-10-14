@@ -64,7 +64,7 @@ if($str != $_GET['contkey'])//此处没加md5
             <div class="result_tips">你不在考试名单中！请咨询工作人员。</div>
             <div class="student_info">
                 <div class="s_info_item">
-                    <p><?= $str ?></p>
+                    <p>姓名</p>
                     <p><?= urldecode($_GET['uname']); ?></p>
                 </div>
                 <div class="s_info_item">
