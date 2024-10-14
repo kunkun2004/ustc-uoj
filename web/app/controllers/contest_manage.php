@@ -78,6 +78,10 @@
 				$cnt ++;
 				$info = explode('\t', $line);
 				echo $info;
+				// Output the $info array in a readable format
+				echo '<pre>';
+				print_r($info);
+				echo '</pre>';
 				
 				$username = $info[1];
 				if(!validateUsername($username))
@@ -112,7 +116,9 @@
 				}
 
 			}
-			echo $errinfo;
+			echo '<pre>';
+			print_r($errinfo);
+			echo '</pre>';
 		}
 	}
 	
