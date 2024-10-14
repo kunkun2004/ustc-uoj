@@ -74,6 +74,19 @@
 		},
 		null
 	);
+	
+	//canroute
+	$time_form->addInput(
+		'route', 'text', '是否开启路由进入比赛（1表示开启，0不开启）', 1,
+		function($str) {
+			if($str == '1' || $str == '0')
+			{
+				return '';
+			}
+			return  '只能是0或1';
+		},
+		null
+	);
 
 	// 处理表单提交
 	$time_form->handle = function(&$vdata) {
@@ -87,10 +100,11 @@
 		//$esc_name = DB::escape($esc_name);
 		$contkey = $_POST['key'];
 		$iscamera = $_POST['camera'];
+		$canroute = $_POST['route'];
 
 		// 插入数据库，新增了 end_time, key 字段
-		DB::query("INSERT INTO contests (name, start_time, last_min, end_time, status, conkey, camera) 
-				   VALUES ('$esc_name', '$start_time_str', {$_POST['last_min']}, '$end_time_str', 'unfinished', '$contkey', $iscamera);");
+		DB::query("INSERT INTO contests (name, start_time, last_min, end_time, status, conkey, camera, can_route) 
+				   VALUES ('$esc_name', '$start_time_str', {$_POST['last_min']}, '$end_time_str', 'unfinished', '$contkey', $iscamera, $canroute);");
 	};
 
 	// 成功后跳转

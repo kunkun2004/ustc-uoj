@@ -4,9 +4,10 @@ if ($contest == null) {
     become404Page();
 }
 $id = $_GET['id'];
-$sql = "SELECT `key` FROM contests WHERE id = $id";
+$sql = "SELECT conkey FROM contests WHERE id = $id";
 $str = DB::selectFirst($sql);
-if($str != $_GET['contkey'])//此处没加md5
+$canroute = DB::query("SELECT can_route FROM contests WHERE id = $id");
+if($str != $_GET['contkey'] || !$canroute)//此处没加md5
 {
     $page = <<<EOT
 <!DOCTYPE html>
