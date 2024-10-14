@@ -77,6 +77,7 @@
 				//魏娜	13156959848	15846956	安徽大学	计算机	本科	开启
 				$cnt ++;
 				$info = explode('\t', $line);
+				echo $info;
 				
 				$username = $info[1];
 				if(!validateUsername($username))
@@ -86,6 +87,7 @@
 				}
 				if(!queryUser($username))//添加用户
 				{
+					echo '未找到用户，新建';
 					$password = $info[2];
 
 					$password = getPasswordToStore($password, $username);
@@ -102,7 +104,7 @@
 				{
 					$camera = DB::selectfirst("SELECT camera FROM contests WHERE id = $id;");
 					DB::query("insert into contests_registrants (username, user_rating, contest_id, has_participated, camera) 
-					values ('$info[1]', 1500, $id, 0, $camera)");
+					values ('$username', 1500, $id, 0, $camera)");
 				}
 				else
 				{
