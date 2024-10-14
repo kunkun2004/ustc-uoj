@@ -322,7 +322,6 @@
 			<div id="div-managers_cmds" class="form-group">
 				<label for="input-managers" class="control-label">导入用户</label>
 				<textarea class="form-control" name="participants" id="input-managers"></textarea>
-				<br> <!-- Added a line break here -->
 				<button type="submit" class="btn btn-primary" name="submit_participants">提交</button>
 			</div>
 		</form>
