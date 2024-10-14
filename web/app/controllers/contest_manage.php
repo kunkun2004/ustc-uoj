@@ -116,7 +116,8 @@
 				}
 
 			}
-			echo '<pre>错误信息：';
+			echo '错误信息：[0]表示行数，[1]表示问题，空则没有问题';
+			echo '<pre>';
 			print_r($errinfo);
 			echo '</pre>';
 		}
