@@ -116,7 +116,7 @@
 				}
 
 			}
-			echo '<pre>';
+			echo '<pre>错误信息：';
 			print_r($errinfo);
 			echo '</pre>';
 		}
