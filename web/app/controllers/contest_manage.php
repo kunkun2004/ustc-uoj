@@ -310,11 +310,11 @@
 			</thead>
 			<tbody>
 <?php
-	$row_id1 = 0;
-	$result1 = DB::query("select username from contests_registrants where contest_id = $_GET['id']");
-	while ($row1 = DB::fetch($result1, MYSQLI_ASSOC)) {
-		$row_id1++;
-		echo '<tr>', '<td>', $row_id1, '</td>', '<td>', getUserLink($row1['username']), '</td>', '</tr>';
+	$row_id = 0;
+	$result = DB::query("select username from contests_permissions where contest_id = {$contest['id']}");
+	while ($row = DB::fetch($result, MYSQLI_ASSOC)) {
+		$row_id++;
+		echo '<tr>', '<td>', $row_id, '</td>', '<td>', getUserLink($row['username']), '</td>', '</tr>';
 	}
 ?>
 			</tbody>
