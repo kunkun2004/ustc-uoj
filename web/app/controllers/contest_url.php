@@ -65,7 +65,7 @@ if($str != $_GET['contkey'])//此处没加md5
             <div class="student_info">
                 <div class="s_info_item">
                     <p>姓名</p>
-                    <p><?= gettype($str) ?></p>
+                    <p><?= var_dump($str) ?></p>
                 </div>
                 <div class="s_info_item">
                     <p>学校</p>
