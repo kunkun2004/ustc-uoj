@@ -104,9 +104,13 @@
 					DB::query("insert into contests_registrants (username, user_rating, contest_id, has_participated, camera) 
 					values ('$info[1]', 1500, $id, 0, $camera)");
 				}
+				else
+				{
+					$errinfo[]=[$cnt, '用户已经出现']；
+				}
 
 			}
-			//echo $errinfo;
+			echo $errinfo;
 		}
 	}
 	
