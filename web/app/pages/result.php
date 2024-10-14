@@ -5,6 +5,11 @@ if ($contest != null) {
 }
 $username = $_SESSION['username'];
 $user = queryUser($username);//这里$user后面用到了'name'和'school'，当前数据库没有这个项，后面加上
+$school = '';
+if (preg_match('/school:(.*?)speciality:/', $user['sch_info'], $matches)) {
+    $school = $matches[1];
+} 
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,11 +37,11 @@ $user = queryUser($username);//这里$user后面用到了'name'和'school'，当
             <div class="student_info">
                 <div class="s_info_item">
                     <p>姓名</p>
-                    <p><?php echo $user['name'] ?></p>
+                    <p><?= $user['chi_name']; ?></p>
                 </div>
                 <div class="s_info_item">
                     <p>学校</p>
-                    <p><?php echo $user['school'] ?></p>
+                    <p><?= $school; ?></p>
                 </div>
             </div>
         </div>
