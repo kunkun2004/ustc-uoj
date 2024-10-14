@@ -311,7 +311,7 @@
 			<tbody>
 <?php
 	$row_id = 0;
-	$result = DB::query("select username from contests_permissions where contest_id = {$contest['id']}");
+	$result = DB::query("select username from contests_registrants where contest_id = {$contest['id']}");
 	while ($row = DB::fetch($result, MYSQLI_ASSOC)) {
 		$row_id++;
 		echo '<tr>', '<td>', $row_id, '</td>', '<td>', getUserLink($row['username']), '</td>', '</tr>';
