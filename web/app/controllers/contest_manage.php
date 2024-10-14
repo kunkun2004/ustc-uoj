@@ -68,19 +68,43 @@
 		if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_participants'])) {
 			$managers_text = $_POST['participants'];
 			$managers_array = explode("\n", $managers_text);
+
+			$cnt = 0;
+			$errinfo = [];
 			foreach($managers_array as $line)
 			{
 				//魏娜	13156959848	15846956	安徽大学	计算机	本科	开启
+				$cnt ++;
 				$info = explode('\t', $line);
-				if(!validateUsername($username) || !queryUser($username))
+				if(!validateUsername($username))
 				{
-
+					$errinfo[] = [$cnt, '不合法的手机号'];
+					continue;
 				}
-				DB::selectfirst("SELECT camera FROM contests WHERE id = $_GET['id'];");
-				DB::query("insert into contests_registrants (username, user_rating, contest_id, has_participated) 
-				values ('$info[1]', {$myUser['rating']}, {$contest['id']}, 0)");
+				if(!queryUser($username))//添加用户
+				{
+					$password = $info[2];
+					$username = $info[1];
+
+					$password = getPasswordToStore($password, $username);
+					
+					$esc_email = DB::escape($info[1].'@user.com');
+					$sch = 'school:'.$info[3].'speciality:'.$info[4].'education:'.$info[5];
+
+					$svn_pw = uojRandString(10);
+					DB::query("insert into user_info (username, email, password, svn_password, register_time, qq, sch_info, chi_name) 
+					values ('$username', '$esc_email', '$password', '$svn_pw', now(), '$info[2]', '$sch', '$info[0]')");
+				}
+				//用户不在名单中
+				if(DB::selectFirst("select * from contests_registrants where username = '$info[1]' and contest_id = $_GET['id']") == null)
+				{
+					$camera = DB::selectfirst("SELECT camera FROM contests WHERE id = $_GET['id'];");
+					DB::query("insert into contests_registrants (username, user_rating, contest_id, has_participated, camera) 
+					values ('$info[1]', 1500, $_GET['id'], 0, $camera)");
+				}
 
 			}
+			echo $errinfo;
 		}
 	}
 	

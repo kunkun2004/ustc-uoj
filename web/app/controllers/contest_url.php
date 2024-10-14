@@ -45,6 +45,40 @@ echo $page;
 }
 else{
 //此处导入名单待完成
-header("Location: /contest/$_GET['id']");
+crsf_defend();
+Auth::logout();
+$username = $_GET['phone'];
+if(!queryUser($_GET['phone']))
+{
+    $password = $_GET['qqnum'];
+    $qq = $_GET['qqnum'];
+    $name = $_GET['uname'];
+
+    $password = getPasswordToStore($password, $username);
+
+    $esc_email = DB::escape($username.'@user.com');
+    $sch = 'school:'.$_GET['school'].'speciality:'.$_GET['speciality'].'education:'.$_GET['education'];
+
+    $svn_pw = uojRandString(10);
+    DB::query("insert into user_info (username, email, password, svn_password, register_time, usergroup, qq, sch_info, chi_name) 
+    values ('$username', '$esc_email', '$password', '$svn_pw', now(), 'S', '$qq', '$sch', '$name')");
+}
+if(!DB::query("SELECT COUNT(*) FROM contests_registrants WHERE contest_id = $id AND username = '$username'"))
+{
+    $camera = $_GET['camera'];
+    DB::query("insert into contests_registrants (username, user_rating, contest_id, has_participated, camera) 
+    values ('$username', 1500, $id, 0, $camera)");
+}
+else{
+    $camera = $_GET['camera'];
+    DB::query("UPDATE contests_registrants SET camera = $camera WHERE contest_id = $id AND username = '$username'");
+}
+if($camera == 1)
+{
+    redirectTo('/contest/'.$id.'/video');
+}
+else{
+    redirectTo('/contest/'.$id.'/register');
+}
 }
 ?>
