@@ -46,7 +46,7 @@ if($str != $_GET['contkey'] || $canroute == 0)//此处没加md5
 else{
 //此处导入名单待完成
 Auth::logout();
-$username = $_GET['phone'];
+$username =urldecode ($_GET['phone']);
 if(!queryUser($_GET['phone']))
 {
     $password = $_GET['qqnum'];
@@ -56,7 +56,7 @@ if(!queryUser($_GET['phone']))
     $password = getPasswordToStore($password, $username);
 
     $esc_email = DB::escape($username.'@user.com');
-    $sch = 'school:'.$_GET['school'].'speciality:'.$_GET['speciality'].'education:'.$_GET['education'];
+    $sch = 'school:'.urldecode($_GET['school']).'speciality:'.urldecode($_GET['speciality']).'education:'.urldecode($_GET['education']);
 
     $svn_pw = uojRandString(10);
     DB::query("insert into user_info (username, email, password, svn_password, register_time, usergroup, qq, sch_info, chi_name) 
@@ -72,6 +72,7 @@ else{
     $camera = $_GET['camera'];
     DB::query("UPDATE contests_registrants SET camera = $camera WHERE contest_id = $id AND username = '$username'");
 }
+Auth::login($username);
 if($camera == 1)
 {
     redirectTo('/contest/'.$id.'/video');
