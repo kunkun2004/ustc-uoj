@@ -4,7 +4,7 @@ if ($contest == null) {
     become404Page();
 }
 $id = $_GET['id'];
-$str = DB::query("SELECT conkey FROM contests WHERE id = $id");
+$str = DB::selectFirst("SELECT conkey FROM contests WHERE id = $id");
 
 $canroute = DB::query("SELECT can_route FROM contests WHERE id = $id");
 if($canroute == 0)
