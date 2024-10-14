@@ -7,9 +7,9 @@ $id = $_GET['id'];
 $sql = "SELECT conkey FROM contests WHERE id = $id";
 $str = DB::selectFirst($sql);
 $canroute = DB::query("SELECT can_route FROM contests WHERE id = $id");
-if($str != $_GET['contkey'] || !$canroute)//此处没加md5
+if($str != $_GET['contkey'] || $canroute == 0)//此处没加md5
 {
-    $page = <<<EOT
+?>
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -41,12 +41,10 @@ if($str != $_GET['contkey'] || !$canroute)//此处没加md5
 </div>
 </body>
 </html>
-EOT;
-echo $page;
+<?php
 }
 else{
 //此处导入名单待完成
-crsf_defend();
 Auth::logout();
 $username = $_GET['phone'];
 if(!queryUser($_GET['phone']))
