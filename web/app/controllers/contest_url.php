@@ -110,10 +110,10 @@ else{
 Auth::login($username);
 if($camera == 1)
 {
-    redirectTo('/contest/'.$id.'/video');
+    redirectTo('/contest');
 }
 else{
-    redirectTo('/contest/'.$id. $camera .'/register');
+    redirectTo('/contest/'.$id. '/register');
 }
 }
 ?>
