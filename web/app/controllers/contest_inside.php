@@ -40,7 +40,7 @@
 				$cnt = 0;
 				$pcnt = 1;
 				$chinese_count = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二", "十三"];
-				$problem_type = ["单选题", "多选题", "判断题", "填空题", "程序题"];
+				$problem_type = ["单选题", "不定项选择题", "判断题", "填空题", "程序题"];
 				foreach ($problem_filters as $pf) {
 ?>
 <p>
@@ -390,7 +390,7 @@ EOD;
 
 		$problem_filters =  DB::selectALL("select * from contests_problem_filters where contest_id = {$contest['id']}");
 
-		$problem_type = ["单选题", "多选题", "判断题", "填空题", "编程题"];
+		$problem_type = ["单选题", "不定项选择题", "判断题", "填空题", "编程题"];
 		
 		$problem_list_res = queryContestUserProblemList($contest, $myUser);
 

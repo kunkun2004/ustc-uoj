@@ -6,7 +6,7 @@ $(document).ready(function () {
     const parseQuestions = (content) => {
         const questionPatterns = [
             { type: 'single', regex: /\[单选题\](.*?)(?=\[|$)/gs },
-            { type: 'multiple', regex: /\[多选题\](.*?)(?=\[|$)/gs },
+            { type: 'multiple', regex: /\[不定项选择题\](.*?)(?=\[|$)/gs },
 	        { type: 'judgement', regex: /\[判断题\](.*?)(?=\[|$)/gs },
         ];
 
@@ -51,7 +51,7 @@ $(document).ready(function () {
             const problemContainer = $('<div></div>').addClass('choose-problem').addClass(type === 'single' ? 'single-choose' : 'multiple-choose');
 
             // 创建题目内容，添加序号
-            const problemTypeMap = { single: '单选题', multiple: '多选题', judgement: '判断题' };
+            const problemTypeMap = { single: '单选题', multiple: '不定项选择题', judgement: '判断题' };
             const problemTypeBadge = problemTypeMap[type] ?? '单选题';
             const problemContent = $('<div></div>').addClass('problem-content').html(`${questionCounter}. [${problemTypeBadge}]${question.replace(/\n/g, '<br>')}`);
             problemContainer.append(problemContent);
