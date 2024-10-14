@@ -76,8 +76,11 @@
 			{
 				//魏娜	13156959848	15846956	安徽大学	计算机	本科	开启
 				$cnt ++;
-				$info = explode('\t', $line);
-				echo $info;
+				$info = explode('	', $line);
+				if ($info=='')
+				{
+					continue;
+				}
 				// Output the $info array in a readable format
 				echo '<pre>';
 				print_r($info);
@@ -91,7 +94,6 @@
 				}
 				if(!queryUser($username))//添加用户
 				{
-					echo '未找到用户，新建';
 					$password = $info[2];
 
 					$password = getPasswordToStore($password, $username);
