@@ -7,7 +7,43 @@ $id = $_GET['id'];
 $sql = "SELECT conkey FROM contests WHERE id = $id";
 $str = DB::selectFirst($sql);
 $canroute = DB::query("SELECT can_route FROM contests WHERE id = $id");
-if($str != $_GET['contkey'] || $canroute == 0)//此处没加md5
+if($canroute == 0)
+{?>
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>登录失败</title>
+    <link rel="stylesheet" href="/css/public.css"/>
+    <link rel="stylesheet" href="/css/main.css"/>
+</head>
+<body>
+<div class="page_container">
+    <div class="oj_center">
+        <div class="oj_title">
+            <span><?= $contest["name"]; ?></span>
+        </div>
+        <div class="oj_exam_result">
+            <div class="result_tips">本次比赛不支持此登录方式！请咨询工作人员。</div>
+            <div class="student_info">
+                <div class="s_info_item">
+                    <p>姓名</p>
+                    <p><?= urldecode($_GET['uname']); ?></p>
+                </div>
+                <div class="s_info_item">
+                    <p>学校</p>
+                    <p><?= urldecode($_GET['school']); ?></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<?php
+}
+if($str != $_GET['contkey'])//此处没加md5
 {
 ?>
 <!DOCTYPE html>
