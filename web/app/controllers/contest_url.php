@@ -4,8 +4,8 @@ if ($contest == null) {
     become404Page();
 }
 $id = $_GET['id'];
-$sql = "SELECT conkey FROM contests WHERE id = $id";
-$str = DB::query($sql);
+$str = DB::query("SELECT conkey FROM contests WHERE id = $id");
+
 $canroute = DB::query("SELECT can_route FROM contests WHERE id = $id");
 if($canroute == 0)
 {?>
@@ -64,8 +64,8 @@ if($str != $_GET['contkey'])//此处没加md5
             <div class="result_tips">你不在考试名单中！请咨询工作人员。</div>
             <div class="student_info">
                 <div class="s_info_item">
-                    <p>姓名</p>
-                    <p><?= $str; ?></p>
+                    <p><?= $str ?></p>
+                    <p><?= urldecode($_GET['uname']); ?></p>
                 </div>
                 <div class="s_info_item">
                     <p>学校</p>
