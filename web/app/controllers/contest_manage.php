@@ -311,10 +311,10 @@
 			<tbody>
 <?php
 	$row_id1 = 0;
-	$result = DB::query("select username from contests_registrants where contest_id = $_GET['id']");
-	while ($row = DB::fetch($result, MYSQLI_ASSOC)) {
+	$result1 = DB::query("select username from contests_registrants where contest_id = $_GET['id']");
+	while ($row1 = DB::fetch($result1, MYSQLI_ASSOC)) {
 		$row_id1++;
-		echo '<tr>', '<td>', $row_id1, '</td>', '<td>', getUserLink($row['username']), '</td>', '</tr>';
+		echo '<tr>', '<td>', $row_id1, '</td>', '<td>', getUserLink($row1['username']), '</td>', '</tr>';
 	}
 ?>
 			</tbody>
