@@ -68,7 +68,7 @@ if(!DB::query("SELECT COUNT(*) FROM contests_registrants WHERE contest_id = $id 
 {
     $camera = $_GET['camera'];
     DB::query("insert into contests_registrants (username, user_rating, contest_id, has_participated, camera) 
-    values ('$username', 1500, $id, 0, $camera)");
+    values ('$username', 1500, $id, 0, $camera);");
 }
 else{
     $camera = $_GET['camera'];

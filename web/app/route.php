@@ -14,7 +14,7 @@ Route::pattern('qqnum','\S{1,30}');
 Route::pattern('school','\S{1,30}');
 Route::pattern('speciality','\S{1,30}');
 Route::pattern('education','\S{1,30}');
-Route::pattern('is_carema','\S{1,30}');
+Route::pattern('is_camera','\S{1,30}');
 Route::pattern('contkey','\S{1,30}');
 
 
@@ -60,7 +60,7 @@ Route::group([
 		// 	'/contest_url.php'
 		// );
 		Route::any(
-			'/contest/{id}/name/{uname}/phone/{phone}/qq/{qqnum}/school/{school}/speciality/{speciality}/education/{education}/is_carema/{is_carema}/key/{contkey}',
+			'/contest/{id}/name/{uname}/phone/{phone}/qq/{qqnum}/school/{school}/speciality/{speciality}/education/{education}/is_camera/{is_camera}/key/{contkey}',
 			'/contest_url.php'
 		);
 		

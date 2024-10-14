@@ -9,6 +9,8 @@ if ($myUser == null) {
 } elseif ($contest['cur_progress'] == CONTEST_NOT_STARTED) {
     redirectTo('/contests');
 }
+if(DB::query())
+
 ?><!DOCTYPE html>
 <html>
 
