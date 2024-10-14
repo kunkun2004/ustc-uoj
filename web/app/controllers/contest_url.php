@@ -5,7 +5,7 @@ if ($contest == null) {
 }
 $id = $_GET['id'];
 $sql = "SELECT conkey FROM contests WHERE id = $id";
-$str = DB::selectFirst($sql);
+$str = DB::query($sql);
 $canroute = DB::query("SELECT can_route FROM contests WHERE id = $id");
 if($canroute == 0)
 {?>
