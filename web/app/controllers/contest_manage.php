@@ -71,6 +71,7 @@
 
 			$cnt = 0;
 			$errinfo = [];
+			$id = $_GET['id'];
 			foreach($managers_array as $line)
 			{
 				//魏娜	13156959848	15846956	安徽大学	计算机	本科	开启
@@ -97,15 +98,15 @@
 					values ('$username', '$esc_email', '$password', '$svn_pw', now(), '$info[2]', '$sch', '$info[0]')");
 				}
 				//用户不在名单中
-				if(DB::selectFirst("select * from contests_registrants where username = '$info[1]' and contest_id = $_GET['id']") == null)
+				if(DB::selectFirst("select * from contests_registrants where username = '$info[1]' and contest_id = $id") == null)
 				{
-					$camera = DB::selectfirst("SELECT camera FROM contests WHERE id = $_GET['id'];");
+					$camera = DB::selectfirst("SELECT camera FROM contests WHERE id = $id;");
 					DB::query("insert into contests_registrants (username, user_rating, contest_id, has_participated, camera) 
-					values ('$info[1]', 1500, $_GET['id'], 0, $camera)");
+					values ('$info[1]', 1500, $id, 0, $camera)");
 				}
 
 			}
-			echo $errinfo;
+			//echo $errinfo;
 		}
 	}
 	
@@ -308,14 +309,7 @@
 				</tr>
 			</thead>
 			<tbody>
-<?php
-	$row_id = 0;
-	$result = DB::query("select username from contests_registrants where contest_id = {$contest['id']}");
-	while ($row = DB::fetch($result, MYSQLI_ASSOC)) {
-		$row_id++;
-		echo '<tr>', '<td>', $row_id, '</td>', '<td>', getUserLink($row['username']), '</td>', '</tr>';
-	}
-?>
+
 			</tbody>
 		</table>
 		<p class="text-center">注意：请保证手机号列是纯数字，且一个手机号只有一个人使用。默认密码为qq号，若qq为空则设为123456</p>
