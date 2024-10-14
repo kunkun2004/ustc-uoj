@@ -81,6 +81,13 @@ EOD;
                 <p class="competition_btn">点击进入</p>
             </div>
         </a>
+        <?php if(isSuperUser($myUser)){ ?>
+        <a href="<?= '/contest/' . $contest['id'] . '/manage' ?>" class="clearfix">
+            <div class="competition_info">
+                <p class="competition_btn">点击进入</p>
+            </div>
+        </a>
+        <?php } ?>
     </div>
     <?php
 }
