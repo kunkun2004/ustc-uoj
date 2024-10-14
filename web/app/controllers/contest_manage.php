@@ -72,7 +72,7 @@
 			$cnt = 0;
 			$errinfo = [];
 			$id = $_GET['id'];
-			$camera = DB::selectfirst("SELECT camera FROM contests WHERE id = $id");
+			//$camera = DB::selectfirst("SELECT camera FROM contests WHERE id = $id");
 			foreach($managers_array as $line)
 			{
 				//魏娜	13156959848	15846956	安徽大学	计算机	本科	开启
@@ -106,8 +106,9 @@
 				//用户不在名单中
 				if(DB::selectFirst("select * from contests_registrants where username = '$info[1]' and contest_id = $id") == null)
 				{
+					$newcamera = $info[6]=='开启'?1:0;
 					DB::query("insert into contests_registrants (username, user_rating, contest_id, has_participated, camera) 
-					values ('$username', 1500, $id, 0, $camera)");
+					values ('$username', 1500, $id, 0, $newcamera);");
 				}
 				else
 				{
