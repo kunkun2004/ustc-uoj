@@ -29,7 +29,7 @@ if($canroute == 0)
             <div class="student_info">
                 <div class="s_info_item">
                     <p>姓名</p>
-                    <p><?= $str ?></p>
+                    <p><?= urldecode($_GET['uname']); ?></p>
                 </div>
                 <div class="s_info_item">
                     <p>学校</p>
@@ -65,7 +65,7 @@ if($str != $_GET['contkey'])//此处没加md5
             <div class="student_info">
                 <div class="s_info_item">
                     <p>姓名</p>
-                    <p><?= urldecode($_GET['uname']); ?></p>
+                    <p><?= $str; ?></p>
                 </div>
                 <div class="s_info_item">
                     <p>学校</p>
