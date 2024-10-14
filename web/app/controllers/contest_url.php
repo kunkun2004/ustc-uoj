@@ -43,7 +43,7 @@ if($canroute == 0)
 </html>
 <?php
 }
-if($str[0] != $_GET['contkey'])//此处没加md5
+if($str != $_GET['contkey'])//此处没加md5
 {
 ?>
 <!DOCTYPE html>
@@ -65,7 +65,7 @@ if($str[0] != $_GET['contkey'])//此处没加md5
             <div class="student_info">
                 <div class="s_info_item">
                     <p>姓名</p>
-                    <p><?= urldecode($_GET['uname']); ?></p>
+                    <p><?= gettype($str) ?></p>
                 </div>
                 <div class="s_info_item">
                     <p>学校</p>
