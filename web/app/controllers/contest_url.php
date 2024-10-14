@@ -43,7 +43,7 @@ if($canroute == 0)
 </html>
 <?php
 }
-if($str != $_GET['contkey'])//此处没加md5
+if($str['conkey'] != $_GET['contkey'])//此处没加md5
 {
 ?>
 <!DOCTYPE html>
