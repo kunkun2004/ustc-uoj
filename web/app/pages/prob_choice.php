@@ -269,6 +269,7 @@ $REQUIRE_LIB['shjs'] = '';
                         <div class="question">
                             <?= $problem_content['statement'] ?>
                         </div>
+
                         <div class="qsub">
                             <input type="button" class="ansub1" name="answer" id="choice-submit-answer-button"
                                 value="提交">

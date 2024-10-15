@@ -9,6 +9,21 @@
 	if (!isSuperUser($myUser)) {
 		become403Page();
 	}
+
+	function nullEscape($str) {
+		return ($str === 'null' || $str === null) ? "NULL" : "\"".$str."\"";
+	}
+	
+	if (isset($_POST["problem_filters"])) {
+		$problem_filters = json_decode($_POST["problem_filters"], true);
+		DB::delete("delete from contests_problem_filters where contest_id = {$contest['id']}");
+		foreach ($problem_filters as $filter) {
+			$sql = "insert into contests_problem_filters (contest_id, problem_type, problem_tags, problem_difficulty, problem_count, problem_score) values ({$contest['id']}, ".nullEscape($filter['problem_type']).", ".nullEscape($filter['problem_tags']).", ".nullEscape($filter['problem_difficulty']).", {$filter['problem_count']}, {$filter['problem_score']})";
+			DB::query($sql);
+		}
+		echo 'ok';
+		exit;
+	}
 	
 	$time_form = new UOJForm('time');
 	$time_form->addInput(
@@ -350,16 +365,150 @@
 			<thead>
 				<tr>
 					<th>#</th>
-					<th>试题名</th>
+					<th>题目类型</th>
+					<th>题目标签</th>
+					<th>题目难度</th>
+					<th>题目数量</th>
+					<th>题目分值</th>
+					<th>小计</th>
 				</tr>
 			</thead>
-			<tbody>
-				<?php
-				$problem_filters = DB::selectAll("select * from `contests_problem_filters`");
-				var_dump($problem_filters);
-				?>
+			<?php
+			$problem_filters = DB::selectAll("select * from contests_problem_filters where contest_id = {$contest['id']}");
+			$all_tags = DB::selectAll("SELECT  DISTINCT(`tag`) FROM `problems_tags`");
+			?>
+			<tbody id="problem-filter-body">
 			</tbody>
 		</table>
+		<p><button class="btn btn-success" onclick="newProblemFilter()">新建大题</button> <button class="btn btn-primary" id="save-filter-button" onclick="saveFilters()">保存</button></p>
+		<p>总分：<span id="problem-total-score"></span></p>
+		<script>
+			const problem_filters = JSON.parse(`<?= json_encode($problem_filters) ?>`);
+			const all_tags = JSON.parse(`<?= json_encode($all_tags) ?>`);
+			const tags = [];
+			const difficulties = [];
+			const types = ["单选题", "不定项选择题", "判断题", "填空题", "编程题"];
+			for (const t of all_tags) {
+				if (t.tag.slice(0, 3) === '难度:') {
+					if (t.tag.length > 3)
+						difficulties.push(t.tag.slice(3));
+				}
+				else if (t.tag === 'choice' || t.tag === 'fill') {
+					// type
+				}
+				else {
+					if (t.tag)
+						tags.push(t.tag);
+				}
+			}
+			function genTagsSelect(id) {
+				const select = $("<select></select>").addClass('form-control');
+				select.append($("<option></option>").text('不限制').val('null'));
+				for (const tag of tags) {
+					select.append($("<option></option>").text(tag).val(tag));
+				}
+				select.change(function () {
+					problem_filters[id].problem_tags = select.val();
+					genTable();
+				});
+				return select;
+			}
+			function genDifficultiesSelect(id) {
+				const select = $("<select></select>").addClass('form-control');
+				select.append($("<option></option>").text('不限制').val('null'));
+				for (const difficulty of difficulties) {
+					select.append($("<option></option>").text(difficulty).val(difficulty));
+				}
+				select.change(function () {
+					problem_filters[id].problem_difficulty = select.val();
+					genTable();
+				});
+				return select;
+			}
+			function genTypesSelect(id) {
+				const select = $("<select></select>").addClass('form-control');
+				select.append($("<option></option>").text('不限制').val('null'));
+				for (const type in types) {
+					select.append($("<option></option>").text(types[type]).val(type));
+				}
+				select.change(function () {
+					problem_filters[id].problem_type = select.val();
+					genTable();
+				});
+				return select;
+			}
+			function genCountInput(id) {
+				const input = $("<input></input>").addClass('form-control').attr('type', 'number').attr('min', '0').val('0');
+				input.change(function () {
+					problem_filters[id].problem_count = parseInt(input.val());
+					genTable();
+				});
+				return input;
+			}
+			function genScoreInput(id) {
+				const input = $("<input></input>").addClass('form-control').attr('type', 'number').attr('min', '0').val('0');
+				input.change(function () {
+					problem_filters[id].problem_score = parseInt(input.val());
+					genTable();
+				});
+				return input;
+			}
+			function newProblemFilter() {
+				problem_filters.push({
+					problem_type: 'null',
+					problem_tags: 'null',
+					problem_difficulty: 'null',
+					problem_count: 0,
+					problem_score: 0
+				});
+				genTable();
+			}
+			let lock = false;
+			function saveFilters() {
+				if (lock) return;
+				lock = true;
+				$("#save-filter-button").text('保存中...');
+				$("#save-filter-button").attr('disabled', 'disabled');
+				$.post('/contest/<?=$contest["id"];?>/manage', {
+					problem_filters: JSON.stringify(problem_filters)
+				}, function (data) {
+					if (data === 'ok') {
+						alert('保存成功');
+					} else {
+						alert('保存失败');
+					}
+				}).always(function () {
+					lock = false;
+					$("#save-filter-button").text('保存');
+					$("#save-filter-button").removeAttr('disabled');
+				});
+			}
+			const tmp = genTagsSelect();
+			function genTable() {
+				const k = $("#problem-filter-body");
+				k.empty();
+				let total_score = 0;
+				for (let i = 0; i < problem_filters.length; i++) {
+					const filter = problem_filters[i];
+					const row = $("<tr></tr>");
+					row.append($("<td></td>").text(i + 1));
+					row.append($("<td></td>").append(genTypesSelect(i).val(String(filter.problem_type))));
+					row.append($("<td></td>").append(genTagsSelect(i).val(String(filter.problem_tags))));
+					row.append($("<td></td>").append(genDifficultiesSelect(i).val(String(filter.problem_difficulty))));
+					row.append($("<td></td>").append(genCountInput(i).val(filter.problem_count)));
+					row.append($("<td></td>").append(genScoreInput(i).val(filter.problem_score)));
+					row.append($("<td></td>").text(filter.problem_count * filter.problem_score));
+					row.append($("<td></td>").append($("<button></button>").addClass('btn btn-danger').text('删除').click(function () {
+						problem_filters.splice(i, 1);
+						genTable();
+					})));
+					total_score += filter.problem_count * filter.problem_score;
+					k.append(row);
+				}
+				$("#problem-total-score").text(total_score);
+			}
+			genTable();
+		</script>
 	</div>
 	<?php if (isSuperUser($myUser)): ?>
 	<div class="tab-pane" id="tab-others">

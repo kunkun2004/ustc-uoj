@@ -62,10 +62,11 @@ $(document).ready(function () {
             // 生成每个选项
             choices.forEach((choice, index) => {
                 const formCheck = $('<div></div>').addClass('anwer_item');
-                const label = $('<label></label>').addClass('form-check-label');
+                const label = $('<label></label>').addClass('form-check-label').attr('for', `anwer${index}`);
                 const input = $('<input>')
                     .attr('type', type === 'multiple' ? 'checkbox' : 'radio')
-                    .addClass('form-check-input')
+                    .addClass('anwer')
+                    .attr('id', `anwer${index}`)
                     .attr('name', `problem${questionCounter}`)
                     .attr('value', String.fromCharCode(65 + index)); // 将索引转换为A, B, C, D
 
@@ -75,13 +76,12 @@ $(document).ready(function () {
                 problemChoices.append(formCheck);
             });
 
-            problemContainer.append(problemChoices);
-
             // 将生成的HTML转换为字符串
             const newHtml = $('<div>').append(problemContainer).html();
 
             // 替换原始内容
             newParagraph = newParagraph.replace(raw, newHtml);
+            $('.question').append(problemChoices);
         });
 
         return newParagraph;
