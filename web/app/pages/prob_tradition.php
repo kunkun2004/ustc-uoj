@@ -236,6 +236,13 @@ $memory_limit = $limit['memory_limit'];
     <title>正式答题-实操题</title>
     <link rel="stylesheet" href="/css/public.css" />
     <link rel="stylesheet" href="/css/main.css" />
+    <script type="text/javascript">uojHome = 'http://localhost'</script>
+
+    <!-- Bootstrap core CSS -->
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css?v=2019.5.31" /> <!-- Bootstrap Glyphicons CSS-->
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap-glyphicons.min.css?v=2019.5.31" />
+    <!-- Custom styles for this template -->
+    <link type="text/css" rel="stylesheet" href="/css/uoj-theme.css?v=2.3333" />
     <!-- jQuery (necessary for Bootstrap\'s JavaScript plugins) -->
     <script src="/js/jquery.min.js"></script>
     <!-- jQuery autosize -->
@@ -250,6 +257,62 @@ $memory_limit = $limit['memory_limit'];
     <script src="/js/jquery.cookie.min.js"></script>
     <!-- jQuery modal -->
     <script src="/js/jquery.modal.js"></script>
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/js/popper.min.js?v=2019.5.31"></script>
+    <script src="/js/bootstrap.min.js?v=2019.5.31"></script>
+    <!-- Color converter -->
+    <script src="/js/color-converter.min.js"></script>
+    <!-- uoj -->
+    <script src="/js/uoj.js?v=2017.01.01"></script>
+    <!-- readmore -->
+    <script src="/js/readmore/readmore.min.js"></script>
+    <!-- LAB -->
+    <script src="/js/LAB.min.js"></script>
+    <!-- favicon -->
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        showProcessingMessages: false,
+        tex2jax: {
+            inlineMath: [["$", "$"], ["\\\\(", "\\\\)"]],
+            processEscapes:true
+        },
+        menuSettings: {
+            zoom: "Hover"
+        }
+    });
+</script>
+    <script src="//cdn.bootcss.com/mathjax/2.6.0/MathJax.js?config=TeX-AMS_HTML"></script>
+
+    <!-- jquery form -->
+    <script src="/js/jquery.form.min.js"></script>
+
+
+
+
+
+    <!-- shjs -->
+    <link type="text/css" rel="stylesheet" href="/css/sh_typical.min.css" />
+    <script src="/js/sh_main.min.js"></script>
+    <script type="text/javascript">$(document).ready(function () { sh_highlightDocument() })</script>
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+    <script type="text/javascript">
+        before_window_unload_message = null;
+        $(window).on('beforeunload', function () {
+            if (before_window_unload_message !== null) {
+                return before_window_unload_message;
+            }
+        });
+    </script>
 </head>
 
 <body>
@@ -296,18 +359,7 @@ $memory_limit = $limit['memory_limit'];
                         </div>
                     </div>
                     <div class="sc_dt_area">
-                        <div style="display: none"><?php $answer_form->printHTML(); ?></div>
-                        <div class="code_selection">
-                            <select name="codeSelection" id="codeSelection">
-                                <option value="1">C语言</option>
-                                <option value="2">C++</option>
-                                <option value="3">Java</option>
-                                <option value="4">python</option>
-                            </select>
-                            <div class="editor_name">代码编辑器(text/x-csrc)</div>
-                        </div>
-
-                        <div class="editor_box"></div>
+                        <?php $answer_form->printHTML(); ?>
 
                         <div class="qsub">
                             <input type="button" class="ansub" name="answer" value="在线编译">
@@ -316,6 +368,7 @@ $memory_limit = $limit['memory_limit'];
                                 onclick="location.href='/contest/<?= $contest["id"] ?>/result';" value="交卷">
                         </div>
                         <script>
+                            $("#button-submit-answer").hide();
                             function submitAnswer() {
                                 $("#button-submit-answer").click();
                             }
