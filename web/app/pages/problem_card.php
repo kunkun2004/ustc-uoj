@@ -29,7 +29,7 @@
             else{ ?>
                 <li class="question_id"><a href="/contest/<?= $contest["id"]; ?>/problem/<?= $p["id"]; ?>"><?= $pcnt; ?></a>
                 </li>
-            <?php } ?>
+            <?php }} ?>
             </ul>
         </div>
         <div style="clear: both"></div>
