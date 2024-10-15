@@ -708,7 +708,7 @@
     color: #eeff00;
     letter-spacing: 0;
 }
-.new_question_id a:hover,.question_id_active a{
+.new_question_id a:hover,.new_question_id_active a{
     color: #fff;
     background-color: #89affd;
     border: 1px #89affd solid;
