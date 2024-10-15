@@ -1,6 +1,6 @@
 <?php
 	requirePHPLib('form');
-	
+
 	if (!isSuperUser($myUser)) {
 		become403Page();
 	}
@@ -53,6 +53,40 @@
 		},
 		null
 	);
+	// key
+	$time_form->addInput(
+		'key', 'text', 'key', 123456,
+		function($str) {
+			return strlen($str) >= 20 ? '长度必须小于20' : '';
+		},
+		null
+	);
+
+	//iscamera
+	$time_form->addInput(
+		'camera', 'text', '是否开启相机（1表示开启，0不开启）', 123456,
+		function($str) {
+			if($str == '1' || $str == '0')
+			{
+				return '';
+			}
+			return  '只能是0或1';
+		},
+		null
+	);
+	
+	//canroute
+	$time_form->addInput(
+		'route', 'text', '是否开启路由进入比赛（1表示开启，0不开启）', 1,
+		function($str) {
+			if($str == '1' || $str == '0')
+			{
+				return '';
+			}
+			return  '只能是0或1';
+		},
+		null
+	);
 
 	// 处理表单提交
 	$time_form->handle = function(&$vdata) {
@@ -63,11 +97,14 @@
 		
 		$esc_name = $_POST['name'];
 		$esc_name = $purifier->purify($esc_name);
-		$esc_name = DB::escape($esc_name);
-		
-		// 插入数据库，新增了 end_time 字段
-		DB::query("INSERT INTO contests (name, start_time, last_min, end_time, status) 
-				   VALUES ('$esc_name', '$start_time_str', {$_POST['last_min']}, '$end_time_str', 'unfinished')");
+		//$esc_name = DB::escape($esc_name);
+		$contkey = $_POST['key'];
+		$iscamera = $_POST['camera'];
+		$canroute = $_POST['route'];
+
+		// 插入数据库，新增了 end_time, key 字段
+		DB::query("INSERT INTO contests (name, start_time, last_min, end_time, status, conkey, camera, can_route) 
+				   VALUES ('$esc_name', '$start_time_str', {$_POST['last_min']}, '$end_time_str', 'unfinished', '$contkey', $iscamera, $canroute);");
 	};
 
 	// 成功后跳转

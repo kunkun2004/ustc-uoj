@@ -37,7 +37,12 @@ EOD;
         }
     } elseif ($contest['cur_progress'] == CONTEST_IN_PROGRESS) {
         $contest_name_link = '<span style="color:blue" href="/contest/' . $contest['id'] . '">' . UOJLocale::get('contests::in progress') . '</span>';
-        $link = '/contest/' . $contest['id'];
+        if ($myUser != null && hasRegistered($myUser, $contest)) {
+            $link = '/contest/' . $contest['id'] . '/video';
+        }
+        else{
+            $link = '/contest/' . $contest['id'];
+        }
     } elseif ($contest['cur_progress'] == CONTEST_PENDING_FINAL_TEST) {
         $contest_name_link = '<span style="color:blue" href="/contest/' . $contest['id'] . '">' . UOJLocale::get('contests::pending final test') . '</span>';
         $link = '/contest/' . $contest['id'];
@@ -76,6 +81,13 @@ EOD;
                 <p class="competition_btn">点击进入</p>
             </div>
         </a>
+        <?php if(isSuperUser($myUser)){ ?>
+        <a href="<?= '/contest/' . $contest['id'] . '/manage' ?>" class="clearfix">
+            <div class="competition_info">
+                <p class="competition_btn">编辑比赛</p>
+            </div>
+        </a>
+        <?php } ?>
     </div>
     <?php
 }

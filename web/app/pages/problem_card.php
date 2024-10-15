@@ -18,10 +18,19 @@
             <?php
             foreach ($problem_list_res[$cnt] as $p) {
                 $pcnt++;
+                $user = $_SESSION['username'];
+                $conid = $_GET['contest_id'];
+                $probid = $p["id"];
+                var_dump(DB::query("select count(*) from hasanswer where username = '$user' and contest_id = '$conid' and _id = '$probid'"));
+                if(!DB::query("select count(*) from hasanswer where username = '$user' and contest_id = '$conid' and _id = '$probid'")){
                 ?>
+                <li class="new_question_id"><a href="/contest/<?= $contest["id"]; ?>/problem/<?= $p["id"]; ?>"><?= $pcnt; ?></a>
+                </li>
+            <?php }
+            else{ ?>
                 <li class="question_id"><a href="/contest/<?= $contest["id"]; ?>/problem/<?= $p["id"]; ?>"><?= $pcnt; ?></a>
                 </li>
-            <?php } ?>
+            <?php }} ?>
             </ul>
         </div>
         <div style="clear: both"></div>

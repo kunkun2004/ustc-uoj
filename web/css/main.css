@@ -693,3 +693,23 @@
     background-color: #89affd;
     border: 1px #89affd solid;
 }
+.new_question_id{
+    float: left;
+    width: 28px;
+    margin: 8px;
+}
+.new_question_id a{
+    width: 28px;
+    height: 28px;
+    border: 1px #d2d3c5 solid;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 30px;
+    color: #eeff00;
+    letter-spacing: 0;
+}
+.new_question_id a:hover,.question_id_active a{
+    color: #fff;
+    background-color: #89affd;
+    border: 1px #89affd solid;
+}

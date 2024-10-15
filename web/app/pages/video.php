@@ -6,9 +6,10 @@ genMoreContestInfo($contest);
 
 if ($myUser == null) {
     redirectToLogin();
-} elseif (hasContestPermission($myUser, $contest) || hasRegistered($myUser, $contest) || $contest['cur_progress'] != CONTEST_NOT_STARTED) {
+} elseif ($contest['cur_progress'] == CONTEST_NOT_STARTED) {
     redirectTo('/contests');
 }
+
 ?><!DOCTYPE html>
 <html>
 
