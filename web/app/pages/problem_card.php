@@ -21,9 +21,7 @@
                 $user = $_SESSION['username'];
                 $conid = $_GET['contest_id'];
                 $probid = $p["id"];
-                var_dump($user);
-                var_dump($conid);
-                var_dump($probid);
+                var_dump("select count(*) from hasanswer where username = '$user' and contest_id = '$conid' and _id = '$probid';");
                 var_dump(DB::query("select count(*) from hasanswer where username = '$user' and contest_id = '$conid' and _id = '$probid';"));
                 if(!DB::query("select count(*) from hasanswer where username = '$user' and contest_id = '$conid' and _id = '$probid';")){
                 ?>
