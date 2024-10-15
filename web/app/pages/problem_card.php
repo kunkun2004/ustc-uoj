@@ -21,7 +21,7 @@
                 $user = $_SESSION['username'];
                 $conid = $_GET['contest_id'];
                 $probid = $p["id"];
-                if(DB::selectCount("select count(*) from hasanswer where username = '$user' and contest_id = '$conid' and _id = '$probid';")){
+                if(DB::selectCount("select count(*) from contests_submissions; where submitter = '$user' and contest_id = '$conid' and problem_id = '$probid';")){
                 ?>
                 <li class="new_question_id"><a href="/contest/<?= $contest["id"]; ?>/problem/<?= $p["id"]; ?>"><?= $pcnt; ?></a>
                 </li>
