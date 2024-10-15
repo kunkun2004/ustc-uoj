@@ -13,7 +13,7 @@
 			$problem_info = json_decode($problem_info_json, true);
 			$problem_text_md = "";
 			$problem_text = "";
-			$problem_type_text = array("单选题", "不定项选择题", "判断题");
+			$problem_type_text = array("单选题", "多选题", "判断题");
 			$problem_answer_mapping = [
 				0 => 'A',
 				1 => 'B',
@@ -213,7 +213,7 @@ function submitProblemImport() {
 
     const typeMap = {
         '单选题': 0,
-        '不定项选择题': 1,
+        '多选题': 1,
         '判断题': 2
     };
 

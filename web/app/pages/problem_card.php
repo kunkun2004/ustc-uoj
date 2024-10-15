@@ -2,7 +2,7 @@
     <?php
     $problem_filters = DB::selectALL("select * from contests_problem_filters where contest_id = {$contest['id']}");
 
-    $problem_type = ["单选题", "不定项选择题", "判断题", "填空题", "编程题"];
+    $problem_type = ["单选题", "多选题", "判断题", "填空题", "编程题"];
 
     $problem_list_res = queryContestUserProblemList($contest, $myUser);
     $cnt = 0;

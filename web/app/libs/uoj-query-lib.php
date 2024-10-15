@@ -107,7 +107,7 @@ function queryProblemTags($id) {
 function queryContestUserProblemList($contest, $user) {
 	$problem_filters =  DB::selectAll("select * from contests_problem_filters where contest_id = {$contest['id']}");
 	
-	$problem_type = ["单选题", "不定项选择题", "判断题", "填空题", "编程题"];
+	$problem_type = ["单选题", "多选题", "判断题", "填空题", "编程题"];
 	$problem_list_res = [];
 	
 	$seed = crc32("{$contest['id']}-{$user['username']}orz");
@@ -122,7 +122,7 @@ function queryContestUserProblemList($contest, $user) {
 			$sql.= " and p.title like '[".$problem_type[$pf["problem_type"]]."]%'";
 		}
 		elseif ($pf["problem_type"] == 4) {
-			$sql .= " and (p.title not like '[单选题]%' and p.title not like '[不定项选择题]%' and p.title not like '[判断题]%' and p.title not like '[填空题]%')";
+			$sql .= " and (p.title not like '[单选题]%' and p.title not like '[多选题]%' and p.title not like '[判断题]%' and p.title not like '[填空题]%')";
 		}
 		if ($pf["problem_tags"] !== NULL) {
 			$sql .= " and pt.tag = '".DB::escape($pf["problem_tags"])."'";
