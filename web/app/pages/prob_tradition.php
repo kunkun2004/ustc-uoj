@@ -240,10 +240,10 @@ $memory_limit = $limit['memory_limit'];
     <script type="text/javascript">uojHome = 'http://localhost'</script>
 
     <!-- Bootstrap core CSS -->
-    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css?v=2019.5.31" /> <!-- Bootstrap Glyphicons CSS-->
-    <link type="text/css" rel="stylesheet" href="/css/bootstrap-glyphicons.min.css?v=2019.5.31" />
+    <link type="text/css" rel="stylesheet" href="//css/bootstrap.min.css?v=2019.5.31" /> <!-- Bootstrap Glyphicons CSS-->
+    <link type="text/css" rel="stylesheet" href="//css/bootstrap-glyphicons.min.css?v=2019.5.31" />
     <!-- Custom styles for this template -->
-    <link type="text/css" rel="stylesheet" href="/css/uoj-theme.css?v=2.3333" />
+    <link type="text/css" rel="stylesheet" href="//css/uoj-theme.css?v=2.3333" />
     <!-- jQuery (necessary for Bootstrap\'s JavaScript plugins) -->
     <script src="/js/jquery.min.js"></script>
     <!-- jQuery autosize -->
@@ -333,6 +333,7 @@ $memory_limit = $limit['memory_limit'];
                 1、请确保网络良好，不会影响线上考试；<br />
                 2、本人信息仅做本次考试用，严禁泄露；<br />
                 3、请所有考生诚信考试、独立作答，如出现替考、作弊等现象，一经核实，取消考试成绩。
+                4、每一题作答后都需要点击“提交”按钮，注意保存自己的代码，比赛中无法查看之前的提交。
             </div>
             <div class="answer_area">
                 <div class="answer_top clearfix">

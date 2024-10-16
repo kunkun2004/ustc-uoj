@@ -253,6 +253,7 @@ $REQUIRE_LIB['shjs'] = '';
                 1、请确保网络良好，不会影响线上考试；<br />
                 2、本人信息仅做本次考试用，严禁泄露；<br />
                 3、请所有考生诚信考试、独立作答，如出现替考、作弊等现象，一经核实，取消考试成绩。
+                4、每一题作答后都需要点击“提交”按钮。
             </div>
             <div class="answer_area">
                 <div class="answer_top clearfix">
