@@ -16,7 +16,7 @@
 	
 	if (isset($_POST["problem_filters"])) {
 		$problem_filters = json_decode($_POST["problem_filters"], true);
-		DB::delete("delete from contests_problem_filters where contest_id = {$contest['id']}");
+		DB::delete("delete from contests_problem_filters where contest_id = {$contest['id']};");
 		foreach ($problem_filters as $filter) {
 			$sql = "insert into contests_problem_filters (contest_id, problem_type, problem_tags, problem_difficulty, problem_count, problem_score) values ({$contest['id']}, ".nullEscape($filter['problem_type']).", ".nullEscape($filter['problem_tags']).", ".nullEscape($filter['problem_difficulty']).", {$filter['problem_count']}, {$filter['problem_score']});";
 			DB::query($sql);
