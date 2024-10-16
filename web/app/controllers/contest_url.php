@@ -102,7 +102,7 @@ $camera = $_GET['camera'];
 if(!DB::selectCount("SELECT COUNT(*) FROM contests_registrants WHERE contest_id = $id AND username = '$username'"))
 {
     DB::query("insert into contests_registrants (username, user_rating, contest_id, has_participated, camera) 
-    values ('$username', 1500, $id, 0, $camera);");
+    values ('$username', 1500, $id, 0, $camera)");
     becomeMsgPage("<h1>比赛正在进行中</h1><p>很遗憾，您尚未报名。比赛结束后再来看吧 ～</p>");
 }
 else{
