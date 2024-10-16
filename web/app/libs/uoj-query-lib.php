@@ -39,19 +39,9 @@ function hasConstParticipated($user,$contest){
 	return DB::selectFirst("select * from contests_registrants where username = '${user['username']}' and contest_id = ${contest['id']} and has_participated = 1") != null;
 }
 function queryLastmin($contest){
-
     // 查询指定比赛的 last_min
-    $result = DB::query("select last_min from contests WHERE id = ${contest['id']} LIMIT 1");
-
-    // 检查是否有返回结果
-    if ($row = DB::fetch_assoc($result)) {
-        // 返回整数类型的 last_min
-        return intval($row['last_min']);
-    } else {
-        // 如果查询不到比赛，返回默认值或处理错误
-        echo "未找到比赛编号为 $contest 的比赛";
-        return 0;  // 或者你可以根据需要返回 null 或其他默认值
-    }
+    $result = DB::query("select last_min from contests WHERE id = {$contest['id']}");
+    return intval($result['last_min']);
 }
 
 function queryfinishtime($user,$contest){
