@@ -241,7 +241,7 @@ EOD
     $custom_test_form->runAtServer();
 }
 $problem_type = ["单选题", "多选题", "判断题", "填空题", "编程题"];
-var_dump("insert into submissions (problem_id, contest_id, submit_time, submitter, content, language, tot_size, status, result, is_hidden) values (${problem['id']}, ${contest['id']}, now(), '${myUser['username']}')");
+// var_dump("insert into submissions (problem_id, contest_id, submit_time, submitter, content, language, tot_size, status, result, is_hidden) values (${problem['id']}, ${contest['id']}, now(), '${myUser['username']}')");
 ?>
 <?php
 $REQUIRE_LIB['mathjax'] = '';
