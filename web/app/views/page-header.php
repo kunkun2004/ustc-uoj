@@ -42,18 +42,18 @@
 		<script type="text/javascript">uojHome = '<?= HTML::url('/') ?>'</script>
 
 		<!-- Bootstrap core CSS -->
-		<?= HTML::css_link('https://css/bootstrap.min.css?v=2019.5.31') ?>
+		<?= HTML::css_link('https://oj.ncccu.org.cn/css/bootstrap.min.css?v=2019.5.31') ?>
 		<!-- Bootstrap Glyphicons CSS-->
-		<?= HTML::css_link('https://css/bootstrap-glyphicons.min.css?v=2019.5.31') ?>
+		<?= HTML::css_link('https://oj.ncccu.org.cn/css/bootstrap-glyphicons.min.css?v=2019.5.31') ?>
 
 		<!-- Custom styles for this template -->
-		<?= HTML::css_link('https://css/uoj-theme.css?v=2.3333') ?>
+		<?= HTML::css_link('https://oj.ncccu.org.cn/css/uoj-theme.css?v=2.3333') ?>
 		
 		<!-- jQuery (necessary for Bootstrap\'s JavaScript plugins) -->
-		<?= HTML::js_src('https://js/jquery.min.js') ?>
+		<?= HTML::js_src('https://oj.ncccu.org.cn/js/jquery.min.js') ?>
 		
 		<!-- jQuery autosize -->
-		<?= HTML::js_src('https://js/jquery.autosize.min.js') ?>
+		<?= HTML::js_src('https://oj.ncccu.org.cn/js/jquery.autosize.min.js') ?>
 		<script type="text/javascript">
 			$(document).ready(function() {
 				$('textarea').autosize();
