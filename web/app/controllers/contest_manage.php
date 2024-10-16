@@ -108,6 +108,9 @@
 				if(!queryUser($username))//添加用户
 				{
 					$password = $info[2];
+					if($password == ''){
+						$password = '123456';
+					}
 
 					$password = getPasswordToStore($password, $username);
 					
@@ -117,6 +120,15 @@
 					$svn_pw = uojRandString(10);
 					DB::query("insert into user_info (username, email, password, svn_password, register_time, qq, sch_info, chi_name) 
 					values ('$username', '$esc_email', '$password', '$svn_pw', now(), '$info[2]', '$sch', '$info[0]')");
+				}
+				else{//如果已有，则更新密码
+					$password = $info[2];
+					if($password == ''){
+						$password = '123456';
+					}
+
+					$password = getPasswordToStore($password, $username);
+					DB::query("update user_info set password = $password where username = '$username'");
 				}
 				//用户不在名单中
 				if(DB::selectFirst("select * from contests_registrants where username = '$info[1]' and contest_id = $id") == null)
