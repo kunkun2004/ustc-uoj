@@ -182,6 +182,8 @@ $answer_form->extra_validator = function () {
     return '';
 };
 // $redirect_page = $is_in_contest ? "/contest/{$contest['id']}/submissions" : '/submissions';$problem_list = queryContestUserProblemList($contest, $myUser);
+
+$problem_list = queryContestUserProblemList($contest, $myUser);
 $found = false;
 $nxtprob = 0;
 foreach($problem_list as $classlist)
