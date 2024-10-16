@@ -9,6 +9,12 @@ if ($myUser == null) {
 } elseif ($contest['cur_progress'] == CONTEST_NOT_STARTED) {
     redirectTo('/contests');
 }
+$contestid = $contest["id"];
+$row = DB::selectFirst("select camera from contests where id = $contestid");
+if($row['camera'] == 0)
+{
+    redirectTo('/contest/'. $contest["id"] .'/register');
+}
 
 ?><!DOCTYPE html>
 <html>
