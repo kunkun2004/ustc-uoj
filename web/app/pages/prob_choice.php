@@ -182,7 +182,29 @@ $answer_form->extra_validator = function () {
     return '';
 };
 // $redirect_page = $is_in_contest ? "/contest/{$contest['id']}/submissions" : '/submissions';
-$redirect_page = "/contest/{$contest['id']}/problem/{$problem['id']}";
+$problem_list = queryContestUserProblemList($contest, $myUser);
+$found = false;
+$nxtprob = 0;
+foreach($problem_list as $classlist)
+{
+    foreach($classlist as $p)
+    {
+        if($found)
+        {
+            $nxtprob = $p['id'];
+            break 2;
+        }
+        if($p['id']==$problem['id'])
+        {
+            $found = true;
+        }
+    }
+}
+if(!$nxtprob)
+{
+    $nxtprob = $problem['id'];
+}
+$redirect_page = "/contest/{$contest['id']}/problem/{$nxtprob}";
 $answer_form->succ_href = $redirect_page;
 $answer_form->runAtServer();
 
