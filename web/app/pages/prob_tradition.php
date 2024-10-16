@@ -237,13 +237,13 @@ $memory_limit = $limit['memory_limit'];
     <title>正式答题-实操题</title>
     <link rel="stylesheet" href="/css/public.css" />
     <link rel="stylesheet" href="/css/main.css" />
-    <script type="text/javascript">uojHome = 'http://localhost'</script>
+    <script type="text/javascript">uojHome = 'https://localhost'</script>
 
     <!-- Bootstrap core CSS -->
-    <link type="text/css" rel="stylesheet" href="//css/bootstrap.min.css?v=2019.5.31" /> <!-- Bootstrap Glyphicons CSS-->
-    <link type="text/css" rel="stylesheet" href="//css/bootstrap-glyphicons.min.css?v=2019.5.31" />
+    <link type="text/css" rel="stylesheet" href="https://css/bootstrap.min.css?v=2019.5.31" /> <!-- Bootstrap Glyphicons CSS-->
+    <link type="text/css" rel="stylesheet" href="https://css/bootstrap-glyphicons.min.css?v=2019.5.31" />
     <!-- Custom styles for this template -->
-    <link type="text/css" rel="stylesheet" href="//css/uoj-theme.css?v=2.3333" />
+    <link type="text/css" rel="stylesheet" href="https://css/uoj-theme.css?v=2.3333" />
     <!-- jQuery (necessary for Bootstrap\'s JavaScript plugins) -->
     <script src="/js/jquery.min.js"></script>
     <!-- jQuery autosize -->
