@@ -137,10 +137,10 @@ function queryContestUserProblemList($contest, $user) {
 		}
 		if($pf["problem_tags"] === NULL && $pf["problem_difficulty"] === NULL)
 		{
-			$sql .= " AND p.id IN ( SELECT pt.problem_id WHERE 1=0";
+			$sql .= " AND p.id IN ( SELECT pt.problem_id FROM problems_tags pt WHERE 1=0";
 		}
 		else{
-			$sql .= " AND p.id IN ( SELECT pt.problem_id WHERE pt.tag IN (";
+			$sql .= " AND p.id IN ( SELECT pt.problem_id FROM problems_tags pt WHERE pt.tag IN (";
 			if ($pf["problem_tags"] !== NULL) {
 				$sql .= " '".DB::escape($pf["problem_tags"])."'";
 			}
