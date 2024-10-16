@@ -42,18 +42,18 @@
 		<script type="text/javascript">uojHome = '<?= HTML::url('/') ?>'</script>
 
 		<!-- Bootstrap core CSS -->
-		<?= HTML::css_link('/css/bootstrap.min.css?v=2019.5.31') ?>
+		<?= HTML::css_link('https://css/bootstrap.min.css?v=2019.5.31') ?>
 		<!-- Bootstrap Glyphicons CSS-->
-		<?= HTML::css_link('/css/bootstrap-glyphicons.min.css?v=2019.5.31') ?>
+		<?= HTML::css_link('https://css/bootstrap-glyphicons.min.css?v=2019.5.31') ?>
 
 		<!-- Custom styles for this template -->
-		<?= HTML::css_link('/css/uoj-theme.css?v=2.3333') ?>
+		<?= HTML::css_link('https://css/uoj-theme.css?v=2.3333') ?>
 		
 		<!-- jQuery (necessary for Bootstrap\'s JavaScript plugins) -->
-		<?= HTML::js_src('/js/jquery.min.js') ?>
+		<?= HTML::js_src('https://js/jquery.min.js') ?>
 		
 		<!-- jQuery autosize -->
-		<?= HTML::js_src('/js/jquery.autosize.min.js') ?>
+		<?= HTML::js_src('https://js/jquery.autosize.min.js') ?>
 		<script type="text/javascript">
 			$(document).ready(function() {
 				$('textarea').autosize();
