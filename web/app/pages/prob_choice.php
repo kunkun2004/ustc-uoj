@@ -48,7 +48,7 @@ if ($contest != null) {
         become404Page();
     }
 }
-var_dump(DB::selectFirst("select * from contests WHERE id = $_GET['contest_id']"));
+var_dump(DB::selectFirst("select * from contests WHERE id = {$_GET['contest_id']}"));
 
 $submission_requirement = json_decode($problem['submission_requirement'], true);
 $problem_extra_config = getProblemExtraConfig($problem);
