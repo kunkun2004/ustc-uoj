@@ -48,7 +48,7 @@ if ($contest != null) {
         become404Page();
     }
 }
-var_dump(DB::selectFirst("select last_min from contests WHERE contest_id = $contest['id']"));
+var_dump(DB::selectFirst("select * from contests WHERE contest_id = $contest['id']"));
 
 $submission_requirement = json_decode($problem['submission_requirement'], true);
 $problem_extra_config = getProblemExtraConfig($problem);
