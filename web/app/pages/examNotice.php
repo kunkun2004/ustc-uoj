@@ -76,9 +76,9 @@
                 <div class="start_answer">
                     <?php  
                     $problem_list_res = queryContestUserProblemList($contest, $myUser);
-                    var_dump($myUser);
-                    var_dump($problem_list_res);
-                    $p=$problem_list_res[0][0];
+                    // var_dump($myUser);
+                    // var_dump($problem_list_res);
+                    $p=reset($problem_list_res[0]);
                     if($p!=null){
                     ?>
                     <a href="/contest/<?= $contest["id"]; ?>/problem/<?= $p["id"]; ?>">开始答题</a>
