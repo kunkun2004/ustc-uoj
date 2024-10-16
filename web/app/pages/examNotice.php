@@ -7,9 +7,10 @@
 	
 	if ($myUser == null) {
 		redirectToLogin();
-	} elseif (hasContestPermission($myUser, $contest) || hasRegistered($myUser, $contest) || $contest['cur_progress'] != CONTEST_NOT_STARTED) {
-		//redirectTo('/contests');
-	}
+	} 
+    // elseif (hasContestPermission($myUser, $contest) || hasRegistered($myUser, $contest) || $contest['cur_progress'] != CONTEST_NOT_STARTED) {
+	// 	//redirectTo('/contests');
+	// }
 	
 	$register_form = new UOJForm('register');
 	$register_form->handle = function() {
@@ -76,6 +77,7 @@
                     <?php  
                     $problem_list_res = queryContestUserProblemList($contest, $myUser);
                     $p=$problem_list_res[0][0];
+                    var_dump($problem_list_res);
                     if($p!=null){
                     ?>
                     <a href="/contest/<?= $contest["id"]; ?>/problem/<?= $p["id"]; ?>">开始答题</a>
