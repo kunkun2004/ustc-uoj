@@ -133,7 +133,7 @@ function queryContestUserProblemList($contest, $user) {
 		$sql .= " group by p.id";
 		//echo $sql;
 		$problem_list = DB::selectALL($sql);
-		//var_dump($problem_list);
+		var_dump($problem_list);
 		if (count($problem_list) <= intval($pf["problem_count"])) {
 			$problem_list_res[] = $problem_list;
 		}
