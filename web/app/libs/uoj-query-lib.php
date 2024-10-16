@@ -41,7 +41,7 @@ function hasConstParticipated($user,$contest){
 function queryLastmin($contest){
 
     // 查询指定比赛的 last_min
-    $result = DB::query("select last_min from contests WHERE contest_id = ${contest['id']} LIMIT 1");
+    $result = DB::query("select last_min from contests WHERE id = ${contest['id']} LIMIT 1");
 
     // 检查是否有返回结果
     if ($row = DB::fetch_assoc($result)) {
