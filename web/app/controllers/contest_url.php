@@ -103,7 +103,8 @@ if(!DB::selectCount("SELECT COUNT(*) FROM contests_registrants WHERE contest_id 
 {
     DB::query("insert into contests_registrants (username, user_rating, contest_id, has_participated, camera) 
     values ('$username', 1500, $id, 0, $camera)");
-    becomeMsgPage("<h1>114514</h1><p>很遗憾，您尚未报名。比赛结束后再来看吧 ～</p>");
+    becomeMsgPage("<h1>114514</h1><p>insert into contests_registrants (username, user_rating, contest_id, has_participated, camera) 
+    values ('$username', 1500, $id, 0, $camera)</p>");
 }
 else{
     DB::query("UPDATE contests_registrants SET camera = $camera WHERE contest_id = $id AND username = '$username'");
