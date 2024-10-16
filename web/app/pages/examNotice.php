@@ -76,6 +76,8 @@
                 <div class="start_answer">
                     <?php  
                     $problem_list_res = queryContestUserProblemList($contest, $myUser);
+                    var_dump($myUser);
+                    var_dump($problem_list_res);
                     $p=$problem_list_res[0][0];
                     if($p!=null){
                     ?>
