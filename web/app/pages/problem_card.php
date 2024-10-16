@@ -8,7 +8,7 @@
     $cnt = 0;
     $pcnt = 0;
     $chinese_count = ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二", "十三"];
-    var_dump(DB::selectFirst("select last_min from contests WHERE contest_id = $contest['id']"));
+    // var_dump(DB::selectFirst("select last_min from contests WHERE contest_id = $contest['id']"));
     foreach ($problem_filters as $problem_filter) {
         ?>
         <div class="question_type_item">
