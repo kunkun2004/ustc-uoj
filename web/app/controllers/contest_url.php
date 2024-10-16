@@ -98,13 +98,11 @@ if(!queryUser($_GET['phone']))
     DB::query("insert into user_info (username, email, password, svn_password, register_time, qq, sch_info, chi_name) 
     values ('$username', '$esc_email', '$password', '$svn_pw', now(), '$qq', '$sch', '$name')");
 }
-$camera = $_GET['camera'];
+$camera = $_GET['is_camera'];
 if(!DB::selectCount("SELECT COUNT(*) FROM contests_registrants WHERE contest_id = $id AND username = '$username'"))
 {
     DB::query("insert into contests_registrants (username, user_rating, contest_id, has_participated, camera) 
     values ('$username', 1500, $id, 0, $camera)");
-    becomeMsgPage("<h1>114514</h1><p>insert into contests_registrants (username, user_rating, contest_id, has_participated, camera) 
-    values ('$username', 1500, $id, 0, $camera)</p>");
 }
 else{
     DB::query("UPDATE contests_registrants SET camera = $camera WHERE contest_id = $id AND username = '$username'");
