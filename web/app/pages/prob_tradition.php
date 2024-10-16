@@ -181,7 +181,8 @@ $answer_form->extra_validator = function () {
     }
     return '';
 };
-$redirect_page = $is_in_contest ? "/contest/{$contest['id']}/submissions" : '/submissions';
+$redirect_page = "/contest/{$contest['id']}/problem/{$problem['id']}";
+// $redirect_page = $is_in_contest ? "/contest/{$contest['id']}/submissions" : '/submissions';
 $answer_form->succ_href = $redirect_page;
 $answer_form->runAtServer();
 
