@@ -99,7 +99,7 @@ if(!queryUser($_GET['phone']))
     values ('$username', '$esc_email', '$password', '$svn_pw', now(), '$qq', '$sch', '$name')");
 }
 $camera = $_GET['camera'];
-if(!DB::query("SELECT COUNT(*) FROM contests_registrants WHERE contest_id = $id AND username = '$username'"))
+if(!DB::selectCount("SELECT COUNT(*) FROM contests_registrants WHERE contest_id = $id AND username = '$username'"))
 {
     DB::query("insert into contests_registrants (username, user_rating, contest_id, has_participated, camera) 
     values ('$username', 1500, $id, 0, $camera);");
