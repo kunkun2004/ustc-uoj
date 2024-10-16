@@ -21,15 +21,15 @@ return array (
     'domain' => NULL,
     'main' => 
     array (
-      'protocol' => 'http',
+      'protocol' => 'https',
       'host' => UOJContext::httpHost(),
-      'port' => 80,
+      'port' => 443,
     ),
     'blog' => 
     array (
-      'protocol' => 'http',
+      'protocol' => 'https',
       'host' => UOJContext::httpHost(),
-      'port' => 80,
+      'port' => 443,
     ),
   ),
   'security' => 
