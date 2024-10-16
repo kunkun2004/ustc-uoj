@@ -15,7 +15,7 @@ Route::pattern('school','\S{1,100}');
 Route::pattern('speciality','\S{1,100}');
 Route::pattern('education','\S{1,100}');
 Route::pattern('is_camera','\S{1,30}');
-Route::pattern('contkey','\S{1,30}');
+Route::pattern('contkey','\S{1,100}');
 
 
 Route::group([
