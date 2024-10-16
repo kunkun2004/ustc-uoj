@@ -82,7 +82,7 @@ if(md5(md5($str['conkey'])) != $_GET['contkey'])//此处没加md5
 else{
 //此处导入名单待完成
 Auth::logout();
-$username =urldecode ($_GET['phone']);
+$username =$_GET['phone'];
 if(!queryUser($_GET['phone']))
 {
     $password = $_GET['qqnum'];
@@ -103,6 +103,7 @@ if(!DB::selectCount("SELECT COUNT(*) FROM contests_registrants WHERE contest_id 
 {
     DB::query("insert into contests_registrants (username, user_rating, contest_id, has_participated, camera) 
     values ('$username', 1500, $id, 0, $camera);");
+    becomeMsgPage("<h1>比赛正在进行中</h1><p>很遗憾，您尚未报名。比赛结束后再来看吧 ～</p>");
 }
 else{
     DB::query("UPDATE contests_registrants SET camera = $camera WHERE contest_id = $id AND username = '$username'");
