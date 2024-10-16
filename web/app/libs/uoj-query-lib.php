@@ -135,6 +135,7 @@ function queryContestUserProblemList($contest, $user) {
 		elseif ($pf["problem_type"] == 4) {
 			$sql .= " and (p.title not like '[单选题]%' and p.title not like '[多选题]%' and p.title not like '[判断题]%' and p.title not like '[填空题]%')";
 		}
+		$tagcnt = 0;
 		if($pf["problem_tags"] === NULL && $pf["problem_difficulty"] === NULL)
 		{
 			$sql .= " AND p.id IN ( SELECT pt.problem_id FROM problems_tags pt WHERE 1=0";
@@ -143,16 +144,18 @@ function queryContestUserProblemList($contest, $user) {
 			$sql .= " AND p.id IN ( SELECT pt.problem_id FROM problems_tags pt WHERE pt.tag IN (";
 			if ($pf["problem_tags"] !== NULL) {
 				$sql .= " '".DB::escape($pf["problem_tags"])."'";
+				$tagcnt ++;
 			}
 			if ($pf["problem_difficulty"] !== NULL) {
 				if($pf["problem_tags"] !== NULL){
 					$sql .= ',';
 				}
 				$sql .= " '".DB::escape("难度:".$pf["problem_difficulty"])."'";
+				$tagcnt ++;
 			}
 			$sql .= " )";
 		}
-		$sql .= " GROUP BY pt.problem_id HAVING COUNT(DISTINCT pt.tag) = 2 );";
+		$sql .= " GROUP BY pt.problem_id HAVING COUNT(DISTINCT pt.tag) = $tagcnt );";
 		// echo $sql;
 		$problem_list = DB::selectALL($sql);
 		// var_dump($problem_list);
