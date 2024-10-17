@@ -98,6 +98,8 @@ EOD;
 			die();
 		}
 	}
+    
+    var_dump(queryProblemBrief(90));
 ?>	
 <?php echoUOJPageHeader('题目导入') ?>
 <h1 class="page-header" align="center">题目导入</h1>
