@@ -81,7 +81,6 @@
 			$data_dir = "/var/uoj_data/upload";
 			$problem_conf_content = <<<EOD
 use_builtin_judger on
-use_builtin_checker wcmp
 submit_answer on
 n_tests 1
 input_pre data
