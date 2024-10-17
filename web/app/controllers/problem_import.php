@@ -90,9 +90,10 @@ output_pre data
 output_suf out
 EOD;
             if (!is_dir("$data_dir/$id")) {
+                echo '111';
                 mkdir("$data_dir/$id", 0777, true);
             }
-			file_put_contents("$data_dir/$id/problem.conf", $problem_conf_content);
+			// file_put_contents("$data_dir/$id/problem.conf", $problem_conf_content);
 			file_put_contents("$data_dir/$id/data1.in", "Problem 1");
 			file_put_contents("$data_dir/$id/data1.out", $problem_answer);
 			$problem = queryProblemBrief($id);
