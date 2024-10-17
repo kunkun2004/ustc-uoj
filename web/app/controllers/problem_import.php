@@ -98,8 +98,8 @@ EOD;
 			file_put_contents("$data_dir/$id/data1.out", $problem_answer);
 			$problem = queryProblemBrief($id);
 			$ret = dataSyncProblemData($problem, $myUser);
-			echo $ret;
-			die();
+			// echo $ret;
+			// die();
 		}
 	}
     
