@@ -80,14 +80,14 @@
 			DB::insert("insert into problems_tags (problem_id, tag) values ($id, '".DB::escape("choice")."')");
 			$data_dir = "/var/uoj_data/upload";
 			$problem_conf_content = <<<EOD
-use_builtin_judger on
-use_builtin_checker wcmp
-submit_answer on
 n_tests 1
+submit_answer on
 input_pre data
 input_suf in
 output_pre data
 output_suf out
+use_builtin_judger on
+use_builtin_checker wcmp
 EOD;
             if (!is_dir("$data_dir/$id")) {
                 echo '111';
@@ -99,11 +99,11 @@ EOD;
 			$problem = queryProblemBrief($id);
 			$ret = dataSyncProblemData($problem, $myUser);
 			// echo $ret;
-			// die();
+			die();
 		}
 	}
     
-    var_dump(queryProblemBrief(90));
+    // var_dump(queryProblemBrief(90));
 ?>	
 <?php echoUOJPageHeader('题目导入') ?>
 <h1 class="page-header" align="center">题目导入</h1>
