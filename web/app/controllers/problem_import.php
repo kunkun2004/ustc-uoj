@@ -286,13 +286,13 @@ function submitProblemImport() {
     }
     showProblemImportTable();
     postProblemImport();
-    $.post("/problem/import", {
+    /*$.post("/problem/import", {
         problem_list: JSON.stringify(importProblemList)
     }, (msg) => {
         $("#import-result").html(`<div class="alert alert-success" role="alert">
     导入成功，题号: ${msg}，<a href="/problem/${msg}">点击前往</a>
 </div>`);
-    });
+    });*/
 }
 $(document).ready(function() {
     $('#form-problem-import').submit(function(e) {
