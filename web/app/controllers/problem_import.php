@@ -67,7 +67,7 @@
 			$problem_tags[] = HTML::escape("难度:".trim($problem_info["difficulty"]));
 			$problem_tags = array_unique($problem_tags);
 			$is_hidden = $problem_info["defunct"] ? "1" : "0";
-			DB::query("insert into problems (title, is_hidden, submission_requirement) values ('".DB::escape("[".$problem_type_text[$problem_info["type"]]."]".$problem_content)."', $is_hidden, '{}')");
+			DB::query("insert into problems (title, is_hidden, submission_requirement, zan) values ('".DB::escape("[".$problem_type_text[$problem_info["type"]]."]".$problem_content)."', $is_hidden, '{}', 0)");
 			$id = DB::insert_id();
 			$problem_text = DB::escape($problem_text);
 			$problem_text_md = DB::escape($problem_text_md);
