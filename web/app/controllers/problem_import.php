@@ -99,7 +99,7 @@ EOD;
 			$problem = queryProblemBrief($id);
 			$ret = dataSyncProblemData($problem, $myUser);
 			// echo $ret;
-			die();
+			die($id);
 		}
 	}
     
