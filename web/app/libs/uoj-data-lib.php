@@ -59,7 +59,7 @@
 				exec("cp $src $dest -r", $output, $ret);
 			} else {
 				exec("$uojMainJudgerWorkPath/run/formatter <$src >$dest", $output, $ret);
-				throw new UOJFileNotFoundException('1111');
+				throw new UOJFileNotFoundException('1'.isset($this->problem_extra_config['dont_use_formatter']).'2'.is_file("{$this->upload_dir}/$file_name"));
 			}
 			if ($ret) {
 				throw new UOJFileNotFoundException($file_name);//这里有问题
