@@ -187,7 +187,7 @@ function postProblemImport() {
             importProblemStatus[id] = { res: "success", id: msg };
         }
         else {
-            importProblemStatus[id] = { res: "error" };
+            importProblemStatus[id] = { res: msg };
         }
     }).error(function() {
         importProblemStatus[id] = { res: "error" };
