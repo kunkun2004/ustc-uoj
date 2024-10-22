@@ -98,8 +98,8 @@ EOD;
 			file_put_contents("$data_dir/$id/data1.out", $problem_answer);
 			$problem = queryProblemBrief($id);
 			$ret = dataSyncProblemData($problem, $myUser);
-			// echo $ret;
-			die($id);
+			echo $id;
+			die();
 		}
 	}
     
@@ -165,7 +165,7 @@ function showProblemImportTable() {
             <a href="/problem/${importProblemStatus[i].id}">点击前往#${importProblemStatus[i].id}</a>`;
 	}
         else {
-            tableHTML += `<span class="badge badge-error">` + print_r($importProblemStatus[i].res,true) + `</span>`;
+            tableHTML += `<span class="badge badge-error">${importProblemStatus[i].res}</span>`;
         }
         tableHTML += `</td></tr>`;
     }
