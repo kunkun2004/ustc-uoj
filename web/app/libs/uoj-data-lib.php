@@ -57,9 +57,9 @@
 			$dest = escapeshellarg("{$this->prepare_dir}/$file_name");
 			if (isset($this->problem_extra_config['dont_use_formatter']) || !is_file("{$this->upload_dir}/$file_name")) {
 				exec("cp $src $dest -r", $output, $ret);
-				throw new UOJFileNotFoundException('1111');
 			} else {
 				exec("$uojMainJudgerWorkPath/run/formatter <$src >$dest", $output, $ret);
+				throw new UOJFileNotFoundException('1111');
 			}
 			if ($ret) {
 				throw new UOJFileNotFoundException($file_name);//这里有问题
