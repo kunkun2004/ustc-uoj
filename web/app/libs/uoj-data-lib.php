@@ -51,7 +51,7 @@
 		private function copy_to_prepare($file_name) {
 			global $uojMainJudgerWorkPath;
 			if (!isset($this->allow_files[$file_name])) {
-				throw new UOJFileNotFoundException($file_name);
+				throw new UOJFileNotFoundException($file_name.'1');
 			}
 			$src = escapeshellarg("{$this->upload_dir}/$file_name");
 			$dest = escapeshellarg("{$this->prepare_dir}/$file_name");
@@ -61,13 +61,13 @@
 				exec("$uojMainJudgerWorkPath/run/formatter <$src >$dest", $output, $ret);
 			}
 			if ($ret) {
-				throw new UOJFileNotFoundException($file_name);
+				throw new UOJFileNotFoundException($file_name.'2');
 			}
 		}
 		private function copy_file_to_prepare($file_name) {
 			global $uojMainJudgerWorkPath;
 			if (!isset($this->allow_files[$file_name]) || !is_file("{$this->upload_dir}/$file_name")) {
-				throw new UOJFileNotFoundException($file_name);
+				throw new UOJFileNotFoundException($file_name.'3');
 			}
 			$this->copy_to_prepare($file_name);
 		}
