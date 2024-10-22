@@ -20,7 +20,7 @@
 			$problem_text .= "<p style='white-space: pre-line'>".$problem_content."</p>";
 			$problem_text_md .= $problem_content;
 			$is_hidden = "1";
-			DB::query("insert into problems (title, is_hidden, submission_requirement) values ('".DB::escape(HTML::escape($problem_title))."', $is_hidden, '{}')");
+			DB::query("insert into problems (title, is_hidden, submission_requirement, zan) values ('".DB::escape(HTML::escape($problem_title))."', $is_hidden, '{}', zan)");
 			$id = DB::insert_id();
 			$problem_tags = array();
 			$problem_categories = explode(",", $problem_info["tags"]);
