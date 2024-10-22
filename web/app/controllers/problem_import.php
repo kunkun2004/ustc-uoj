@@ -165,7 +165,7 @@ function showProblemImportTable() {
             <a href="/problem/${importProblemStatus[i].id}">点击前往#${importProblemStatus[i].id}</a>`;
 	}
         else {
-            tableHTML += `<span class="badge badge-error">${importProblemStatus[i].res}</span>`;
+            tableHTML .= `<span class="badge badge-error">`.print_r($importProblemStatus[i].res,true)`</span>`;
         }
         tableHTML += `</td></tr>`;
     }
