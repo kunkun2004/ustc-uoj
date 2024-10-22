@@ -479,7 +479,7 @@ EOD;
 		if (post_data != {}) {
 			post_data['check-{$this->form_name}'] = "";
 			$.ajax({
-				url : 'http://49.51.46.121${_SERVER['REQUEST_URI']}',
+				url : 'https://oj.ncccu.org.cn/${_SERVER['REQUEST_URI']}',
 				type : 'POST',
 				dataType : 'json',
 				async : false,

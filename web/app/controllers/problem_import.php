@@ -90,7 +90,7 @@ use_builtin_judger on
 use_builtin_checker wcmp
 EOD;
             if (!is_dir("$data_dir/$id")) {
-                echo '111';
+                // echo '111';
                 mkdir("$data_dir/$id", 0777, true);
             }
 			file_put_contents("$data_dir/$id/problem.conf", $problem_conf_content);
