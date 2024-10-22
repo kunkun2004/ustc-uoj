@@ -59,7 +59,7 @@
 				exec("cp $src $dest -r", $output, $ret);
 			} else {
 				exec("$uojMainJudgerWorkPath/run/formatter <$src >$dest", $output, $ret);
-				throw new UOJFileNotFoundException('1'.'2'."$uojMainJudgerWorkPath/run/formatter <$src >$dest");
+				throw new UOJFileNotFoundException($output.'----'."$uojMainJudgerWorkPath/run/formatter <$src >$dest");
 			}
 			if ($ret) {
 				throw new UOJFileNotFoundException($file_name);//这里有问题
