@@ -64,7 +64,7 @@
 
 	//iscamera
 	$time_form->addInput(
-		'camera', 'text', '是否开启相机（1表示开启，0不开启）', 123456,
+		'camera', 'text', '是否开启相机（1表示开启，0不开启）', 0,
 		function($str) {
 			if($str == '1' || $str == '0')
 			{
@@ -104,7 +104,7 @@
 
 		// 插入数据库，新增了 end_time, key 字段
 		DB::query("INSERT INTO contests (name, start_time, last_min, end_time, status, conkey, camera, can_route) 
-				   VALUES ('$esc_name', '$start_time_str', {$_POST['last_min']}, '$end_time_str', 'unfinished', '$contkey', $iscamera, $canroute);");
+				   VALUES ('$esc_name', '$start_time_str', {$_POST['last_min']}, '$end_time_str', 'unfinished', '$contkey', $iscamera, $canroute)");
 	};
 
 	// 成功后跳转
