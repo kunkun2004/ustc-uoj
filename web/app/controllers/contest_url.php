@@ -6,9 +6,16 @@ if ($contest == null) {
 $id = $_GET['id'];
 $str = DB::selectFirst("SELECT conkey FROM contests WHERE id = $id");
 
+$username =$_GET['phone'];
 $canroute = DB::selectFirst("SELECT can_route FROM contests WHERE id = $id");
-if($canroute['can_route'] == 0)
-{?>
+$has_participant = false;
+if(DB::selectCount("SELECT COUNT(*) FROM contests_registrants WHERE contest_id = $id AND username = '$username'"))
+{
+    $has_participant = true;
+}
+if($canroute['can_route'] == 0 && $has_participant == false)
+{
+?>
 
 <!DOCTYPE html>
 <html>
@@ -42,6 +49,7 @@ if($canroute['can_route'] == 0)
 </body>
 </html>
 <?php
+die();
 }
 if(md5(md5($str['conkey'])) != $_GET['contkey'])//此处没加md5
 {
@@ -78,6 +86,7 @@ if(md5(md5($str['conkey'])) != $_GET['contkey'])//此处没加md5
 </body>
 </html>
 <?php
+die();
 }
 else{
 //此处导入名单待完成
@@ -95,13 +104,13 @@ if(!queryUser($_GET['phone']))
     $sch = 'school:'.urldecode($_GET['school']).'speciality:'.urldecode($_GET['speciality']).'education:'.urldecode($_GET['education']);
 
     $svn_pw = uojRandString(10);
-    DB::query("insert into user_info (username, email, password, svn_password, register_time, qq, sch_info, chi_name) 
+    DB::query("insert into user_info (username, email, password, svn_password, register_time, qq, sch_info, chi_name)
     values ('$username', '$esc_email', '$password', '$svn_pw', now(), '$qq', '$sch', '$name')");
 }
 $camera = $_GET['is_camera'];
 if(!DB::selectCount("SELECT COUNT(*) FROM contests_registrants WHERE contest_id = $id AND username = '$username'"))
 {
-    DB::query("insert into contests_registrants (username, user_rating, contest_id, has_participated, camera) 
+    DB::query("insert into contests_registrants (username, user_rating, contest_id, has_participated, camera)
     values ('$username', 1500, $id, 0, $camera)");
 }
 else{

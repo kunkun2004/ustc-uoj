@@ -705,12 +705,12 @@
     border-radius: 50%;
     text-align: center;
     line-height: 30px;
-    background-color: #85ff21;
-    color: #999;
+    background-color: #1780db;
+    color: #fff;
     letter-spacing: 0;
 }
 .new_question_id a:hover,.new_question_id_active a{
     color: #fff;
-    background-color: #89affd;
+    background-color: #2790eb;
     border: 1px #89affd solid;
 }

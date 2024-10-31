@@ -11,7 +11,19 @@
     // elseif (hasContestPermission($myUser, $contest) || hasRegistered($myUser, $contest) || $contest['cur_progress'] != CONTEST_NOT_STARTED) {
 	// 	//redirectTo('/contests');
 	// }
-	
+	$tmpc = DB::selectFirst("select camera from contests where id={$_GET['id']}");
+	$nowUser = $myUser["username"];	
+	$tmpc2 = DB::selectFirst("select camera from contests_registrants where contest_id={$_GET['contest_id']} and username='$nowUser'");
+        $need_camera2 = $tmpc2 != NULL ? $tmpc2["camera"] : false;
+	if ($tmpc["camera"] && $need_camera2) {
+		$lastImage = DB::selectFirst("select id from contest_picup where pos='pre' and contest_id={$_GET['id']} and user_id='$nowUser'");
+		if ($lastImage == NULL) {
+?>
+<script>alert("请先进行摄像头拍照!");location.href="video";</script>
+<?php
+			die();
+		}
+	}
 	$register_form = new UOJForm('register');
 	$register_form->handle = function() {
 		global $myUser, $contest;

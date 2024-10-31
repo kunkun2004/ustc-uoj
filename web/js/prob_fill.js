@@ -35,7 +35,7 @@ $(document).ready(function () {
             const problemContainer = $('<div></div>').addClass('choose-problem').addClass(type === 'fill' ? 'fill-blank' : '');
 
             // 创建题目内容，添加序号
-            const problemContent = $('<div></div>').addClass('problem-content').html(`${questionCounter}. ${question.replace(/\n/g, '<br>')}`);
+            const problemContent = $('<div></div>').addClass('problem-content').html(`${problemNum}. ${question.replace(/\n/g, '<br>')}`);
             problemContainer.append(problemContent);
 
             // 生成每个填空输入框

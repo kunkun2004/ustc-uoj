@@ -51,6 +51,7 @@ Route::group([
 		Route::any('/contest/{id}/video', '/../pages/video.php');
 		Route::any('/contest/{contest_id}/problem/{id}', '/../pages/contest_problem.php');
 		Route::any('/contest/{contest_id}/problem/{id}/statistics', '/problem_statistics.php');
+		Route::any('/contest/{id}/mypicup', '/contest_picup.php');
 		
 		Route::any('/submissions', '/submissions_list.php');
 		Route::any('/submission/{id}', '/submission.php');

@@ -40,7 +40,8 @@ function hasConstParticipated($user,$contest){
 }
 function queryLastmin($contest){
     // 查询指定比赛的 last_min
-    $result = DB::query("select last_min from contests WHERE id = {$contest['id']}");
+	$result = DB::selectFirst("select last_min from contests WHERE id = {$contest['id']}");
+	//echo "select last_min from contests WHERE id = {$contest['id']}";
     return intval($result['last_min']);
 }
 
@@ -51,10 +52,10 @@ function queryfinishtime($user,$contest){
     // $contest_id = DB::escape($contest);
 
     // 查询指定比赛的 last_min
-    $result = DB::query("select finish_time from contests_registrants WHERE contest_id = ${contest['id']} and username = '${user['username']}' LIMIT 1");
-	if ($result && DB::num_rows($result) > 0) {
+    $row = DB::selectFirst("select finish_time from contests_registrants WHERE contest_id = ${contest['id']} and username = '${user['username']}' LIMIT 1");
+	if ($row) {
         // 获取第一行的结果
-        $row = DB::fetch($result, MYSQLI_ASSOC);
+        //$row = DB::fetch($result, MYSQLI_ASSOC);
         
         // 检查 finish_time 字段是否存在且不为 null
         if (isset($row['finish_time']) && $row['finish_time'] !== null) {
@@ -102,6 +103,7 @@ function queryContestUserProblemList($contest, $user) {
 	
 	$seed = crc32("{$contest['id']}-{$user['username']}orz");
 	srand($seed);
+	$problem_id_list = array();
 	foreach ($problem_filters as $pf) {
 		//$sql = "select p.* from problems p left join problems_tags pt on p.id=pt.problem_id where p.is_hidden=0";
 
@@ -148,17 +150,27 @@ function queryContestUserProblemList($contest, $user) {
 		$sql .= " GROUP BY pt.problem_id HAVING COUNT(DISTINCT pt.tag) = $tagcnt );";
 		// echo $sql;
 		$problem_list = DB::selectALL($sql);
+		$filtered_problem_list = array();
+		foreach ($problem_list as $ttproblem) {
+			if (!in_array($ttproblem["id"], $problem_id_list)) {
+				$filtered_problem_list[] = $ttproblem;
+			}
+		}
 		// var_dump($problem_list);
-		if (count($problem_list) <= intval($pf["problem_count"])) {
-			$problem_list_res[] = $problem_list;
+		if (count($filtered_problem_list) <= intval($pf["problem_count"])) {
+			$new_arr = $filtered_problem_list;
 		}
                 else {
 			if (intval($pf["problem_count"]) > 1)
-				$res = array_rand($problem_list, intval($pf["problem_count"]));
+				$res = array_rand($filtered_problem_list, intval($pf["problem_count"]));
 			else 
-				$res = array(rand(0, count($problem_list) - 1));
-			$problem_list_res[] = array_intersect_key($problem_list, array_flip($res));
+				$res = array(rand(0, count($filtered_problem_list) - 1));
+			$new_arr = array_intersect_key($filtered_problem_list, array_flip($res));
 		}
+		foreach ($new_arr as $fproblem) {
+			$problem_id_list[] = $fproblem["id"];
+		}
+		$problem_list_res[] = $new_arr;
 	}
 	return $problem_list_res;
 }
@@ -168,10 +180,12 @@ function queryContestUserProblemRank($contest, $user, $problem) {
 	//var_dump($problem_list);
 	$flag = true;
 	$problem_filter = "";
+	$all_cnt = 0;
 	for ($i = 0; $i < count($problem_list); ++$i) {
 		$cnt = 0;
 		foreach ($problem_list[$i] as $p) {
 			$cnt ++;
+			$all_cnt ++;
 			if ($p["id"] === $problem["id"]) {
 				$problem_filter = $problem_filters[$i];
 				$flag = false;
@@ -185,7 +199,7 @@ function queryContestUserProblemRank($contest, $user, $problem) {
 	if ($flag) {
 		return -1;
 	}
-	return array("cnt" => $cnt, "filter" => $problem_filter);
+	return array("cnt" => $cnt, "all_cnt" => $all_cnt, "filter" => $problem_filter);
 }
 function queryContestProblemRank($contest, $problem) {
 	if (!DB::selectFirst("select * from contests_problems where contest_id = {$contest['id']} and problem_id = {$problem['id']}")) {

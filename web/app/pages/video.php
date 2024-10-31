@@ -9,6 +9,7 @@ if ($myUser == null) {
 } elseif ($contest['cur_progress'] == CONTEST_NOT_STARTED) {
     redirectTo('/contests');
 }
+
 $contestid = $contest["id"];
 $row = DB::selectFirst("select camera from contests where id = $contestid");
 if($row['camera'] == 0)
@@ -153,8 +154,9 @@ if($row['camera'] == 0)
                     return false;
                 }
 
-                $.post("mypicup.php", { datapic: datapic }, function (result) {
-                    alert('上传成功'); location.href = '';
+		$.post("mypicup", { datapic: datapic, contest_id: <?= $contestid ?> }, function (result) {
+                    if (result == "success") { alert("上传成功!");$(".jump_step a").css("background-color", "#08ca99"); }
+		    else { alert(`上传失败: ${result}，请重试!`); locaton.href = ''; }
                 });
 
             });

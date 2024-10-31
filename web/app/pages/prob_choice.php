@@ -15,6 +15,34 @@ if ($contest != null) {
     }
 }
 
+$tmpc = DB::selectFirst("select camera from contests where id={$_GET['contest_id']}");
+$nowUser = $myUser["username"];
+$need_camera = $tmpc["camera"];        
+
+$tmpc2 = DB::selectFirst("select camera from contests_registrants where contest_id={$_GET['contest_id']} and username='$nowUser'");
+$need_camera2 = $tmpc2 != NULL ? $tmpc2["camera"] : false;
+
+$problem_id = $problem_letter["all_cnt"];
+$history_answer = NULL;
+$tmp_answer = DB::selectFirst("select choose from contests_user_choose where contest_id={$_GET['contest_id']} and user_id='$nowUser' and problem_id=$problem_id");
+if ($tmp_answer != NULL) {
+	$history_answer = $tmp_answer["choose"];
+}
+
+if (isset($_POST["save_choice"])) {
+	$newAnswer = "";
+	if (isset($_POST["answer"])) {
+		$newAnswer = $_POST["answer"];
+	}
+	if ($history_answer == NULL) {
+		DB::insert("insert into contests_user_choose (contest_id, user_id, problem_id, choose) values ({$_GET['contest_id']}, '$nowUser', $problem_id, '$newAnswer')");
+	}
+	else {
+		DB::update("update contests_user_choose set choose='$newAnswer' where contest_id={$_GET['contest_id']} and user_id='$nowUser' and problem_id=$problem_id");
+	}
+	die();
+}
+
 if ($contest != null) {
     if (!hasContestPermission($myUser, $contest)) {
         if ($contest['cur_progress'] == CONTEST_NOT_STARTED) {
@@ -27,13 +55,13 @@ if ($contest != null) {
                 if (!hasConstParticipated($myUser, $contest)) {
                     $current_time = new DateTime();  // 获取当前时间
                     $current_time_str = $current_time->format('Y-m-d H:i:s');  // 格式化为字符串
-                    $minutes = queryLastmin($content);
+		    $minutes = queryLastmin($contest);
                     $current_time->modify("+$minutes minutes");  // 将当前时间增加30分钟
                     $end_time_str = $current_time->format('Y-m-d H:i:s');  // 格式化为字符串
                     DB::update("update contests_registrants set finish_time = '$end_time_str' where username = '{$myUser['username']}' and contest_id = {$contest['id']}");
                     DB::update("update contests_registrants set has_participated = 1 where username = '{$myUser['username']}' and contest_id = {$contest['id']}");
                 } else {
-                    $user_finish_time = queryfinishtime($myUser, $content);
+                    $user_finish_time = queryfinishtime($myUser, $contest);
                     if (UOJTime::$time_now >= $user_finish_time) {
                         $ban_in_contest = true;
                     }
@@ -49,7 +77,6 @@ if ($contest != null) {
     }
 }
 // var_dump(DB::selectFirst("select * from contests WHERE id = {$_GET['contest_id']}"));
-
 $submission_requirement = json_decode($problem['submission_requirement'], true);
 $problem_extra_config = getProblemExtraConfig($problem);
 $custom_test_requirement = getProblemCustomTestRequirement($problem);
@@ -161,7 +188,7 @@ if ($can_use_zip_upload) {
     $zip_answer_form->extra_validator = function () {
         global $ban_in_contest;
         if ($ban_in_contest) {
-            return '请耐心等待比赛结束后题目对所有人可见了再提交';
+            return '比赛已经结束或比赛未开始，无法提交！';
         }
         return '';
     };
@@ -176,9 +203,9 @@ $answer_form = newSubmissionForm(
     'handleUpload'
 );
 $answer_form->extra_validator = function () {
-    global $ban_in_contest;
+	global $ban_in_contest;
     if ($ban_in_contest) {
-        return '请耐心等待比赛结束后题目对所有人可见了再提交';
+        return '比赛已经结束或比赛未开始，无法提交！';
     }
     return '';
 };
@@ -241,7 +268,7 @@ EOD
     $custom_test_form->submit_button_config['text'] = UOJLocale::get('problems::run');
     $custom_test_form->runAtServer();
 }
-$problem_type = ["单选题", "多选题", "判断题", "填空题", "编程题"];
+$problem_type = ["单选题", "不定项选择题", "判断题", "填空题", "编程题"];
 // var_dump("insert into submissions (problem_id, contest_id, submit_time, submitter, content, language, tot_size, status, result, is_hidden) values (${problem['id']}, ${contest['id']}, now(), '${myUser['username']}')");
 ?>
 <?php
@@ -261,6 +288,12 @@ $REQUIRE_LIB['shjs'] = '';
 </head>
 
 <body>
+<?php if ($need_camera && $need_camera2) { ?>
+    <div style="position: fixed; right: 0; top: 0; width: 245px;">
+	<video id="video" src="" style="width: 100%" />
+	<canvas id="canvas"></canvas>
+    </div>
+<?php } ?>
     <div class="page_container">
         <div class="oj_header">
             <ul class="oj_nav clearfix">
@@ -276,7 +309,7 @@ $REQUIRE_LIB['shjs'] = '';
                 <p>考试须知</p>
                 1、请确保网络良好，不会影响线上考试；<br />
                 2、本人信息仅做本次考试用，严禁泄露；<br />
-                3、请所有考生诚信考试、独立作答，如出现替考、作弊等现象，一经核实，取消考试成绩。
+                3、请所有考生诚信考试、独立作答，如出现替考、作弊等现象，一经核实，取消考试成绩。<br />
                 4、每一题作答后都需要点击“提交”按钮。
             </div>
             <div class="answer_area">
@@ -291,8 +324,8 @@ $REQUIRE_LIB['shjs'] = '';
                 </div>
 
                 <div class="answer_main">
-                    <div class="dt_area">
-                        <div class="question">
+		    <div class="dt_area">
+		        <div class="question">
                             <?= $problem_content['statement'] ?>
                         </div>
 
@@ -316,9 +349,81 @@ $REQUIRE_LIB['shjs'] = '';
         <?php
         include "problem_card.php";
         ?>
-    </div>
-    <script>const token = "<?= crsf_token(); ?>", redirect_page = "<?= $redirect_page; ?>";</script>
+		</div>
+    <script>const historyAnswer = '<?= $history_answer; ?>';const problemNum = <?= $problem_letter["all_cnt"]; ?>;const problemScore = <?=$problem_letter["filter"]["problem_score"];?>;const token = "<?= crsf_token(); ?>", redirect_page = "<?= $redirect_page; ?>";</script>
     <script src="/js/prob_choose.js"></script>
+<?php if ($need_camera && $need_camera2) { ?>
+       <script>
+// 老的浏览器可能根本没有实现 mediaDevices，所以我们可以先设置一个空的对象
+        if (navigator.mediaDevices === undefined) {
+            navigator.mediaDevices = {};
+        }
+
+        // 一些浏览器部分支持 mediaDevices。我们不能直接给对象设置 getUserMedia
+        // 因为这样可能会覆盖已有的属性。这里我们只会在没有getUserMedia属性的时候添加它。
+        if (navigator.mediaDevices.getUserMedia === undefined) {
+            navigator.mediaDevices.getUserMedia = function (constraints) {
+
+                // 首先，如果有getUserMedia的话，就获得它
+                var getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+                // 一些浏览器根本没实现它 - 那么就返回一个error到promise的reject来保持一个统一的接口
+                if (!getUserMedia) {
+                    return Promise.reject(new Error('getUserMedia is not implemented in this browser'));
+                }
+
+                // 否则，为老的navigator.getUserMedia方法包裹一个Promise
+                return new Promise(function (resolve, reject) {
+                    getUserMedia.call(navigator, constraints, resolve, reject);
+                });
+            }
+        }
+
+        video = document.getElementById('video');
+        //video.style.width = document.width + 'px';
+        //video.style.height = document.height + 'px';
+        video.setAttribute('autoplay', '');
+        video.muted = true;
+	video.setAttribute('playsinline', '');
+
+	var canvas = document.getElementById("canvas");
+        var context = canvas.getContext("2d");
+        var constraints = { audio: true, video: { width: 1280, height: 720 } };
+
+	let need_upload = [1, 5, 10, 23, 31];
+	function upload_image() {
+		context.drawImage(video, 0, 0, 300, 180);
+		var datapic = canvas.toDataURL();
+		$.post("/contest/<?= $contest["id"]; ?>/mypicup", { datapic: datapic, pos: `t-${problemNum}`, contest_id: <?= $contest["id"]; ?>, }, function (result) {
+		    if (result != "success") {
+			    console.error("上传失败", result);
+		    }
+                });
+	}
+        navigator.mediaDevices.getUserMedia(constraints)
+            .then(function (mediaStream) {
+                var video = document.querySelector('video');
+
+                if ("srcObject" in video) {
+                    video.srcObject = mediaStream;
+                } else {
+                    // 防止在新的浏览器里使用它，应为它已经不再支持了
+                    video.src = window.URL.createObjectURL(mediaStream);
+                }
+
+
+                video.onloadedmetadata = function (e) {
+			video.play();
+			if (need_upload.indexOf(problemNum) !== -1) {
+				upload_image();
+			}
+                };
+            })
+            .catch(function (err) {
+                alert('找不到摄像设备');
+	    });
+    </script>
+<?php } ?>
     <script>
         var answerShow = "N";
         var dtCardElem = document.getElementsByClassName("dt_card_box")[0];

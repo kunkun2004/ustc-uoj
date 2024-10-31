@@ -58,10 +58,16 @@ function redirectToLogin() {
 function becomeMsgPage($msg, $title = '消息') {
 	if (UOJContext::isAjax()) {
 		die($msg);
-	} else {
+	} else if (false && $myUser["usergroup"] == "S") {
 		echoUOJPageHeader($title);
 		echo $msg;
 		echoUOJPageFooter();
+		die();
+	}
+	else {
+		?>
+		<script>alert('<?php echo str_replace("'", "\\'", $msg); ?>');history.back();</script>
+<?php
 		die();
 	}
 }

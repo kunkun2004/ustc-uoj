@@ -1,9 +1,3 @@
-score 0
-time 79
-memory 35484
+error Judgement Failed
 details
-<tests>
-<custom-test info="Runtime Error" time="79" memory="35484">
-<out></out>
-</custom-test>
-</tests>
+<error>Judgement Failed : Judger Judgement Failed</error>

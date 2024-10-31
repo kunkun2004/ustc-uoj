@@ -51,9 +51,9 @@ $(document).ready(function () {
             const problemContainer = $('<div></div>').addClass('choose-problem').addClass(type === 'single' ? 'single-choose' : 'multiple-choose');
 
             // 创建题目内容，添加序号
-            const problemTypeMap = { single: '单选题', multiple: '多选题', judgement: '判断题' };
+            const problemTypeMap = { single: '单选题', multiple: '不定项选择题', judgement: '判断题' };
             const problemTypeBadge = problemTypeMap[type] ?? '单选题';
-            const problemContent = $('<div></div>').addClass('problem-content').html(`${questionCounter}. [${problemTypeBadge}]${question.replace(/\n/g, '<br>')}`);
+            const problemContent = $('<div></div>').addClass('problem-content').html(`${problemNum}. [${problemTypeBadge}](${problemScore}分) ${question.replace(/\n/g, '<br>')}`);
             problemContainer.append(problemContent);
 
             // 创建选项容器
@@ -63,12 +63,16 @@ $(document).ready(function () {
             choices.forEach((choice, index) => {
                 const formCheck = $('<div></div>').addClass('anwer_item');
                 const label = $('<label></label>').addClass('form-check-label').attr('for', `anwer${index}`);
-                const input = $('<input>')
+                const option_letter = String.fromCharCode(65 + index);
+		const input = $('<input>')
                     .attr('type', type === 'multiple' ? 'checkbox' : 'radio')
                     .addClass('anwer')
                     .attr('id', `anwer${index}`)
                     .attr('name', `problem${questionCounter}`)
-                    .attr('value', String.fromCharCode(65 + index)); // 将索引转换为A, B, C, D
+                    .attr('value', option_letter); // 将索引转换为A, B, C, D
+		if (historyAnswer.indexOf(option_letter) != -1) {
+			input.attr('checked', '');
+		}
 
                 formCheck.append(input)
                 label.html(`${String.fromCharCode(65 + index)}. ${choice.replace(/\n/g, '<br>&nbsp;&nbsp;')}`);
@@ -107,17 +111,43 @@ $(document).ready(function () {
             });
         })
     }
+    function saveAnswer(link, val) {
+        const d = new FormData();
+        d.append("save_choice", "233");
+        d.append("answer", val.get("answer_output1_editor"));
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: link,
+                type: "POST",
+                data: d,
+                processData: false,
+                contentType: false,
+                success: response => resolve(response),
+                error: (xhr, status, error) => reject(error)
+            });
+	});
+    }
     $("#choice-submit-answer-button").click(async () => {
         const user_ans = new FormData();
         user_ans.append("_token", token);
+	let empty_problem = false;
         for (let i = 1; i <= questionCounter; ++i) {
             const ans_list = $(`input[name=problem${i}]:checked`).map((i, e) => e.value).get();
             const ans = ans_list.join("");
+            if (ans.length === 0) {
+                empty_problem = true;
+                break;
+	    }
             user_ans.append(`answer_output${i}_upload_type`, "editor");
             user_ans.append(`answer_output${i}_editor`, ans);
             user_ans.append(`answer_output${i}_file`, new Blob([], { type: "application/octet-stream" }), "");
         }
+        if (empty_problem) {
+            alert("请至少选择一个选项!");
+            return;
+	}
         user_ans.append("submit-answer", "answer");
+        const d = await saveAnswer(location.pathname, user_ans);
         const r = await submitForm(location.pathname, user_ans);
         location.href = redirect_page;
     });
