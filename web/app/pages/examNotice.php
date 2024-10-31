@@ -107,7 +107,7 @@
         if($("input[type='checkbox']").is(':checked')){
             // 使用 AJAX 发送请求到服务器
             $.ajax({
-                url: 'execute_php.php', // 服务器端的 PHP 文件
+                url: 'execute_php', // 服务器端的 PHP 文件
                 type: 'POST',
                 data: { action: "update contests_registrants set has_participated = 1 where contest_id= <?=$_GET['contest_id']?> and username = '<?= $nowUser?>'" }, // 传递给 PHP 的数据
                 success: function(response) {
