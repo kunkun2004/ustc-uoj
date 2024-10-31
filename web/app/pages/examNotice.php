@@ -31,7 +31,7 @@
     $temc3 = DB::selectFirst("select * from contests_registrants where contest_id={$_GET['id']} and username='$nowUser'");
     $problem_list_res = queryContestUserProblemList($contest, $myUser);
     $p=reset($problem_list_res[0]);
-    var_dump($temc3);
+    // var_dump($temc3);
     if($temc3["has_participated"]==1)
     {
         $pid = $p["id"];
