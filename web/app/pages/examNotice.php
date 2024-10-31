@@ -96,7 +96,7 @@
                 <div class="back_step">
                     <a href="/contest/<?= $contest["id"]; ?>/video"><< 返回上一步</a>
                 </div>
-                <div class="start_answer">开始答题</div>
+                <div class="start_answer"><a href="/contest/<?= $contest["id"]; ?>/problem/<?= $p["id"]; ?>">开始答题</a></div>
             </div>
         </div>
     </div>
@@ -111,6 +111,7 @@
                 type: 'POST',
                 data: { action: "update contests_registrants set has_participated = 1 where contest_id= <?=$_GET['contest_id']?> and username = '<?= $nowUser?>'" }, // 传递给 PHP 的数据
                 success: function(response) {
+                    alert("asdf");
                     location.href = "/contest/<?= $contest["id"]; ?>/problem/<?= $p["id"]; ?>";
                 }
             });
