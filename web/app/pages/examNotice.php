@@ -11,10 +11,14 @@
     // elseif (hasContestPermission($myUser, $contest) || hasRegistered($myUser, $contest) || $contest['cur_progress'] != CONTEST_NOT_STARTED) {
 	// 	//redirectTo('/contests');
 	// }
+    if (!hasRegistered($myUser, $contest))
+    {
+        redirectTo('/contests');
+    }
 	$tmpc = DB::selectFirst("select camera from contests where id={$_GET['id']}");
 	$nowUser = $myUser["username"];	
 	$tmpc2 = DB::selectFirst("select camera from contests_registrants where contest_id={$_GET['contest_id']} and username='$nowUser'");
-        $need_camera2 = $tmpc2 != NULL ? $tmpc2["camera"] : false;
+    $need_camera2 = $tmpc2 != NULL ? $tmpc2["camera"] : false;
 	if ($tmpc["camera"] && $need_camera2) {
 		$lastImage = DB::selectFirst("select id from contest_picup where pos='pre' and contest_id={$_GET['id']} and user_id='$nowUser'");
 		if ($lastImage == NULL) {
@@ -24,17 +28,25 @@
 			die();
 		}
 	}
-	$register_form = new UOJForm('register');
-	$register_form->handle = function() {
-		global $myUser, $contest;
-		DB::query("insert into contests_registrants (username, user_rating, contest_id, has_participated) values ('{$myUser['username']}', {$myUser['rating']}, {$contest['id']}, 0)");
-		updateContestPlayerNum($contest);
-	};
-	$register_form->submit_button_config['class_str'] = 'btn btn-primary';
-	$register_form->submit_button_config['text'] = '报名比赛';
-	$register_form->succ_href = "/contest/{$contest['id']}";
+    $temc3 = DB::selectFirst("select * from contests_registrants where contest_id={$_GET['contest_id']} and username='$nowUser'");
+    if($temc3["has_participated"]==1)
+    {
+        $problem_list_res = queryContestUserProblemList($contest, $myUser);
+        $p=reset($problem_list_res[0]);
+        $pid = $p["id"];
+        redirectTo("/contest/{$contest['id']}/problem/$pid");
+    }
+	// $register_form = new UOJForm('register');
+	// $register_form->handle = function() {
+	// 	global $myUser, $contest;
+	// 	DB::query("insert into contests_registrants (username, user_rating, contest_id, has_participated) values ('{$myUser['username']}', {$myUser['rating']}, {$contest['id']}, 0)");
+	// 	updateContestPlayerNum($contest);
+	// };
+	// $register_form->submit_button_config['class_str'] = 'btn btn-primary';
+	// $register_form->submit_button_config['text'] = '报名比赛';
+	// $register_form->succ_href = "/contest/{$contest['id']}";
 	
-	$register_form->runAtServer();
+	// $register_form->runAtServer();
 ?><!DOCTYPE html>
 <html>
 <head lang="en">
@@ -84,7 +96,6 @@
                 <div class="back_step">
                     <a href="/contest/<?= $contest["id"]; ?>/video"><< 返回上一步</a>
                 </div>
-                <div style="display: none"><?php $register_form->printHTML(); ?></div>
                 <div class="start_answer">
                     <?php  
                     $problem_list_res = queryContestUserProblemList($contest, $myUser);
@@ -111,7 +122,7 @@
 <script>
     $(".start_answer").click(function(){
         if($("input[type='checkbox']").is(':checked')){
-            $('#button-submit-register').click();
+            location.href=" ";
         }else{
             alert("请先阅读考试须知！")
         }
