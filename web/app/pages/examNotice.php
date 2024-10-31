@@ -97,7 +97,7 @@
                 <div class="back_step">
                     <a href="/contest/<?= $contest["id"]; ?>/video"><< 返回上一步</a>
                 </div>
-                <div class="start_answer"><a href="/contest/<?= $contest["id"]; ?>/problem/<?= $p["id"]; ?>">开始答题</a></div>
+                <div class="start_answer"><a href="">开始答题</a></div>
             </div>
         </div>
     </div>
@@ -105,6 +105,7 @@
 <script src="/js/jquery-2.1.4/jquery.min.js"></script>
 <script>
     $(".start_answer").click(function(){
+        event.preventDefault();
         if($("input[type='checkbox']").is(':checked')){
             // 使用 AJAX 发送请求到服务器
             $.ajax({
