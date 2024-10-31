@@ -36,6 +36,7 @@
         $pid = $p["id"];
         redirectTo("/contest/{$contest['id']}/problem/$pid");
     }
+    $lastmin = $contest["last_min"];
 	// $register_form = new UOJForm('register');
 	// $register_form->handle = function() {
 	// 	global $myUser, $contest;
@@ -109,7 +110,9 @@
             $.ajax({
                 url: 'execute_php', // 服务器端的 PHP 文件
                 type: 'POST',
-                data: { action: "update contests_registrants set has_participated = 1 where contest_id= <?=$_GET['contest_id']?> and username = '<?= $nowUser?>'" }, // 传递给 PHP 的数据
+                data: { 
+                    action: "update contests_registrants set has_participated = 1, finish_time = '" . date('Y-m-d H:i:s', strtotime('+<?=$lastmin?> minutes')) . "' where contest_id=" . $_GET['contest_id'] . " and username = '" . $nowUser . "'" 
+                }, // 传递给 PHP 的数据
                 success: function(response) {
                     location.href = "/contest/<?= $contest["id"]; ?>/problem/<?= $p["id"]; ?>";
                 },
