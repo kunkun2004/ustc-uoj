@@ -31,6 +31,7 @@
     $temc3 = DB::selectFirst("select * from contests_registrants where contest_id={$_GET['contest_id']} and username='$nowUser'");
     $problem_list_res = queryContestUserProblemList($contest, $myUser);
     $p=reset($problem_list_res[0]);
+    var_dump($temc3);
     if($temc3["has_participated"]==1)
     {
         $pid = $p["id"];
@@ -105,7 +106,7 @@
 <script src="/js/jquery-2.1.4/jquery.min.js"></script>
 <script>
     $(".start_answer a").click(function(event){
-        console.log("点击事件触发");
+        // console.log("点击事件触发");
         event.preventDefault();
         if($("input[type='checkbox']").is(':checked')){
             // 使用 AJAX 发送请求到服务器
@@ -118,7 +119,7 @@
                     atc2: "' where contest_id=" + <?=$_GET['id']?> + " and username = '" + "<?=$nowUser?>" + "'" 
                 }, // 传递给 PHP 的数据
                 success: function(response) {
-                    console.log(response);
+                    // console.log(response);
                     location.href = "/contest/<?= $contest["id"]; ?>/problem/<?= $p["id"]; ?>";
                 },
                 error: function(xhr, status, error) {
