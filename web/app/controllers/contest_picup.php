@@ -15,8 +15,14 @@ if (isset($_POST["datapic"]) && isset($_POST["contest_id"])) {
 
 	$decoded_data = base64_decode($base64_data);
 
-	$image_name = $cid . '_' . $nowUser . '_' . $pos . '.png';
-	$save_path = "/var/uoj_data/contest_picture/$image_name.png";
+	$image_name = $cid . '_' . $pos . '.png';
+
+	$save_path = "/var/uoj_data/contest_picture/$nowUser/$image_name.png";
+	// Check if the directory exists, if not, create it with 777 permissions
+	$directory = dirname($save_path);
+	if (!is_dir($directory)) {
+		mkdir($directory, 0777, true);
+	}
 
 	if (!file_put_contents($save_path, $decoded_data)) {
 		die("fail to write dir");
