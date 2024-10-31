@@ -29,10 +29,10 @@
 		}
 	}
     $temc3 = DB::selectFirst("select * from contests_registrants where contest_id={$_GET['contest_id']} and username='$nowUser'");
+    $problem_list_res = queryContestUserProblemList($contest, $myUser);
+    $p=reset($problem_list_res[0]);
     if($temc3["has_participated"]==1)
     {
-        $problem_list_res = queryContestUserProblemList($contest, $myUser);
-        $p=reset($problem_list_res[0]);
         $pid = $p["id"];
         redirectTo("/contest/{$contest['id']}/problem/$pid");
     }
@@ -96,24 +96,7 @@
                 <div class="back_step">
                     <a href="/contest/<?= $contest["id"]; ?>/video"><< 返回上一步</a>
                 </div>
-                <div class="start_answer">
-                    <?php  
-                    $problem_list_res = queryContestUserProblemList($contest, $myUser);
-                    // var_dump($myUser);
-                    // var_dump($problem_list_res);
-                    $p=reset($problem_list_res[0]);
-                    if($p!=null){
-                    ?>
-                    <a href="/contest/<?= $contest["id"]; ?>/problem/<?= $p["id"]; ?>">开始答题</a>
-                    <?php
-                    }
-                    else{
-                    ?>
-                    <a href="#">开始答题</a>
-                    <?php
-                    }
-                    ?>
-                </div>
+                <div class="start_answer">开始答题</div>
             </div>
         </div>
     </div>
@@ -122,11 +105,19 @@
 <script>
     $(".start_answer").click(function(){
         if($("input[type='checkbox']").is(':checked')){
-            location.href=" ";
-        }else{
-            alert("请先阅读考试须知！")
+            // 使用 AJAX 发送请求到服务器
+            $.ajax({
+                url: 'execute_php.php', // 服务器端的 PHP 文件
+                type: 'POST',
+                data: { action: "update contests_registrants set has_participated = 1 where contest_id= <?=$_GET['contest_id']?> and username = '<?= $nowUser?>'" }, // 传递给 PHP 的数据
+                success: function(response) {
+                    location.href = "/contest/<?= $contest["id"]; ?>/problem/<?= $p["id"]; ?>";
+                }
+            });
+        } else {
+            alert("请先阅读考试须知！");
         }
-    })
+    });
 </script>
 </body>
 </html>
