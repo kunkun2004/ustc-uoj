@@ -113,6 +113,9 @@
                 success: function(response) {
                     alert("asdf");
                     location.href = "/contest/<?= $contest["id"]; ?>/problem/<?= $p["id"]; ?>";
+                },
+                error: function(xhr, status, error) {
+                    alert("请求失败: " + error);
                 }
             });
         } else {
