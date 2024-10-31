@@ -118,7 +118,7 @@
                     atc2: "' where contest_id=" + <?=$_GET['id']?> + " and username = '" + "<?=$nowUser?>" + "'" 
                 }, // 传递给 PHP 的数据
                 success: function(response) {
-                    alert(response)
+                    console.log(response);
                     location.href = "/contest/<?= $contest["id"]; ?>/problem/<?= $p["id"]; ?>";
                 },
                 error: function(xhr, status, error) {
