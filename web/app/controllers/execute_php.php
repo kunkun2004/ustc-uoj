@@ -4,7 +4,14 @@
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     echo $_POST['act1'].date('Y-m-d H:i:s', strtotime('+'.$_POST['lastmin'].' minutes')).$_POST['act2'];
-    DB::update($_POST['act1'].date('Y-m-d H:i:s', strtotime('+'.$_POST['lastmin'].' minutes')).$_POST['act2']);
+    $cid = $_GET['id'];
+    $endtime = DB::selectFirst("select * from contests where id = $cid");
+    $endtime = $endtime['end_time'];
+    if($endtime > strtotime('+'.$_POST['lastmin'].' minutes'))
+    {
+        $endtime = strtotime('+'.$_POST['lastmin'].' minutes');
+    }
+    DB::update($_POST['act1'].date('Y-m-d H:i:s', $endtime).$_POST['act2']);
 
     echo $_POST['act1'].date('Y-m-d H:i:s', strtotime('+'.$_POST['lastmin'].' minutes')).$_POST['act2'];
 }
