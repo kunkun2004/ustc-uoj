@@ -7,7 +7,7 @@
 	
 	if ($myUser == null) {
 		redirectToLogin();
-	} 
+	}
     // elseif (hasContestPermission($myUser, $contest) || hasRegistered($myUser, $contest) || $contest['cur_progress'] != CONTEST_NOT_STARTED) {
 	// 	//redirectTo('/contests');
 	// }
@@ -104,7 +104,7 @@
 </div>
 <script src="/js/jquery-2.1.4/jquery.min.js"></script>
 <script>
-    $(".start_answer").click(function(){
+    $(".start_answer a").click(function(event){
         event.preventDefault();
         if($("input[type='checkbox']").is(':checked')){
             // 使用 AJAX 发送请求到服务器
