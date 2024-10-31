@@ -116,7 +116,7 @@
                     action: "update contests_registrants set has_participated = 1, finish_time = '" + "<?=date('Y-m-d H:i:s', strtotime('+'.$lastmin.' minutes'))?>" + "' where contest_id=" + <?=$_GET['id']?> + " and username = '" + "<?=$nowUser?>" + "'" 
                 }, // 传递给 PHP 的数据
                 success: function(response) {
-                    alert("update contests_registrants set has_participated = 1, finish_time = '" + "<?=date('Y-m-d H:i:s', strtotime('+'.$lastmin.' minutes'))?>" + "' where contest_id=" + <?=$_GET['id']?> + " and username = '" + "<?=$nowUser?>" + "'")
+                    alert(response)
                     location.href = "/contest/<?= $contest["id"]; ?>/problem/<?= $p["id"]; ?>";
                 },
                 error: function(xhr, status, error) {
