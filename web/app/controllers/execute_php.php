@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cid = $_GET['id'];
     $row = DB::selectFirst("select * from contests where id = $cid");
     $endtime = new DateTime($row['end_time']);
-    if($endtime > strtotime('+'.$_POST['lastmin'].' minutes'))
+    if($endtime < strtotime('+'.$_POST['lastmin'].' minutes'))
     {
         $endtime = strtotime('+'.$_POST['lastmin'].' minutes');
     }
