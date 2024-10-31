@@ -105,6 +105,7 @@
 <script src="/js/jquery-2.1.4/jquery.min.js"></script>
 <script>
     $(".start_answer a").click(function(event){
+        console.log("点击事件触发");
         event.preventDefault();
         if($("input[type='checkbox']").is(':checked')){
             // 使用 AJAX 发送请求到服务器
