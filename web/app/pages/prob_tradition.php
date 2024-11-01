@@ -30,6 +30,9 @@ $submission_requirement = json_decode($problem['submission_requirement'], true);
 $problem_extra_config = getProblemExtraConfig($problem);
 $custom_test_requirement = getProblemCustomTestRequirement($problem);
 
+$endtimestr = DB::selectFirst("select * from contests_registrants where contest_id={$_GET['contest_id']} and username='$nowUser'");
+$endtime = $endtimestr["finish_time"];
+
 if ($custom_test_requirement && Auth::check()) {
     $custom_test_submission = DB::selectFirst("select * from custom_test_submissions where submitter = '" . Auth::id() . "' and problem_id = {$problem['id']} order by id desc limit 1");
     $custom_test_submission_result = json_decode($custom_test_submission['result'], true);
@@ -368,7 +371,7 @@ box-sizing: border-box;
                     </div>
                     <div class="answer_time" style="box-sizing: content-box">
                         <p style="margin: 0;">截止时间</p>
-                        <p style="margin: 0;"><?php echo $contest["end_time_str"]; ?></p>
+                        <p style="margin: 0;"><?php echo $endtime; ?></p>
                     </div>
                 </div>
 

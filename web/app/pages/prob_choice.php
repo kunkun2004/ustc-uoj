@@ -22,6 +22,9 @@ $need_camera = $tmpc["camera"];
 $tmpc2 = DB::selectFirst("select camera from contests_registrants where contest_id={$_GET['contest_id']} and username='$nowUser'");
 $need_camera2 = $tmpc2 != NULL ? $tmpc2["camera"] : false;
 
+$endtimestr = DB::selectFirst("select * from contests_registrants where contest_id={$_GET['contest_id']} and username='$nowUser'");
+$endtime = $endtimestr["finish_time"];
+
 $problem_id = $problem_letter["all_cnt"];
 $history_answer = NULL;
 $tmp_answer = DB::selectFirst("select choose from contests_user_choose where contest_id={$_GET['contest_id']} and user_id='$nowUser' and problem_id=$problem_id");
@@ -286,7 +289,7 @@ $REQUIRE_LIB['shjs'] = '';
                     </div>
                     <div class="answer_time">
                         <p>截止时间</p>
-                        <p><?php echo $contest["end_time_str"]; ?></p>
+                        <p><?php echo $endtime; ?></p>
                     </div>
                 </div>
 
