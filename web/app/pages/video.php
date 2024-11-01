@@ -22,7 +22,7 @@ if($row['camera'] == 0)
 }
 $nowUser = $myUser["username"];
 $pos = "pre";
-if(DB::selectCount("select id from contest_picup where pos='$pos' and contest_id=$contestid and user_id='$nowUser'") > 0)
+if(DB::selectCount("select count(id) from contest_picup where pos='$pos' and contest_id=$contestid and user_id='$nowUser'") > 0)
 {
     redirectTo('/contest/'. $contest["id"] .'/register');
 }
