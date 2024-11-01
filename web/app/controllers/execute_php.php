@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $endtime = strtotime('+'.$_POST['lastmin'].' minutes');
     }
     DB::update($_POST['act1'].date('Y-m-d H:i:s', $endtime).$_POST['act2']);
-    echo $endtime;
     echo $_POST['act1'].date('Y-m-d H:i:s', $endtime).$_POST['act2'];
 }
 ?>
