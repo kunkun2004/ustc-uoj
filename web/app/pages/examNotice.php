@@ -116,7 +116,7 @@
                 data: { 
                     act1: "update contests_registrants set has_participated = 1, finish_time = '",
                     lastmin: "<?=$lastmin?>",
-                    atc2: "' where contest_id=" + <?=$_GET['id']?> + " and username = '" + "<?=$nowUser?>" + "'" 
+                    act2: "' where contest_id=" + <?=$_GET['id']?> + " and username = '" + "<?=$nowUser?>" + "'" 
                 }, // 传递给 PHP 的数据
                 success: function(response) {
                     console.log(response);
