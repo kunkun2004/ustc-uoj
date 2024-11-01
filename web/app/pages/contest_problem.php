@@ -19,6 +19,12 @@ ini_set("display_errors", "On");
 					becomeMsgPage("<h1>比赛正在进行中</h1><p>很遗憾，您尚未报名。比赛结束后再来看吧 ～</p>");
 				} 
 				else {
+					$nowUser = $myUser['username'];
+					$endtimestr = DB::selectFirst("select * from contests_registrants where contest_id={$_GET['contest_id']} and username='$nowUser'");
+					if($endtimestr['has_participated']==0)
+					{
+						redirectTo("contest/$_GET['contest_id']/register");
+					}
 				}
 	
 			}
