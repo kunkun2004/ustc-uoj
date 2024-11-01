@@ -17,9 +17,9 @@ ini_set("display_errors", "On");
 			} 
 			$nowUser = $myUser['username'];
 			$endtimestr = DB::selectFirst("select * from contests_registrants where contest_id={$_GET['contest_id']} and username='$nowUser'");
-			if($endtimestr["has_participated"]=='0')
+			if($endtimestr["has_participated"]==0)
 			{
-				redirectTo("contest/$_GET['contest_id']/register");
+				redirectTo("contest/".$_GET['contest_id']."/register");
 			}
 
 		}
