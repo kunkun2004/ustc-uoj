@@ -10,11 +10,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo $row['end_time'];
     var_dump($row);
     $endtime = new DateTime($row['end_time']);
-    if($endtime > strtotime('+'.$_POST['lastmin'].' minutes'))
+    $newtime = new DateTime(date('Y-m-d H:i:s', strtotime('+'.$_POST['lastmin'].' minutes')));
+    echo $endtime.'\n';
+    echo $newtime.'\n';
+    if($endtime > $newtime)
     {
-        $endtime = strtotime('+'.$_POST['lastmin'].' minutes');
+        $endtime = $newtime;
     }
-    DB::update($_POST['act1'].date('Y-m-d H:i:s', $endtime).$_POST['act2']);
-    echo $_POST['act1'].date('Y-m-d H:i:s', $endtime).$_POST['act2'];
+    DB::update($_POST['act1'].$endtime->format('Y-m-d H:i:s').$_POST['act2']);
+    echo $_POST['act1'].$endtime->format('Y-m-d H:i:s').$_POST['act2'];
 }
 ?>
