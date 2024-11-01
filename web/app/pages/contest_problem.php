@@ -21,14 +21,7 @@ ini_set("display_errors", "On");
 				else {
 					$nowUser = $myUser['username'];
 					$endtimestr = DB::selectFirst("select * from contests_registrants where contest_id={$_GET['contest_id']} and username='$nowUser'");
-					
-					$endtime = new Datetime($endtimestr['finish_time']);
-					//获取当前时间与endtime比较，如果endtime比当前时间小，则跳转到"contest/$_GET['contest_id']/result"
-					$nowtime = new Datetime();
-					if($endtime < $nowtime)
-					{
-						redirectTo("contest/$_GET['contest_id']/result");
-					}
+					var_dump($endtimestr);
 				}
 	
 			}
