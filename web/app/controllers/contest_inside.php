@@ -4,6 +4,10 @@
 	if (!validateUInt($_GET['id']) || !($contest = queryContest($_GET['id']))) {
 		become404Page();
 	}
+	
+	if (!isSuperUser($myUser)) {
+		become403Page();
+	}
 	genMoreContestInfo($contest);
 
 	if (!hasContestPermission(Auth::user(), $contest)) {

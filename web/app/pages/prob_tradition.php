@@ -24,40 +24,6 @@ $need_camera = $tmpc["camera"];
 $tmpc2 = DB::selectFirst("select camera from contests_registrants where contest_id={$_GET['contest_id']} and username='$nowUser'");
 $need_camera2 = $tmpc2 != NULL ? $tmpc2["camera"] : false;
 
-if ($contest != null) {
-    if (!hasContestPermission($myUser, $contest)) {
-        if ($contest['cur_progress'] == CONTEST_NOT_STARTED) {
-            become404Page();
-        } elseif ($contest['cur_progress'] == CONTEST_IN_PROGRESS) {
-            if ($myUser == null || !hasRegistered($myUser, $contest)) {
-                becomeMsgPage("<h1>比赛正在进行中</h1><p>很遗憾，您尚未报名。比赛结束后再来看吧 ～</p>");
-            } else {
-                $is_in_contest = true;
-                if (!hasConstParticipated($myUser, $contest)) {
-                    $current_time = new DateTime();  // 获取当前时间
-                    $current_time_str = $current_time->format('Y-m-d H:i:s');  // 格式化为字符串
-                    $minutes = queryLastmin($contest);
-                    $current_time->modify("+$minutes minutes");  // 将当前时间增加30分钟
-                    $end_time_str = $current_time->format('Y-m-d H:i:s');  // 格式化为字符串
-                    DB::update("update contests_registrants set finish_time = '$end_time_str' where username = '{$myUser['username']}' and contest_id = {$contest['id']}");
-                    DB::update("update contests_registrants set has_participated = 1 where username = '{$myUser['username']}' and contest_id = {$contest['id']}");
-                } else {
-			$user_finish_time = queryfinishtime($myUser, $contest);
-		
-                    if (UOJTime::$time_now >= $user_finish_time) {
-                        $ban_in_contest = true;
-                    }
-                }
-            }
-        } else {
-            $ban_in_contest = !isProblemVisibleToUser($problem, $myUser);
-        }
-    }
-} else {
-    if (!isProblemVisibleToUser($problem, $myUser)) {
-        become404Page();
-    }
-}
 //var_dump(UOJTime::$time_now);
 //var_dump($user_finish_time);
 $submission_requirement = json_decode($problem['submission_requirement'], true);
