@@ -17,7 +17,7 @@ if (isset($_POST["datapic"]) && isset($_POST["contest_id"])) {
 
 	$image_name = $cid . '_' . $pos . '.png';
 
-	$save_path = "/var/uoj_data/contest_picture/$nowUser/$image_name.png";
+	$save_path = "/var/uoj_data/contest_picture/$nowUser/$image_name";
 	// Check if the directory exists, if not, create it with 777 permissions
 	$directory = dirname($save_path);
 	if (!is_dir($directory)) {

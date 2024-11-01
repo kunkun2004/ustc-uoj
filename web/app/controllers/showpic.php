@@ -18,7 +18,7 @@
     $files = scandir($save_path);
     foreach ($files as $file) {
         if ($file != "." && $file != "..") {
-            echo "<img src='$save_path/$file' alt='$file'>";
+            echo "<img src=".$save_path.$file." alt='$file'>";
             echo "<br />";
             //输出文件名
             echo "<p>$file</p>";
