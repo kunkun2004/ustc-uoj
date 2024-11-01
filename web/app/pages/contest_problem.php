@@ -8,6 +8,7 @@ ini_set("display_errors", "On");
 		become404Page();
 	}
 	$tags = queryProblemTags($_GET['id']);
+	$contest = validateUInt($_GET['contest_id']) ? queryContest($_GET['contest_id']) : null;
 
 	if ($contest != null) {
 		if (!hasContestPermission($myUser, $contest)) {
