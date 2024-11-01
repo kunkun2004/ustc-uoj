@@ -20,7 +20,7 @@
         if ($file != "." && $file != "..") {
             //获取文件内容
             $img = file_get_contents($save_path.$file);
-            echo "<img src=data:image/png;base64,".$img." alt='$file'>";
+            echo "<img src='data:image/png;base64,".$img."' alt='$file'>";
             echo "<br />";
             //输出文件名
             echo "<p>$file</p>";
