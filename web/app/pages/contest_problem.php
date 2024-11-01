@@ -22,6 +22,7 @@ ini_set("display_errors", "On");
 					$nowUser = $myUser['username'];
 					$endtimestr = DB::selectFirst("select * from contests_registrants where contest_id={$_GET['contest_id']} and username='$nowUser'");
 					var_dump($endtimestr);
+					echo "11111";
 				}
 	
 			}
@@ -32,14 +33,14 @@ ini_set("display_errors", "On");
 		}
 	}
 
-    if (in_array('choice', $tags)) {
-        include 'prob_choice.php';
-    } 
-	else if(in_array('fill', $tags))
-	{
-		include 'prob_fill.php';
-	}
-	else {
-        include 'prob_tradition.php';
-    }
+    // if (in_array('choice', $tags)) {
+    //     include 'prob_choice.php';
+    // } 
+	// else if(in_array('fill', $tags))
+	// {
+	// 	include 'prob_fill.php';
+	// }
+	// else {
+    //     include 'prob_tradition.php';
+    // }
 ?>
