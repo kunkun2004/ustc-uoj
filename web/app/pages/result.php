@@ -3,12 +3,14 @@ $contest = validateUInt($_GET['id']) ? queryContest($_GET['id']) : null;
 if ($contest != null) {
     genMoreContestInfo($contest);
 }
-$username = $_SESSION['username'];
+$username = $myUser['username'];
 $user = queryUser($username);//这里$user后面用到了'name'和'school'，当前数据库没有这个项，后面加上
 $school = '';
 if (preg_match('/school:(.*?)speciality:/', $user['sch_info'], $matches)) {
     $school = $matches[1];
 } 
+DB::update("update contests_registrants set finish_time = now() where username = '{$myUser['username']}' and contest_id={$_GET['id']}");
+
 
 ?>
 <!DOCTYPE html>
