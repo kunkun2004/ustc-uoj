@@ -146,7 +146,7 @@ foreach($score_list as $u => $score) {
             $j = getNextColumn($j);
             $p = $problem_filters[$u];
             if($p["problem_type"] == 4) {
-                $sheet->setCellValue($j.($i + 1), is_numeric($sid[$u][$uu]) ? $sid[$u][$uu] : '');//todo
+                $sheet->setCellValue($j.($i + 1), is_numeric($sid[$u][$uu]) ? getcode($sid[$u][$uu]) : '');//todo
                 $j = getNextColumn($j);
             }
         }
