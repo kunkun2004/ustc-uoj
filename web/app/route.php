@@ -54,6 +54,7 @@ Route::group([
 		Route::any('/contest/{id}/mypicup', '/contest_picup.php');
 		Route::any('/contest/{id}/execute_php', '/execute_php.php');
 		Route::any('/contest/{id}/{username}/showpic', '/showpic.php');
+		Route::any('/contest/{id}/export', '/export.php');
 		
 		Route::any('/submissions', '/submissions_list.php');
 		Route::any('/submission/{id}', '/submission.php');
