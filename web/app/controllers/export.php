@@ -79,10 +79,15 @@ $contest = queryContest($_GET['id']);
 		// 	'score_list' => $score_list,
 		// 	'contest_data' => $contest_data
 		// ]);
-
+        echo '<pre>';
         var_dump($score_list);
+        echo '</pre>';
+        echo '<pre>';
         var_dump($contest_data);
+        echo '</pre>';
+        echo '<pre>';
         var_dump($problem_filters);
+        echo '</pre>';
 
 
 
