@@ -14,7 +14,7 @@ use PHPExcel_Style_Alignment;
 $objPHPExcel = new PHPExcel();
 $sheet = $objPHPExcel->getActiveSheet();
 
-$contest = queryContest($_GET['id'])
+$contest = queryContest($_GET['id']);
 
 		$problem_filters = DB::selectALL("select * from contests_problem_filters where contest_id = {$contest['id']}");
 		$contest_data = queryContestData($contest);
