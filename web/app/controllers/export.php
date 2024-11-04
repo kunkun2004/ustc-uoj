@@ -141,7 +141,7 @@ foreach($score_list as $u => $score) {
         foreach($s as $uu => $ss) {
             $sheet->setCellValue($j.($i + 1), $ss);
             $j = getNextColumn($j);
-            $p = $problem_filters[$u]
+            $p = $problem_filters[$u];
             if($p["problem_type"] == 4) {
                 $sheet->setCellValue($j.($i + 1), $sid[$u][$uu]);
                 $j = getNextColumn($j);
