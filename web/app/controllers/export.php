@@ -139,11 +139,11 @@ foreach($score_list as $u => $score) {
     $sid = $sid_list[$u];
     foreach($score as $u => $s) {
         foreach($s as $uu => $ss) {
-            $sheet->setCellValue($j.($i + 1), $ss);
+            $sheet->setCellValue($j.($i + 1), is_numeric($ss) ? $ss : 0);
             $j = getNextColumn($j);
             $p = $problem_filters[$u];
             if($p["problem_type"] == 4) {
-                $sheet->setCellValue($j.($i + 1), $sid[$u][$uu]);
+                $sheet->setCellValue($j.($i + 1), is_numeric($sid[$u][$uu]) ? $sid[$u][$uu] : '');//todo
                 $j = getNextColumn($j);
             }
         }
