@@ -34,6 +34,9 @@ function getNextColumn($column) {
     return 'A' . implode('', $columnArray);
 }
 
+function getcode($id){
+    $submission = DB::selectFirst("select * from submissions where id = {$id}");
+}
 
 // 创建一个新的 PHPExcel 对象
 $objPHPExcel = new PHPExcel();
