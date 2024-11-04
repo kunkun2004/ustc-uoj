@@ -22,19 +22,11 @@ $contest = queryContest($_GET['id']);
 		//var_dump($all_registrants);
 		// 统计每个用户的每个题目的分数
 		$score_list = array();
+        $sid_list = array();
 		foreach ($all_registrants as $r) {
 			$u = $r["username"];
 			$score_list[$u] = array();
-			if (!isSuperUser($myUser) && $contest['cur_progress'] <= CONTEST_IN_PROGRESS) {
-				foreach ($problem_filters as $pf) {
-					$score = array();
-					for ($i = 0; $i < $pf["problem_count"]; ++$i) {
-						$score[] = 0;
-					}
-					$score_list[$u][] = $score;
-				}	
-			}
-			else {
+            $sid_list[$u] = array();
 				$pl = queryContestUserProblemList($contest, array("username" => $u));
 				for ($i = 0; $i < count($problem_filters); ++$i) {
 					$pf = $problem_filters[$i];
@@ -42,6 +34,7 @@ $contest = queryContest($_GET['id']);
 					$sql = "
     SELECT
         p.id AS problem_id,
+        s.id AS submission_id,
         s.score * {$pf["problem_score"]} / 100 AS pscore
     FROM
         problems p
@@ -62,10 +55,11 @@ $contest = queryContest($_GET['id']);
 ";
 					$res = DB::selectALL($sql);
 					$score = array_column($res, 'pscore');
+					$sid = array_column($res, 'submission_id');
 					$score_list[$u][] = $score;
+                    $sid_list[$u][] = $sid;
 				}
-			}	
-		}
+			}
 		//var_dump($score_list);
 
 
@@ -92,6 +86,17 @@ $contest = queryContest($_GET['id']);
 
 
 
+$sheet->setCellValue('A1', '#');
+$sheet->setCellValue('B1', '选手');
+$sheet->setCellValue('C1', '总分');
+$problem_type = ["单选题", "不定项选择题", "判断题", "填空题", "编程题"];
+foreach($p as $problem_filters) {
+    $num = $p["problem_count"];
+    //循环num次
+    for ($i = 0; $i < $num; $i++) {
+        $sheet->setCellValue(chr(96 + 4 + $i).'1', $problem_type[$p["problem_type"]].($i + 1));
+    }
+}
 
 
 
