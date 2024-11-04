@@ -135,17 +135,19 @@ foreach($score_list as $u => $score) {
         $sum += array_sum($s);
     }
     $sheet->setCellValue('C'.($i + 1), $sum);
-    // $j = 'D';
-    // foreach($score as $s) {
-    //     foreach($s as $ss) {
-    //         $sheet->setCellValue($j.($i + 1), $ss);
-    //         $j = getNextColumn($j);
-    //         if($p["problem_type"] == 4) {
-    //             $sheet->setCellValue($j.($i + 1), $sid_list[$u][$i - 1][$i - 1]);
-    //             $j = getNextColumn($j);
-    //         }
-    //     }
-    // }
+    $j = 'D';
+    $sid = $sid_list[$u];
+    foreach($score as $u => $s) {
+        foreach($s as $uu => $ss) {
+            $sheet->setCellValue($j.($i + 1), $ss);
+            $j = getNextColumn($j);
+            $p = $problem_filters[$u]
+            if($p["problem_type"] == 4) {
+                $sheet->setCellValue($j.($i + 1), $sid[$u][$uu]);
+                $j = getNextColumn($j);
+            }
+        }
+    }
     $i++;
 }
 
