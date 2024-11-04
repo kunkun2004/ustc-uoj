@@ -33,9 +33,21 @@ function getNextColumn($column) {
     // 如果所有字符都是 'Z'，则在最前面添加一个 'A'
     return 'A' . implode('', $columnArray);
 }
-
-function getcode($id){
-    $submission = DB::selectFirst("select * from submissions where id = {$id}");
+function getcode($id) {
+    $submission = DB::selectFirst("select * from submissions where id=$id");
+    $zip_file = new ZipArchive();
+    $submission_content = json_decode($submission['content'], true);
+    $zip_file->open(UOJContext::storagePath().$submission_content['file_name']);
+    $requirement = getProblemSubmissionRequirement(queryProblemBrief($submission['problem_id']));
+    $code = "";
+    foreach ($requirement as $req) {
+        if ($req['type'] == "source code") {
+            $code = $zip_file->getFromName("{$req['name']}.code");
+            //$code = str_replace('"', '""', $code);
+        }
+    }
+    $zip_file->close();
+    return $code;
 }
 
 // 创建一个新的 PHPExcel 对象
