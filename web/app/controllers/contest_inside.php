@@ -5,9 +5,9 @@
 		become404Page();
 	}
 	
-	if (!isSuperUser($myUser)) {
-		become403Page();
-	}
+	// if (!isSuperUser($myUser)) {
+	// 	become403Page();
+	// }
 	genMoreContestInfo($contest);
 
 	if (!hasContestPermission(Auth::user(), $contest)) {
