@@ -80,13 +80,13 @@ $contest = queryContest($_GET['id']);
 		// 	'contest_data' => $contest_data
 		// ]);
         echo '<pre>';
-        var_dump($score_list);
+        print_r($score_list);
         echo '</pre>';
         echo '<pre>';
-        var_dump($contest_data);
+        print_r($contest_data);
         echo '</pre>';
         echo '<pre>';
-        var_dump($problem_filters);
+        print_r($problem_filters);
         echo '</pre>';
 
 
