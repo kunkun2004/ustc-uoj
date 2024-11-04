@@ -493,8 +493,11 @@ function unlock() {
 	$("button[name=answer]").css("background-color", "")
 }
 function doCustomTest() {
-	if (lock) { alert("请耐心等待上一次提交结束！"); return; }
-    if(<?=chktime()?>) { alert("考试已结束！"); return }
+    var time = <?= strtotime($endtime)?>;
+    var date_now = new Date()/1000;
+    
+	if (lock) { alert("请耐心等待上一次提交结束!"); return }
+    if(date_now > time) { alert("考试已结束！"); window.location.href="/contest/<?=$_GET['contest_id']?>/result"; return }
 	doLock();
 			var ok = true;
 		var post_data = {};
@@ -577,8 +580,11 @@ function doCustomTest() {
                }).always(function () { unlock(); });
 }
 function submitAnswer() {
+    var time = <?= strtotime($endtime)?>;
+    var date_now = new Date()/1000;
+    
 	if (lock) { alert("请耐心等待上一次提交结束!"); return }
-    if(<?=chktime()?>) { alert("考试已结束！"); return }
+    if(date_now > time) { alert("考试已结束！"); window.location.href="/contest/<?=$_GET['contest_id']?>/result";return }
 		doLock();
 		localStorage.setItem(`code@${location.href}`, code.value);
                 var ok = true;
