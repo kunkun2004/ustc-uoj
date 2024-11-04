@@ -10,6 +10,31 @@ use PHPExcel;
 use PHPExcel_IOFactory;
 use PHPExcel_Style_Alignment;
 
+function getNextColumn($column) {
+    // 将列字符串转换为数组
+    $columnArray = str_split(strtoupper($column));
+    $length = count($columnArray);
+
+    // 从最后一个字符开始处理
+    for ($i = $length - 1; $i >= 0; $i--) {
+        // 获取当前字符的 ASCII 值
+        $ascii = ord($columnArray[$i]);
+
+        // 如果当前字符不是 'Z'，则递增并返回结果
+        if ($ascii < ord('Z')) {
+            $columnArray[$i] = chr($ascii + 1);
+            return implode('', $columnArray);
+        } else {
+            // 如果当前字符是 'Z'，则将其设置为 'A'，并继续处理前一个字符
+            $columnArray[$i] = 'A';
+        }
+    }
+
+    // 如果所有字符都是 'Z'，则在最前面添加一个 'A'
+    return 'A' . implode('', $columnArray);
+}
+
+
 // 创建一个新的 PHPExcel 对象
 $objPHPExcel = new PHPExcel();
 $sheet = $objPHPExcel->getActiveSheet();
@@ -73,16 +98,15 @@ p.id IN (" . implode(',', array_column($ps, 'id')) . ")
 // 	'score_list' => $score_list,
 // 	'contest_data' => $contest_data
 // ]);
-echo '<pre>';
-print_r($score_list);
-echo '</pre>';
-echo '<pre>';
-print_r($contest_data);
-echo '</pre>';
-echo '<pre>';
-print_r($problem_filters);
-echo '</pre>';
-
+// echo '<pre>';
+// print_r($score_list);
+// echo '</pre>';
+// echo '<pre>';
+// print_r($contest_data);
+// echo '</pre>';
+// echo '<pre>';
+// print_r($problem_filters);
+// echo '</pre>';
 
 
 
@@ -90,13 +114,16 @@ $sheet->setCellValue('A1', '#');
 $sheet->setCellValue('B1', '选手');
 $sheet->setCellValue('C1', '总分');
 $problem_type = ["单选题", "不定项选择题", "判断题", "填空题", "编程题"];
+$j = 'D';
 foreach($p as $problem_filters) {
     $num = $p["problem_count"];
     //循环num次
     for ($i = 0; $i < $num; $i++) {
-        $sheet->setCellValue(chr(96 + 4 + $i).'1', $problem_type[$p["problem_type"]].($i + 1));
+        $sheet->setCellValue($j.'1', $problem_type[$p["problem_type"]].($i + 1));
+        $j = getNextColumn($j);
         if($p["problem_type"] == 4) {
-            $sheet->setCellValue(chr(96 + 4 + $i).'1', $problem_type[$p["problem_type"]].($i + 1).'代码');
+            $sheet->setCellValue($j.'1', $problem_type[$p["problem_type"]].($i + 1).'代码');
+            $j = getNextColumn($j);
         }
     }
 }
@@ -109,7 +136,18 @@ foreach($score_list as $u => $score) {
         $sum += array_sum($s);
     }
     $sheet->setCellValue('C'.($i + 1), $sum);
-    $sheet->setCellValue('D'.($i + 1), $score[0][0]);
+    // $j = 'D';
+    // foreach($score as $s) {
+    //     foreach($s as $ss) {
+    //         $sheet->setCellValue($j.($i + 1), $ss);
+    //         $j = getNextColumn($j);
+    //         if($p["problem_type"] == 4) {
+    //             $sheet->setCellValue($j.($i + 1), $sid_list[$u][$i - 1][$i - 1]);
+    //             $j = getNextColumn($j);
+    //         }
+    //     }
+    // }
+    $i++;
 }
 
 
