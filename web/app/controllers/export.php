@@ -100,7 +100,17 @@ foreach($p as $problem_filters) {
         }
     }
 }
-
+$i = 1;
+foreach($score_list as $u => $score) {
+    $sheet->setCellValue('A'.($i + 1), $i);
+    $sheet->setCellValue('B'.($i + 1), $u);
+    $sum = 0;
+    foreach($score as $s) {
+        $sum += array_sum($s);
+    }
+    $sheet->setCellValue('C'.($i + 1), $sum);
+    $sheet->setCellValue('D'.($i + 1), $score[0][0]);
+}
 
 
 
