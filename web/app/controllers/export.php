@@ -47,7 +47,7 @@ function getcode($id) {
         }
     }
     $zip_file->close();
-    return $code;
+    return substr($code, 1, -1);
 }
 
 // 创建一个新的 PHPExcel 对象
