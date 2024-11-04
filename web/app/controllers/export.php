@@ -95,6 +95,9 @@ foreach($p as $problem_filters) {
     //循环num次
     for ($i = 0; $i < $num; $i++) {
         $sheet->setCellValue(chr(96 + 4 + $i).'1', $problem_type[$p["problem_type"]].($i + 1));
+        if($p["problem_type"] == 4) {
+            $sheet->setCellValue(chr(96 + 4 + $i).'1', $problem_type[$p["problem_type"]].($i + 1).'代码');
+        }
     }
 }
 
@@ -123,13 +126,14 @@ foreach($p as $problem_filters) {
 //     $sheet->getStyle("C" . ($i + 1))->getAlignment()->setWrapText(true);
 // }
 
-// // 设置文件名和内容类型
-// $filename = "example.xlsx";
-// header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-// header('Content-Disposition: attachment; filename="' . $filename . '"');
-// header('Cache-Control: max-age=0');
+// 设置文件名和内容类型
 
-// // 创建 Excel 文件写入器并输出到浏览器
-// $writer = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-// $writer->save('php://output');
+$filename = "contest".$_GET['id'].".xlsx";
+header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+header('Content-Disposition: attachment; filename="' . $filename . '"');
+header('Cache-Control: max-age=0');
+
+// 创建 Excel 文件写入器并输出到浏览器
+$writer = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+$writer->save('php://output');
 ?>
