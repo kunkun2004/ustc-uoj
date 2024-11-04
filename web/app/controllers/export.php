@@ -73,15 +73,15 @@ p.id IN (" . implode(',', array_column($ps, 'id')) . ")
 // 	'score_list' => $score_list,
 // 	'contest_data' => $contest_data
 // ]);
-// echo '<pre>';
-// print_r($score_list);
-// echo '</pre>';
-// echo '<pre>';
-// print_r($contest_data);
-// echo '</pre>';
-// echo '<pre>';
-// print_r($problem_filters);
-// echo '</pre>';
+echo '<pre>';
+print_r($score_list);
+echo '</pre>';
+echo '<pre>';
+print_r($contest_data);
+echo '</pre>';
+echo '<pre>';
+print_r($problem_filters);
+echo '</pre>';
 
 
 
