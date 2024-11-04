@@ -51,8 +51,9 @@ function getcode($id) {
 }
 function getprob($id) {
     $submission = DB::selectFirst("select * from submissions where id=$id");
-    $row = DB::selectFirst("select * from problems where id=$submission['problem_id']");
-    $ans = "id:".$submission['problem_id'].";标题:".$row['title'];
+    $pid = $submission['problem_id'];
+    $row = DB::selectFirst("select * from problems where id=$pid");
+    $ans = "id:".$pid.";标题:".$row['title'];
     return $ans;
 }
 
@@ -168,7 +169,7 @@ foreach($score_list as $u => $score) {
             $j = getNextColumn($j);
             $p = $problem_filters[$u];
             if($p["problem_type"] == 4) {
-                $sheet->setCellValue($j.($i + 1), is_numeric($sid[$u][$uu]) ? getcode($sid[$u][$uu]) : '');//todo
+                $sheet->setCellValue($j.($i + 1), is_numeric($sid[$u][$uu]) ? getcode($sid[$u][$uu]) : '');
                 $j = getNextColumn($j);
             }
         }
