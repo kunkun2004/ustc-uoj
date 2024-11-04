@@ -1,8 +1,8 @@
 <?php
 
-// if (!isSuperUser($myUser)) {
-// 	become403Page();
-// }
+if (!isSuperUser($myUser)) {
+	become403Page();
+}
 
 require '/opt/uoj/vendor/autoload.php';
 
