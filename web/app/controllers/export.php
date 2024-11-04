@@ -127,6 +127,7 @@ foreach($p as $problem_filters) {
         }
     }
 }
+$sheet->setCellValue('A1', $j);
 $i = 1;
 foreach($score_list as $u => $score) {
     $sheet->setCellValue('A'.($i + 1), $i);
