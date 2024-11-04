@@ -49,6 +49,12 @@ function getcode($id) {
     $zip_file->close();
     return substr($code, 1, -1);
 }
+function getprob($id) {
+    $submission = DB::selectFirst("select * from submissions where id=$id");
+    $row = DB::selectFirst("select * from problems where id=$submission['problem_id']");
+    $ans = "id:".$submission['problem_id'].";标题:".$row['title'];
+    return $ans;
+}
 
 // 创建一个新的 PHPExcel 对象
 $objPHPExcel = new PHPExcel();
@@ -133,7 +139,9 @@ foreach($problem_filters as $p) {
     $sheet->setCellValue('A1', $num);
     //循环num次
     for ($i = 0; $i < $num; $i++) {
-        $sheet->setCellValue($j.'1', $problem_type[$p["problem_type"]].($i + 1));
+        $sheet->setCellValue($j.'1', $problem_type[$p["problem_type"]].($i + 1)."题目");
+        $j = getNextColumn($j);
+        $sheet->setCellValue($j.'1', $problem_type[$p["problem_type"]].($i + 1)."得分");
         $j = getNextColumn($j);
         if($p["problem_type"] == 4) {
             $sheet->setCellValue($j.'1', $problem_type[$p["problem_type"]].($i + 1).'代码');
@@ -154,6 +162,8 @@ foreach($score_list as $u => $score) {
     $sid = $sid_list[$u];
     foreach($score as $u => $s) {
         foreach($s as $uu => $ss) {
+            $sheet->setCellValue($j.($i + 1), is_numeric($sid[$u][$uu]) ? getprob($sid[$u][$uu]) : '');
+            $j = getNextColumn($j);
             $sheet->setCellValue($j.($i + 1), is_numeric($ss) ? $ss : 0);
             $j = getNextColumn($j);
             $p = $problem_filters[$u];
