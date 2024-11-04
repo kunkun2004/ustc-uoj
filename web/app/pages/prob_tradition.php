@@ -24,7 +24,6 @@ $need_camera = $tmpc["camera"];
 $tmpc2 = DB::selectFirst("select camera from contests_registrants where contest_id={$_GET['contest_id']} and username='$nowUser'");
 $need_camera2 = $tmpc2 != NULL ? $tmpc2["camera"] : false;
 
-//var_dump(UOJTime::$time_now);
 //var_dump($user_finish_time);
 $submission_requirement = json_decode($problem['submission_requirement'], true);
 $problem_extra_config = getProblemExtraConfig($problem);
@@ -32,6 +31,20 @@ $custom_test_requirement = getProblemCustomTestRequirement($problem);
 
 $endtimestr = DB::selectFirst("select * from contests_registrants where contest_id={$_GET['contest_id']} and username='$nowUser'");
 $endtime = $endtimestr["finish_time"];
+
+function chktime()
+{  
+    global $endtime;
+    $currentTime = new DateTime();
+    // 创建 DateTime 对象来表示 endtime
+    $endTimeObj = new DateTime($endtime);
+    // 比较两个 DateTime 对象
+    if ($currentTime > $endTimeObj) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
 
 if ($custom_test_requirement && Auth::check()) {
     $custom_test_submission = DB::selectFirst("select * from custom_test_submissions where submitter = '" . Auth::id() . "' and problem_id = {$problem['id']} order by id desc limit 1");
@@ -481,6 +494,7 @@ function unlock() {
 }
 function doCustomTest() {
 	if (lock) { alert("请耐心等待上一次提交结束！"); return; }
+    if(<?=chktime()?>) { alert("考试已结束！"); return }
 	doLock();
 			var ok = true;
 		var post_data = {};
@@ -564,6 +578,7 @@ function doCustomTest() {
 }
 function submitAnswer() {
 	if (lock) { alert("请耐心等待上一次提交结束!"); return }
+    if(<?=chktime()?>) { alert("考试已结束！"); return }
 		doLock();
 		localStorage.setItem(`code@${location.href}`, code.value);
                 var ok = true;
