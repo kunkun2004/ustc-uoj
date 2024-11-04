@@ -117,6 +117,7 @@ $problem_type = ["单选题", "不定项选择题", "判断题", "填空题", "�
 $j = 'D';
 foreach($p as $problem_filters) {
     $num = $p["problem_count"];
+    $sheet->setCellValue('A1', $num);
     //循环num次
     for ($i = 0; $i < $num; $i++) {
         $sheet->setCellValue($j.'1', $problem_type[$p["problem_type"]].($i + 1));
@@ -127,7 +128,6 @@ foreach($p as $problem_filters) {
         }
     }
 }
-$sheet->setCellValue('A1', $j);
 $i = 1;
 foreach($score_list as $u => $score) {
     $sheet->setCellValue('A'.($i + 1), $i);
