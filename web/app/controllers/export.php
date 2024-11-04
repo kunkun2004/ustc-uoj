@@ -98,15 +98,12 @@ p.id IN (" . implode(',', array_column($ps, 'id')) . ")
 // 	'score_list' => $score_list,
 // 	'contest_data' => $contest_data
 // ]);
-// echo '<pre>';
-// print_r($score_list);
-// echo '</pre>';
-// echo '<pre>';
-// print_r($contest_data);
-// echo '</pre>';
-// echo '<pre>';
-// print_r($problem_filters);
-// echo '</pre>';
+echo '<pre>';
+print_r($score_list);
+echo '</pre>';
+echo '<pre>';
+print_r($problem_filters);
+echo '</pre>';
 
 
 
@@ -116,6 +113,10 @@ $sheet->setCellValue('C1', '总分');
 $problem_type = ["单选题", "不定项选择题", "判断题", "填空题", "编程题"];
 $j = 'D';
 foreach($p as $problem_filters) {
+    
+echo '<pre>';
+print_r($p);
+echo '</pre>';
     $num = $p["problem_count"];
     $sheet->setCellValue('A1', $num);
     //循环num次
