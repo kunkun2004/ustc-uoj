@@ -189,6 +189,49 @@ EOD;
 
 echoUOJPageHeader('题目导入');
 ?>
+
+<?php
+require '/opt/uoj/vendor/autoload.php';
+
+use PHPExcel;
+use PHPExcel_IOFactory;
+use PHPExcel_Style_Alignment;
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // 检查文件是否上传成功
+    if (isset($_FILES['problem_list']) && $_FILES['problem_list']['error'] == 0) {
+        $file = $_FILES['problem_list']['tmp_name'];
+
+        // 读取Excel文件
+        $objPHPExcel = PHPExcel_IOFactory::load($file);
+        $worksheet = $objPHPExcel->getActiveSheet();
+
+        // 获取所有单元格的值
+        $data = $worksheet->toArray();
+
+        // 输出结果到 addTable
+        echo "<div id='addTable'>";
+        echo "<table border='1'>";
+        echo "<tr><th>行</th><th>列</th><th>值</th></tr>";
+        foreach ($data as $rowIndex => $row) {
+            foreach ($row as $colIndex => $value) {
+                echo "<tr>";
+                echo "<td>" . ($rowIndex + 1) . "</td>";
+                echo "<td>" . chr(65 + $colIndex) . "</td>"; // 将列索引转换为字母
+                echo "<td>$value</td>";
+                echo "</tr>";
+            }
+        }
+        echo "</table>";
+        echo "</div>";
+    } else {
+        echo "<div id='import-result'>文件上传失败，请重试。</div>";
+    }
+}
+
+echoUOJPageHeader('题目导入');
+?>
+
 <h1 class="page-header" align="center">题目导入</h1>
 <div id="import-result"></div>
 <form id="form-problem-import" class="form-horizontal" method="post" enctype="multipart/form-data">
@@ -203,167 +246,4 @@ echoUOJPageHeader('题目导入');
     </div>
     <div id="addTable"></div>
 </form>
-<script>
-let importProblemList = [];
-let importProblemStatus = [];
-
-function dealStr(s) {
-    return htmlspecialchars(s).replace("\n", "<br>");
-}
-
-function showProblemImportTable() {
-    while (importProblemStatus.length < importProblemList.length) {
-        importProblemStatus.push(null);
-    }
-    let tableHTML = `<table class="table table-bordered table-hover table-striped table-text-center">
-    <thead>
-        <tr>
-            <th>题面</th>
-            <th>启用</th>
-            <th>答案</th>
-            <th>选项</th>
-            <th>导入状态</th>
-        </tr>
-    </thead>
-    <tbody>`;
-    const chooseLetter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    for (let i = 0; i < importProblemList.length; ++i) {
-        tableHTML += `<tr>
-    <td>${dealStr(importProblemList[i].title)}</td>
-    <td>${importProblemList[i].defunct ? "未启用" : "启用"}</td>
-    <td>`;
-        for (const a of importProblemList[i].answer) {
-            tableHTML += chooseLetter[a];
-        }
-        tableHTML += "</td><td>";
-        let cnt = 0;
-        for (const c of importProblemList[i].choices) {
-            tableHTML += `${chooseLetter[cnt]}. ${c}`;
-            break;
-        }
-        tableHTML += "...</td><td>";
-        if (importProblemStatus[i] === null) {
-            tableHTML += '<span class="badge badge-secondary">等待</span>';  
-        }
-        else if (importProblemStatus[i].res === "success") {
-            tableHTML += `<span class="badge badge-success">成功</span>
-            <a href="/problem/${importProblemStatus[i].id}">点击前往#${importProblemStatus[i].id}</a>`;
-        }
-        else {
-            tableHTML += `<span class="badge badge-error">${importProblemStatus[i].res}</span>`;
-        }
-        tableHTML += `</td></tr>`;
-    }
-    tableHTML += `</tbody></table>`;
-    $("#addTable").html(tableHTML);
-}
-
-let lock = false;
-
-function postProblemImport() {
-    const id = importProblemStatus.indexOf(null);
-    if (id === -1) {
-        lock = false;
-        $("#button-submit").attr("disabled", false).text("提交");
-        return;
-    }
-    $.post("/problem/import", {
-        problem_info: JSON.stringify(importProblemList[id]),
-    }, (msg) => {
-        if (/\s*\d+\s*/.test(msg)) {
-            importProblemStatus[id] = { res: "success", id: msg };
-        }
-        else {
-            importProblemStatus[id] = { res: msg };
-        }
-    }).error(function() {
-        importProblemStatus[id] = { res: "error" };
-    }).complete(function() {
-        showProblemImportTable();
-        postProblemImport();
-    });
-}
-
-function submitProblemImport() {
-    if (lock) {
-        return;
-    }
-    lock = true;
-    $("#button-submit").attr("disabled", true).text("在所有题目完成导入之前，请勿刷新或者关闭页面，不然可能会有未知错误!");
-
-    // Read the uploaded file and extract data
-    const fileInput = document.getElementById('input-problem-list');
-    const file = fileInput.files[0];
-    if (!file) {
-        alert('请选择一个文件');
-        lock = false;
-        return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const data = new Uint8Array(e.target.result);
-        const workbook = XLSX.read(data, { type: 'array' });
-        const sheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[sheetName];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-        importProblemList = [];
-        jsonData.forEach((row, index) => {
-            if (index === 0) return; // Skip header row
-            if (row.length < 7) return; // Skip rows with insufficient data
-
-            const title = row[0];
-            const type = row[1];
-            const categories = row[2].split(',');
-            const difficulty = row[3];
-            const defunct = row[4] !== '启用';
-            const answerStr = row[5].toLowerCase();
-            const choices = row.slice(6);
-
-            const typeMap = {
-                '单选题': 0,
-                '多选题': 1,
-                '判断题': 2
-            };
-
-            if (!typeMap[type]) return; // Skip unknown types
-
-            const typeValue = typeMap[type];
-
-            let answer = [];
-            if (typeValue === 1) {
-                answer = [...answerStr].map(ch => ch.charCodeAt(0) - 'a'.charCodeAt(0));
-            } else {
-                answer = [answerStr.charCodeAt(0) - 'a'.charCodeAt(0)];
-            }
-
-            importProblemList.push({
-                title,
-                type: typeValue,
-                categories,
-                difficulty,
-                defunct,
-                answer,
-                choices
-            });
-        });
-
-        importProblemStatus = [];
-        for (let i = 0; i < importProblemList.length; ++i) {
-            importProblemStatus.push(null);
-        }
-        showProblemImportTable();
-        postProblemImport();
-    };
-    reader.readAsArrayBuffer(file);
-}
-
-$(document).ready(function() {
-    $('#form-problem-import').submit(function(e) {
-        submitProblemImport();
-        return false;
-    });
-});
-</script>
 <?php echoUOJPageFooter(); ?>
