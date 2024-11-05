@@ -317,7 +317,7 @@ EOD;
             if($ret == "")
             {
                 echo '<td><span class="badge badge-success">成功</span>
-                <a href="/problem/$id">点击前往#$id</a></td>';
+                <a href="/problem/'.$id.'">点击前往#'.$id.'</a></td>';
             }
             else
             {
