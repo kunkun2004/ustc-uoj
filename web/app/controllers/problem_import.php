@@ -191,6 +191,9 @@
 ?>
 
 <?php
+	requirePHPLib('form');
+	requirePHPLib('judger');
+	requirePHPLib('data');
 require '/opt/uoj/vendor/autoload.php';
 
 use PHPExcel;
@@ -303,8 +306,8 @@ EOD;
 			file_put_contents("$data_dir/$id/data1.out", $problem_answer);
             
 			$problem = queryProblemBrief($id);
-            echo $id;
 			$ret = dataSyncProblemData($problem, $myUser);
+            echo $id;
 
             echo "<tr>";
             echo "<td>".$problem_content."</td>";
