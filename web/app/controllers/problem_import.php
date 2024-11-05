@@ -233,7 +233,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </thead>
     <tbody>';
         foreach ($data as $rowIndex => $row) {
-            echo 111;
             $problem_type = $row[1] == null ? "":$row[1];
             $problem_content = $row[0];
             $problem_text = "<p>[".$problem_type."]".$problem_content."\n";
@@ -275,6 +274,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			}
 			DB::insert("insert into problems_tags (problem_id, tag) values ($id, '".DB::escape("choice")."')");
 			$data_dir = "/var/uoj_data/upload";
+            echo 111;
 			$problem_conf_content = <<<EOD
 n_tests 1
 submit_answer on
