@@ -275,7 +275,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "An error occurred: " . $e->getMessage();
                 // 或者记录日志、重定向等其他处理方式
             }
-            echo 111;
+            echo $problem_text_md;
 			foreach ($problem_tags as $tag) {
 				DB::insert("insert into problems_tags (problem_id, tag) values ($id, '".DB::escape($tag)."')");
 			}
