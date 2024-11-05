@@ -262,6 +262,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$problem_tags = array_unique($problem_tags);
 
             $problem_answer = trim($row[5]);
+            echo 111;
 			DB::query("insert into problems (title, is_hidden, submission_requirement, zan) values ('".DB::escape("[".$problem_type."]".$problem_content)."', $is_hidden, '{}', 0)");
 			$id = DB::insert_id();
 			$problem_text = DB::escape($problem_text);
@@ -274,7 +275,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			}
 			DB::insert("insert into problems_tags (problem_id, tag) values ($id, '".DB::escape("choice")."')");
 			$data_dir = "/var/uoj_data/upload";
-            echo 111;
 			$problem_conf_content = <<<EOD
 n_tests 1
 submit_answer on
