@@ -233,6 +233,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </thead>
     <tbody>';
         foreach ($data as $rowIndex => $row) {
+            echo 111;
             $problem_type = $row[1] == null ? "":$row[1];
             $problem_content = $row[0];
             $problem_text = "<p>[".$problem_type."]".$problem_content."\n";
