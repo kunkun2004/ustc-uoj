@@ -315,6 +315,7 @@ EOD;
     } else {
         echo "<div id='import-result'>文件上传失败，请重试。</div>";
     }
+    echo "<div id='import-result'>文1234。</div>";
 }
 
 echoUOJPageHeader('题目导入');
