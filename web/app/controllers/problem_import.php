@@ -205,10 +205,10 @@ if (!isSuperUser($myUser)) {
 }
 function handeloptionline($str) {
     $str = trim($str);
-    // if($str[0]=='-')
-    // {
-    //     $str = '-'.trim(substr($str,1));
-    // }
+    if($str[0]=='-')
+    {
+        $str = '-'.trim(substr($str,1));
+    }
     return $str."\n";
 }
 
@@ -245,7 +245,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $is_hidden = trim($row[4]) == "启用" ? 0 : 1;
             $options = "";
             for ($i = 6; $i <= 9; $i++) {
-                $lines = preg_split('/\R/', trim($row[$i]));
+                $lines = explode('\n', trim($row[$i]));
                 $option_text = "- ";
                 foreach($lines as $line)
                 {
