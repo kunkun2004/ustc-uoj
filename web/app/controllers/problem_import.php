@@ -197,6 +197,10 @@ use PHPExcel;
 use PHPExcel_IOFactory;
 use PHPExcel_Style_Alignment;
 
+if (!isSuperUser($myUser)) {
+    become403Page();
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // 检查文件是否上传成功
     if (isset($_FILES['problem_list']) && $_FILES['problem_list']['error'] == 0) {
@@ -209,26 +213,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // 获取所有单元格的值
         $data = $worksheet->toArray();
 
-        // 生成表格内容
-        $tableContent = "<table border='1'>";
-        $tableContent .= "<tr><th>行</th><th>列</th><th>值</th></tr>";
+        // 输出结果到 addTable
+        echo "<div id='addTable'>";
+        echo '<table class="table table-bordered table-hover table-striped table-text-center">
+    <thead>
+        <tr>
+            <th>题面</th>
+            <th>启用</th>
+	    <th>答案</th>
+	    <th>选项A</th>
+            <th>导入状态</th>
+        </tr>
+    </thead>
+    <tbody>';
         foreach ($data as $rowIndex => $row) {
-            foreach ($row as $colIndex => $value) {
-                $tableContent .= "<tr>";
-                $tableContent .= "<td>" . ($rowIndex + 1) . "</td>";
-                $tableContent .= "<td>" . chr(65 + $colIndex) . "</td>"; // 将列索引转换为字母
-                $tableContent .= "<td>$value</td>";
-                $tableContent .= "</tr>";
-            }
+            echo "<tr>";
+            $
+            echo "</tr>";
         }
-        $tableContent .= "</table>";
-
-        // 将表格内容插入到 addTable 元素中
-        echo "<script>document.getElementById('addTable').innerHTML = '$tableContent';</script>";
+        echo "</tbody></table>";
+        echo "</div>";
     } else {
         echo "<div id='import-result'>文件上传失败，请重试。</div>";
     }
 }
+
 echoUOJPageHeader('题目导入');
 ?>
 
@@ -244,6 +253,5 @@ echoUOJPageHeader('题目导入');
             <button type="submit" id="button-submit" class="btn btn-primary">提交</button>
         </div>
     </div>
-    <div id="addTable"></div>
 </form>
 <?php echoUOJPageFooter(); ?>
