@@ -274,6 +274,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             try {
                 mkdir("/var/uoj_data/upload/$id", 0777, true);
                 mkdir("/var/uoj_data/$id", 0777, true);
+                exec("cd /var/uoj_data; rm $id.zip; zip $id.zip $id -r -q");
             } catch (Exception $e) {
                 echo "An error occurred: " . $e->getMessage();
                 // 或者记录日志、重定向等其他处理方式
