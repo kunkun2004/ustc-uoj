@@ -278,7 +278,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 echo "An error occurred: " . $e->getMessage();
                 // 或者记录日志、重定向等其他处理方式
             }
-            echo $problem_text_md;
 			foreach ($problem_tags as $tag) {
 				DB::insert("insert into problems_tags (problem_id, tag) values ($id, '".DB::escape($tag)."')");
 			}
@@ -301,6 +300,7 @@ EOD;
 			file_put_contents("$data_dir/$id/problem.conf", $problem_conf_content);
 			file_put_contents("$data_dir/$id/data1.in", "Problem 1");
 			file_put_contents("$data_dir/$id/data1.out", $problem_answer);
+            echo $problem_text_md;
 			$problem = queryProblemBrief($id);
 			$ret = dataSyncProblemData($problem, $myUser);
 
