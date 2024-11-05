@@ -267,8 +267,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$problem_text = DB::escape($problem_text);
 			$problem_text_md = DB::escape($problem_text_md);
 			DB::query("insert into problems_contents (id, statement, statement_md) values ($id, '".$problem_text."', '".$problem_text_md."')");
-			dataNewProblem($id);
             echo 111;
+			dataNewProblem($id);
             
 			foreach ($problem_tags as $tag) {
 				DB::insert("insert into problems_tags (problem_id, tag) values ($id, '".DB::escape($tag)."')");
