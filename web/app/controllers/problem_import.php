@@ -244,7 +244,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $options = "";
             for ($i = 6; $i <= 9; $i++) {
                 $lines = preg_split('/\R/', trim($row[$i]));
-                $option_text = "";
+                $option_text = "- ";
                 foreach($lines as $line)
                 {
                     $option_text .= handeloptionline($line);
