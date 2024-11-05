@@ -272,8 +272,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			DB::query("insert into problems_contents (id, statement, statement_md) values ($id, '".$problem_text."', '".$problem_text_md."')");
             
             try {
-                mkdir("/var/uoj_data/upload/$id");
-                mkdir("/var/uoj_data/$id");
+                mkdir("/var/uoj_data/upload/$id", 0777, true);
+                mkdir("/var/uoj_data/$id", 0777, true);
             } catch (Exception $e) {
                 echo "An error occurred: " . $e->getMessage();
                 // 或者记录日志、重定向等其他处理方式
@@ -300,8 +300,9 @@ EOD;
 			file_put_contents("$data_dir/$id/problem.conf", $problem_conf_content);
 			file_put_contents("$data_dir/$id/data1.in", "Problem 1");
 			file_put_contents("$data_dir/$id/data1.out", $problem_answer);
-            echo $problem_text_md;
+            
 			$problem = queryProblemBrief($id);
+            echo $id;
 			$ret = dataSyncProblemData($problem, $myUser);
 
             echo "<tr>";
