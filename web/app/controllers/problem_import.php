@@ -203,7 +203,10 @@ if (!isSuperUser($myUser)) {
 function handeloptionline($str) {
     // 使用正则表达式匹配以"-"开头且后面有空白字符的情况
     $str = trim($str);
-    return preg_replace('/^-\s+/', '-', $str);
+    if($str[0]=='-'&&($str[1]==' '||$str[1]=='  '))
+    {
+        $str = '-'.trim(substr($str,2));
+    }
     return $str."\n";
 }
 
