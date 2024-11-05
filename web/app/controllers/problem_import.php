@@ -307,7 +307,7 @@ EOD;
             
 			$problem = queryProblemBrief($id);
 			$ret = dataSyncProblemData($problem, $myUser);
-            echo $id;
+            //echo $id;
 
             echo "<tr>";
             echo "<td>".$problem_content."</td>";
@@ -317,7 +317,7 @@ EOD;
             if($ret == "")
             {
                 echo '<td><span class="badge badge-success">成功</span>
-                <a href="/problem/${importProblemStatus[i].id}">点击前往#${importProblemStatus[i].id}</a></td>';
+                <a href="/problem/$id">点击前往#$id</a></td>';
             }
             else
             {
