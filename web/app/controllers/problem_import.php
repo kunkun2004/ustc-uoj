@@ -1,7 +1,9 @@
 <?php
-require 'vendor/autoload.php';
+require '/opt/uoj/vendor/autoload.php';
 
-use PhpOffice\PhpSpreadsheet\IOFactory;
+use PHPExcel;
+use PHPExcel_IOFactory;
+use PHPExcel_Style_Alignment;
 
 if (!isSuperUser($myUser)) {
     become403Page();
