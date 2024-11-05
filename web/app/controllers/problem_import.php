@@ -268,7 +268,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$problem_text_md = DB::escape($problem_text_md);
 			DB::query("insert into problems_contents (id, statement, statement_md) values ($id, '".$problem_text."', '".$problem_text_md."')");
             
-
+            try {
+                mkdir("/var/uoj_data/upload/$id");
+                mkdir("/var/uoj_data/$id");
+            } catch (Exception $e) {
+                echo "An error occurred: " . $e->getMessage();
+                // 或者记录日志、重定向等其他处理方式
+            }
             echo 111;
 			foreach ($problem_tags as $tag) {
 				DB::insert("insert into problems_tags (problem_id, tag) values ($id, '".DB::escape($tag)."')");
