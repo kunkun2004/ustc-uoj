@@ -200,6 +200,12 @@ use PHPExcel_Style_Alignment;
 if (!isSuperUser($myUser)) {
     become403Page();
 }
+function handeloptionline($str) {
+    // 使用正则表达式匹配以"-"开头且后面有空白字符的情况
+    $str = trim($str);
+    return preg_replace('/^-\s+/', '-', $str);
+    return $str."\n";
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // 检查文件是否上传成功
@@ -221,14 +227,87 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <th>题面</th>
             <th>启用</th>
 	    <th>答案</th>
-	    <th>选项A</th>
+	    <th>选项</th>
             <th>导入状态</th>
         </tr>
     </thead>
     <tbody>';
         foreach ($data as $rowIndex => $row) {
+            $problem_type = $row[1] == null ? "":$row[1];
+            $problem_content = $row[0];
+            $problem_text = "<p>[".$problem_type."]".$problem_content."\n";
+            $problem_text_md = "[".$problem_type."]".$problem_content."\n";
+            $is_hidden = trim($row[4]) == "启用" ? 0 : 1;
+            $options = "";
+            for ($i = 6; $i <= 9; $i++) {
+                $lines = preg_split('/\R/', trim($row[$i]));
+                $option_text = "";
+                foreach($lines as $line)
+                {
+                    $option_text .= handeloptionline($line);
+                }
+                $problem_text .= $option_text;
+                $problem_text_md .= $option_text;
+                $options .= $option_text;
+            }
+			$problem_text .= "</p>\n";
+			$problem_text_md .= "\n";
+            
+			$problem_tags = array();
+			$problem_tags[] = HTML::escape("难度:".trim($row[3]));
+            $tags = explode(",", trim($row[2]));
+            foreach ($tags as $tag) {
+                $problem_tags[] = HTML::escape(trim($tag));
+            }
+			$problem_tags = array_unique($problem_tags);
+
+            $problem_answer = trim($row[5]);
+			DB::query("insert into problems (title, is_hidden, submission_requirement, zan) values ('".DB::escape("[".$problem_type."]".$problem_content)."', $is_hidden, '{}', 0)");
+			$id = DB::insert_id();
+			$problem_text = DB::escape($problem_text);
+			$problem_text_md = DB::escape($problem_text_md);
+			DB::query("insert into problems_contents (id, statement, statement_md) values ($id, '".$problem_text."', '".$problem_text_md."')");
+			dataNewProblem($id);
+            
+			foreach ($problem_tags as $tag) {
+				DB::insert("insert into problems_tags (problem_id, tag) values ($id, '".DB::escape($tag)."')");
+			}
+			DB::insert("insert into problems_tags (problem_id, tag) values ($id, '".DB::escape("choice")."')");
+			$data_dir = "/var/uoj_data/upload";
+			$problem_conf_content = <<<EOD
+n_tests 1
+submit_answer on
+input_pre data
+input_suf in
+output_pre data
+output_suf out
+use_builtin_judger on
+use_builtin_checker wcmp
+EOD;
+            if (!is_dir("$data_dir/$id")) {
+                // echo '111';
+                mkdir("$data_dir/$id", 0777, true);
+            }
+			file_put_contents("$data_dir/$id/problem.conf", $problem_conf_content);
+			file_put_contents("$data_dir/$id/data1.in", "Problem 1");
+			file_put_contents("$data_dir/$id/data1.out", $problem_answer);
+			$problem = queryProblemBrief($id);
+			$ret = dataSyncProblemData($problem, $myUser);
+
             echo "<tr>";
-            $
+            echo "<td>".$problem_content."</td>";
+            echo "<td>".trim($row[4])."</td>";
+            echo "<td>".$problem_answer."</td>";
+            echo "<td>".$options."</td>";
+            if($ret == "")
+            {
+                echo '<td><span class="badge badge-success">成功</span>
+                <a href="/problem/${importProblemStatus[i].id}">点击前往#${importProblemStatus[i].id}</a></td>';
+            }
+            else
+            {
+                echo '<td><span class="badge badge-error">'.$ret.'</span></td>';
+            }
             echo "</tr>";
         }
         echo "</tbody></table>";
@@ -247,6 +326,8 @@ echoUOJPageHeader('题目导入');
     <div id="div-problem-list" class="form-group">
         <label for="input-problem-list" class="col-sm-2 control-label">题目信息列表</label> 
         <input type="file" class="form-control" id="input-problem-list" name="problem_list" accept=".xlsx">
+        <p>备注：不要有第一行的表头，应恰好有4个选项，选项如果多行，且如果有的行以"-"加上空白字符开头的，且空白字符后面有内容，则会自动删掉"-"后面的空白符，其他不变。</p>
+        <p>在所有题目完成导入之前，请勿刷新或者关闭页面，不然可能会有未知错误!</p>
     </div>
     <div class="form-group">
         <div class="">
