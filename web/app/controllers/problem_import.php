@@ -229,8 +229,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "<div id='import-result'>文件上传失败，请重试。</div>";
     }
 }
-?>
-
 echoUOJPageHeader('题目导入');
 ?>
 
