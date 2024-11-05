@@ -209,25 +209,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // 获取所有单元格的值
         $data = $worksheet->toArray();
 
-        // 输出结果到 addTable
-        echo "<div id='addTable'>";
-        echo "<table border='1'>";
-        echo "<tr><th>行</th><th>列</th><th>值</th></tr>";
+        // 生成表格内容
+        $tableContent = "<table border='1'>";
+        $tableContent .= "<tr><th>行</th><th>列</th><th>值</th></tr>";
         foreach ($data as $rowIndex => $row) {
             foreach ($row as $colIndex => $value) {
-                echo "<tr>";
-                echo "<td>" . ($rowIndex + 1) . "</td>";
-                echo "<td>" . chr(65 + $colIndex) . "</td>"; // 将列索引转换为字母
-                echo "<td>$value</td>";
-                echo "</tr>";
+                $tableContent .= "<tr>";
+                $tableContent .= "<td>" . ($rowIndex + 1) . "</td>";
+                $tableContent .= "<td>" . chr(65 + $colIndex) . "</td>"; // 将列索引转换为字母
+                $tableContent .= "<td>$value</td>";
+                $tableContent .= "</tr>";
             }
         }
-        echo "</table>";
-        echo "</div>";
+        $tableContent .= "</table>";
+
+        // 将表格内容插入到 addTable 元素中
+        echo "<script>document.getElementById('addTable').innerHTML = '$tableContent';</script>";
     } else {
         echo "<div id='import-result'>文件上传失败，请重试。</div>";
     }
 }
+?>
 
 echoUOJPageHeader('题目导入');
 ?>
