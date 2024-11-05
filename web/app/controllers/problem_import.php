@@ -262,9 +262,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$problem_tags = array_unique($problem_tags);
 
             $problem_answer = trim($row[5]);
-            echo 111;
 			DB::query("insert into problems (title, is_hidden, submission_requirement, zan) values ('".DB::escape("[".$problem_type."]".$problem_content)."', $is_hidden, '{}', 0)");
 			$id = DB::insert_id();
+            echo 111;
 			$problem_text = DB::escape($problem_text);
 			$problem_text_md = DB::escape($problem_text_md);
 			DB::query("insert into problems_contents (id, statement, statement_md) values ($id, '".$problem_text."', '".$problem_text_md."')");
